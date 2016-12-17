@@ -1,0 +1,318 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     11040,        309]
+NotebookOptionsPosition[     10511,        286]
+NotebookOutlinePosition[     10879,        302]
+CellTagsIndexPosition[     10836,        299]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"NNN", "=", "7"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NS", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NT", "=", "1"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MaxMoment", "=", "6"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lambdaVec", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"ii", "\[LessEqual]", " ", "NS"}], ",", "1", ",", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"ii", "\[LessEqual]", " ", 
+          RowBox[{"(", 
+           RowBox[{"NS", "+", "NT"}], ")"}]}], ",", 
+         RowBox[{"-", "1"}], ",", "0"}], "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<lambdaVec = \>\"", ",", " ", "lambdaVec"}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"MFunc", "[", 
+     RowBox[{
+      RowBox[{"level_", "?", "IntegerQ"}], ",", 
+      RowBox[{"lst_", "?", "VectorQ"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"retVal", ",", "len", ",", "ii"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "lst", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"retVal", "=", 
+        RowBox[{"Sum", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"lst", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], "^", "level"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"momentVec", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"MFunc", "[", 
+      RowBox[{"ii", ",", "lambdaVec"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "MaxMoment"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<momentVec = \>\"", ",", " ", "momentVec"}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"vars", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"ToExpression", "[", 
+      RowBox[{"\"\<var\>\"", " ", "<>", " ", 
+       RowBox[{"ToString", "[", "ii", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"eqLst", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"MFunc", "[", 
+       RowBox[{"ii", ",", "vars"}], "]"}], "\[Equal]", 
+      RowBox[{"momentVec", "[", 
+       RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "MaxMoment"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<vars = \>\"", ",", " ", "vars"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<eqLst = \>\"", ",", " ", "eqLst"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Calling NSolve...\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sol", "=", 
+   RowBox[{"NSolve", "[", 
+    RowBox[{"eqLst", ",", "vars", ",", "Reals"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<sol = \>\"", ",", " ", "sol"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.60579744148135*^9, 3.605797463805174*^9}, {
+   3.605797499199685*^9, 3.605797532423754*^9}, {3.6057976393848057`*^9, 
+   3.605797709745543*^9}, {3.605797755304804*^9, 3.605798021145358*^9}, 
+   3.6057980740344915`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"lambdaVec = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "1", ",", "1", ",", 
+     RowBox[{"-", "1"}], ",", "0", ",", "0", ",", "0"}], "}"}]}],
+  SequenceForm["lambdaVec = ", {1, 1, 1, -1, 0, 0, 0}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.605797748939576*^9, 3.605797759701725*^9}, {
+   3.6057978439076586`*^9, 3.605797863831893*^9}, 3.605797953955759*^9, 
+   3.605798005810336*^9, 3.6057980760458255`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"momentVec = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", "4", ",", "2", ",", "4", ",", "2", ",", "4"}], "}"}]}],
+  SequenceForm["momentVec = ", {2, 4, 2, 4, 2, 4}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.605797748939576*^9, 3.605797759701725*^9}, {
+   3.6057978439076586`*^9, 3.605797863831893*^9}, 3.605797953955759*^9, 
+   3.605798005810336*^9, 3.605798076046826*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"vars = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "var1", ",", "var2", ",", "var3", ",", "var4", ",", "var5", ",", "var6", 
+     ",", "var7"}], "}"}]}],
+  SequenceForm[
+  "vars = ", {$CellContext`var1, $CellContext`var2, $CellContext`var3, \
+$CellContext`var4, $CellContext`var5, $CellContext`var6, $CellContext`var7}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.605797748939576*^9, 3.605797759701725*^9}, {
+   3.6057978439076586`*^9, 3.605797863831893*^9}, 3.605797953955759*^9, 
+   3.605798005810336*^9, 3.605798076048827*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"eqLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+      "var1", "+", "var2", "+", "var3", "+", "var4", "+", "var5", "+", "var6",
+        "+", "var7"}], "\[Equal]", "2"}], ",", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox["var1", "2"], "+", 
+       SuperscriptBox["var2", "2"], "+", 
+       SuperscriptBox["var3", "2"], "+", 
+       SuperscriptBox["var4", "2"], "+", 
+       SuperscriptBox["var5", "2"], "+", 
+       SuperscriptBox["var6", "2"], "+", 
+       SuperscriptBox["var7", "2"]}], "\[Equal]", "4"}], ",", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox["var1", "3"], "+", 
+       SuperscriptBox["var2", "3"], "+", 
+       SuperscriptBox["var3", "3"], "+", 
+       SuperscriptBox["var4", "3"], "+", 
+       SuperscriptBox["var5", "3"], "+", 
+       SuperscriptBox["var6", "3"], "+", 
+       SuperscriptBox["var7", "3"]}], "\[Equal]", "2"}], ",", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox["var1", "4"], "+", 
+       SuperscriptBox["var2", "4"], "+", 
+       SuperscriptBox["var3", "4"], "+", 
+       SuperscriptBox["var4", "4"], "+", 
+       SuperscriptBox["var5", "4"], "+", 
+       SuperscriptBox["var6", "4"], "+", 
+       SuperscriptBox["var7", "4"]}], "\[Equal]", "4"}], ",", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox["var1", "5"], "+", 
+       SuperscriptBox["var2", "5"], "+", 
+       SuperscriptBox["var3", "5"], "+", 
+       SuperscriptBox["var4", "5"], "+", 
+       SuperscriptBox["var5", "5"], "+", 
+       SuperscriptBox["var6", "5"], "+", 
+       SuperscriptBox["var7", "5"]}], "\[Equal]", "2"}], ",", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox["var1", "6"], "+", 
+       SuperscriptBox["var2", "6"], "+", 
+       SuperscriptBox["var3", "6"], "+", 
+       SuperscriptBox["var4", "6"], "+", 
+       SuperscriptBox["var5", "6"], "+", 
+       SuperscriptBox["var6", "6"], "+", 
+       SuperscriptBox["var7", "6"]}], "\[Equal]", "4"}]}], "}"}]}],
+  SequenceForm[
+  "eqLst = ", {$CellContext`var1 + $CellContext`var2 + $CellContext`var3 + \
+$CellContext`var4 + $CellContext`var5 + $CellContext`var6 + $CellContext`var7 == 
+    2, $CellContext`var1^2 + $CellContext`var2^2 + $CellContext`var3^2 + \
+$CellContext`var4^2 + $CellContext`var5^2 + $CellContext`var6^2 + \
+$CellContext`var7^2 == 
+    4, $CellContext`var1^3 + $CellContext`var2^3 + $CellContext`var3^3 + \
+$CellContext`var4^3 + $CellContext`var5^3 + $CellContext`var6^3 + \
+$CellContext`var7^3 == 
+    2, $CellContext`var1^4 + $CellContext`var2^4 + $CellContext`var3^4 + \
+$CellContext`var4^4 + $CellContext`var5^4 + $CellContext`var6^4 + \
+$CellContext`var7^4 == 
+    4, $CellContext`var1^5 + $CellContext`var2^5 + $CellContext`var3^5 + \
+$CellContext`var4^5 + $CellContext`var5^5 + $CellContext`var6^5 + \
+$CellContext`var7^5 == 
+    2, $CellContext`var1^6 + $CellContext`var2^6 + $CellContext`var3^6 + \
+$CellContext`var4^6 + $CellContext`var5^6 + $CellContext`var6^6 + \
+$CellContext`var7^6 == 4}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.605797748939576*^9, 3.605797759701725*^9}, {
+   3.6057978439076586`*^9, 3.605797863831893*^9}, 3.605797953955759*^9, 
+   3.605798005810336*^9, 3.6057980760498295`*^9}],
+
+Cell[BoxData["\<\"Calling NSolve...\"\>"], "Print",
+ CellChangeTimes->{{3.605797748939576*^9, 3.605797759701725*^9}, {
+   3.6057978439076586`*^9, 3.605797863831893*^9}, 3.605797953955759*^9, 
+   3.605798005810336*^9, 3.60579807605083*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1409, 1092},
+WindowMargins->{{155, Automatic}, {Automatic, 32}},
+Magnification->1.5,
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 4848, 138, 916, "Input"],
+Cell[CellGroupData[{
+Cell[5452, 164, 491, 10, 32, "Print"],
+Cell[5946, 176, 454, 9, 32, "Print"],
+Cell[6403, 187, 606, 13, 32, "Print"],
+Cell[7012, 202, 3230, 75, 96, "Print"],
+Cell[10245, 279, 238, 3, 32, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

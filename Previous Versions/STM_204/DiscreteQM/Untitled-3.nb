@@ -1,0 +1,295 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     10277,        286]
+NotebookOptionsPosition[      9842,        267]
+NotebookOutlinePosition[     10209,        283]
+CellTagsIndexPosition[     10166,        280]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{"<<", "Quaternions`"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Mult", "[", 
+     RowBox[{"a_", ",", "b_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"len", ",", "ii", ",", "jj", ",", "kk", ",", "retVal"}], "}"}],
+       ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "a", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"retVal", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"a", "[", 
+              RowBox[{"[", 
+               RowBox[{"ii", ",", "kk"}], "]"}], "]"}], "**", 
+             RowBox[{"b", "[", 
+              RowBox[{"[", 
+               RowBox[{"kk", ",", "jj"}], "]"}], "]"}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"kk", ",", "1", ",", "len"}], "}"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "len"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"jj", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"AA", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", 
+           RowBox[{"-", "1"}], ",", "0"}], "]"}]}], "}"}]}], "}"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"BB", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+         RowBox[{"Quaternion", "[", 
+          RowBox[{"0", ",", "0", ",", "0", ",", 
+           RowBox[{"-", "1"}]}], "]"}]}], "}"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AA", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", 
+          RowBox[{"-", "1"}], ",", "0"}], "]"}], ",", 
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}], "}"}]}], 
+     "}"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"BB", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], ",", 
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "0", ",", 
+          RowBox[{"-", "1"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "]"}], ",", 
+        RowBox[{"Quaternion", "[", 
+         RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}], "}"}]}], 
+     "}"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"AA", " ", "//", " ", "MatrixForm"}], "\[IndentingNewLine]", 
+ RowBox[{"BB", " ", "//", " ", "MatrixForm"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"Mult", "[", 
+     RowBox[{"AA", ",", "BB"}], "]"}], "-", 
+    RowBox[{"Mult", "[", 
+     RowBox[{"BB", ",", "AA"}], "]"}]}], ")"}], " ", "//", " ", 
+  "MatrixForm"}]}], "Input",
+ CellChangeTimes->{{3.608925282381971*^9, 3.608925373325794*^9}, {
+  3.608925433959345*^9, 3.608925604814612*^9}, {3.608927089561574*^9, 
+  3.608927227158595*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], 
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "]"}]},
+     {
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", 
+        RowBox[{"-", "1"}], ",", "0"}], "]"}], 
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.60892535511061*^9, 3.608925374388502*^9}, 
+   3.6089254767979927`*^9, 3.608925573702799*^9, 3.608925606287592*^9, {
+   3.608927169331922*^9, 3.608927228170272*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], 
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", 
+        RowBox[{"-", "1"}]}], "]"}]},
+     {
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "]"}], 
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.60892535511061*^9, 3.608925374388502*^9}, 
+   3.6089254767979927`*^9, 3.608925573702799*^9, 3.608925606287592*^9, {
+   3.608927169331922*^9, 3.6089272281712713`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "2", ",", "0", ",", "0"}], "]"}], 
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}]},
+     {
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "]"}], 
+      RowBox[{"Quaternion", "[", 
+       RowBox[{"0", ",", "2", ",", "0", ",", "0"}], "]"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.60892535511061*^9, 3.608925374388502*^9}, 
+   3.6089254767979927`*^9, 3.608925573702799*^9, 3.608925606287592*^9, {
+   3.608927169331922*^9, 3.6089272281712713`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1967, 750},
+WindowMargins->{{Automatic, 203}, {Automatic, 22}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 5814, 150, 584, "Input"],
+Cell[6384, 174, 1152, 29, 61, "Output"],
+Cell[7539, 205, 1154, 29, 61, "Output"],
+Cell[8696, 236, 1130, 28, 61, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

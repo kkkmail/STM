@@ -1,0 +1,399 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     15529,        390]
+NotebookOptionsPosition[     14786,        362]
+NotebookOutlinePosition[     15154,        378]
+CellTagsIndexPosition[     15111,        375]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Clear", "[", 
+    RowBox[{
+    "t", ",", "x", ",", "y", ",", "z", ",", "T", ",", "X", ",", "Y", ",", "Z",
+      ",", "dt", ",", "dx", ",", "dy", ",", "dz", ",", "dT", ",", "dX", ",", 
+     "dY", ",", "dZ", ",", "g"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Interval in Cartesian coordinates.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dS2", "=", 
+   RowBox[{
+    RowBox[{"dT", "^", "2"}], "-", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"dX", "^", "2"}], "+", 
+      RowBox[{"dY", "^", "2"}], "+", 
+      RowBox[{"dZ", "^", "2"}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<dS2 = \>\"", ",", " ", "dS2"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Functions to transform from Cartesian coordinates to Rindler \
+coordinates.\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"xFunc", "[", 
+    RowBox[{"TT_", ",", "XX_", ",", "gg_"}], "]"}], ":=", 
+   RowBox[{"Sqrt", "[", 
+    RowBox[{
+     RowBox[{"XX", "^", "2"}], "-", 
+     RowBox[{"TT", "^", "2"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"tFunc", "[", 
+     RowBox[{"TT_", ",", "XX_", ",", "gg_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"1", "/", "gg"}], ")"}], " ", 
+     RowBox[{"ArcTanh", "[", 
+      RowBox[{"TT", "/", "XX"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Inverse functions (to transform from Rindler coordinates to Cartesian \
+coordinates).\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"XFunc", "[", 
+    RowBox[{"tt_", ",", "xx_", ",", "gg_"}], "]"}], ":=", 
+   RowBox[{"xx", " ", 
+    RowBox[{"Cosh", "[", 
+     RowBox[{"gg", " ", "tt"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"TFunc", "[", 
+     RowBox[{"tt_", ",", "xx_", ",", "gg_"}], "]"}], ":=", 
+    RowBox[{"xx", " ", 
+     RowBox[{"Sinh", "[", 
+      RowBox[{"gg", " ", "tt"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Rule to substitute values of Cartesian coordinates by corresponding \
+inverse functions.\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"TXRule", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"T", " ", "\[Rule]", " ", 
+       RowBox[{"TFunc", "[", 
+        RowBox[{"t", ",", "x", ",", "g"}], "]"}]}], ",", 
+      RowBox[{"X", " ", "\[Rule]", " ", 
+       RowBox[{"XFunc", "[", 
+        RowBox[{"t", ",", "x", ",", "g"}], "]"}]}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", "\"\<Differentials in Rindler coordinates.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dt", "=", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"D", "[", 
+          RowBox[{
+           RowBox[{"tFunc", "[", 
+            RowBox[{"T", ",", "X", ",", "g"}], "]"}], ",", "T"}], "]"}], " ", 
+         "dT"}], "+", 
+        RowBox[{
+         RowBox[{"D", "[", 
+          RowBox[{
+           RowBox[{"tFunc", "[", 
+            RowBox[{"T", ",", "X", ",", "g"}], "]"}], ",", "X"}], "]"}], " ", 
+         "dX"}]}], ")"}], " ", "/.", " ", "TXRule"}], ",", " ", 
+     RowBox[{"x", " ", ">", " ", "0"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dx", "=", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"D", "[", 
+          RowBox[{
+           RowBox[{"xFunc", "[", 
+            RowBox[{"T", ",", "X", ",", "g"}], "]"}], ",", "T"}], "]"}], " ", 
+         "dT"}], "+", 
+        RowBox[{
+         RowBox[{"D", "[", 
+          RowBox[{
+           RowBox[{"xFunc", "[", 
+            RowBox[{"T", ",", "X", ",", "g"}], "]"}], ",", "X"}], "]"}], " ", 
+         "dX"}]}], ")"}], " ", "/.", " ", "TXRule"}], ",", " ", 
+     RowBox[{"x", " ", ">", " ", "0"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dz", "=", "dZ"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dy", "=", "dY"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Interval in Rindler coordinates but expresed through differential in \
+Cartesian coordinates.\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ds2", "=", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"g", "^", "2"}], " ", 
+      RowBox[{"x", "^", "2"}], " ", 
+      RowBox[{"dt", "^", "2"}]}], "-", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"dx", "^", "2"}], "+", 
+       RowBox[{"dy", "^", "2"}], "+", 
+       RowBox[{"dz", "^", "2"}]}], ")"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<ds2 = \>\"", ",", " ", "ds2"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Difference between interval in Cartesian coordinates and Rindler \
+coordinates.\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<dS2 - ds2 = \>\"", ",", " ", 
+     RowBox[{"(", 
+      RowBox[{"dS2", " ", "-", " ", "ds2"}], ")"}]}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQAWIQ7fI8NlPtyitHk5/zykH0O6s37SD6/fvWHhAd5+E+
+BUSHaASvANEBuj07QHSX/+2dYH1LGvaB6GbduYdA9Ek3izMg+qJ1xRUQ7Wc6
+6QaI1po77RaIvpO4/x6Illqn8gRs39TiFyD6XuOlDyC64dy6fyD6lf5UDnUg
+Xey6nA9Et9x+JgKin6y6KgGie5gfKoDoiltnNUH0V7V7YPr3/jR7EB1ytNQX
+RNvYXMkB0T+kFnWC6BefH80D0RfKDy8B62c8tQJEi0ypPAg2x2vFlvVAel2d
+/XUQfeTJ4XcgukDyDMMGID3/rZoqiDbaec8IRAMApQOzXw==
+  "]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"Interval in Cartesian coordinates.\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.601170842556484*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"dS2 = \"\>", "\[InvisibleSpace]", 
+   RowBox[{
+    SuperscriptBox["dT", "2"], "-", 
+    SuperscriptBox["dX", "2"], "-", 
+    SuperscriptBox["dY", "2"], "-", 
+    SuperscriptBox["dZ", "2"]}]}],
+  SequenceForm[
+  "dS2 = ", $CellContext`dT^2 - $CellContext`dX^2 - $CellContext`dY^2 - \
+$CellContext`dZ^2],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.6011708425694942`*^9}],
+
+Cell[BoxData["\<\"Functions to transform from Cartesian coordinates to \
+Rindler coordinates.\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.6011708425825014`*^9}],
+
+Cell[BoxData["\<\"Inverse functions (to transform from Rindler coordinates to \
+Cartesian coordinates).\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.601170842585504*^9}],
+
+Cell[BoxData["\<\"Rule to substitute values of Cartesian coordinates by \
+corresponding inverse functions.\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.6011708425885057`*^9}],
+
+Cell[BoxData["\<\"Differentials in Rindler coordinates.\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.6011708425915084`*^9}],
+
+Cell[BoxData["\<\"Interval in Rindler coordinates but expresed through \
+differential in Cartesian coordinates.\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.6011708425935097`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ds2 = \"\>", "\[InvisibleSpace]", 
+   RowBox[{
+    SuperscriptBox["dT", "2"], "-", 
+    SuperscriptBox["dX", "2"], "-", 
+    SuperscriptBox["dY", "2"], "-", 
+    SuperscriptBox["dZ", "2"]}]}],
+  SequenceForm[
+  "ds2 = ", $CellContext`dT^2 - $CellContext`dX^2 - $CellContext`dY^2 - \
+$CellContext`dZ^2],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.601170842596511*^9}],
+
+Cell[BoxData["\<\"Difference between interval in Cartesian coordinates and \
+Rindler coordinates.\"\>"], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.601170842599513*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"dS2 - ds2 = \"\>", "\[InvisibleSpace]", "0"}],
+  SequenceForm["dS2 - ds2 = ", 0],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.600888765568315*^9, 3.6008889111356134`*^9, 3.6008896589022903`*^9, {
+   3.600889916115446*^9, 3.600889925828872*^9}, 3.6008899742268887`*^9, {
+   3.6008900924971285`*^9, 3.600890120964961*^9}, 3.600890191524639*^9, 
+   3.6008907722685423`*^9, {3.600890805077247*^9, 3.6008908884894276`*^9}, 
+   3.600891192782728*^9, 3.600891224477697*^9, {3.6008913047508006`*^9, 
+   3.6008913311162405`*^9}, {3.6008913852430487`*^9, 3.600891405125201*^9}, {
+   3.601170094494613*^9, 3.6011701095345626`*^9}, 3.6011703710195456`*^9, 
+   3.6011704022492046`*^9, 3.601170440700642*^9, 3.601170799860239*^9, 
+   3.601170842601515*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1444, 896},
+WindowMargins->{{Automatic, 231}, {227, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 6068, 183, 854, "Input"],
+Cell[CellGroupData[{
+Cell[6660, 209, 709, 10, 32, "Print"],
+Cell[7372, 221, 1024, 21, 35, "Print"],
+Cell[8399, 244, 752, 11, 32, "Print"],
+Cell[9154, 257, 760, 11, 32, "Print"],
+Cell[9917, 270, 765, 11, 32, "Print"],
+Cell[10685, 283, 714, 10, 32, "Print"],
+Cell[11402, 295, 770, 11, 32, "Print"],
+Cell[12175, 308, 1022, 21, 35, "Print"],
+Cell[13200, 331, 754, 11, 32, "Print"],
+Cell[13957, 344, 801, 14, 32, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

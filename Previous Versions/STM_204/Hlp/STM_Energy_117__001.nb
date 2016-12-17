@@ -1,0 +1,209 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      6402,        200]
+NotebookOptionsPosition[      5633,        172]
+NotebookOutlinePosition[      5998,        188]
+CellTagsIndexPosition[      5955,        185]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Kinetic Energy.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KK", "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"NNN", "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"NNN", "-", "1"}], ")"}], "/", "2"}]}], ")"}], "*", "eps"}]}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Potential Energy.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"VV", "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"NNN", "-", "1"}], ")"}], "*", "eps"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Total Energy.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"EEval", "=", 
+   RowBox[{"KK", "+", "VV"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Solve for eps.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sol", "=", 
+   RowBox[{
+    RowBox[{"Solve", "[", 
+     RowBox[{
+      RowBox[{"EE", "\[Equal]", "EEval"}], ",", "eps"}], " ", "]"}], "[", 
+    RowBox[{"[", "1", "]"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Kinetic Energy.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"FullSimplify", "[", 
+   RowBox[{"KK", " ", "/.", " ", "sol"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Potential Energy.\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{"VV", " ", "/.", " ", "sol"}], 
+  "]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.593889700333741*^9, 3.593889794954765*^9}, {
+  3.5938898268740253`*^9, 3.593889940817919*^9}, {3.593889985000352*^9, 
+  3.5938900118992634`*^9}}],
+
+Cell[BoxData["\<\"Kinetic Energy.\"\>"], "Print",
+ CellChangeTimes->{
+  3.593889795784316*^9, {3.5938898888573103`*^9, 3.5938899411821613`*^9}, {
+   3.593889993527026*^9, 3.593890012677782*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "2"], " ", "eps", " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"-", "1"}], "+", "NNN"}], ")"}], " ", "NNN"}]], "Output",
+ CellChangeTimes->{
+  3.593889757765995*^9, 3.5938897957853174`*^9, {3.5938898888633127`*^9, 
+   3.593889941184163*^9}, {3.5938899935280266`*^9, 3.593890012679784*^9}}],
+
+Cell[BoxData["\<\"Potential Energy.\"\>"], "Print",
+ CellChangeTimes->{
+  3.593889795784316*^9, {3.5938898888573103`*^9, 3.5938899411821613`*^9}, {
+   3.593889993527026*^9, 3.593890012679784*^9}}],
+
+Cell[BoxData[
+ RowBox[{"eps", " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"-", "1"}], "+", "NNN"}], ")"}]}]], "Output",
+ CellChangeTimes->{
+  3.593889757765995*^9, 3.5938897957853174`*^9, {3.5938898888633127`*^9, 
+   3.593889941184163*^9}, {3.5938899935280266`*^9, 3.593890012680784*^9}}],
+
+Cell[BoxData["\<\"Total Energy.\"\>"], "Print",
+ CellChangeTimes->{
+  3.593889795784316*^9, {3.5938898888573103`*^9, 3.5938899411821613`*^9}, {
+   3.593889993527026*^9, 3.593890012684787*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"eps", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "1"}], "+", "NNN"}], ")"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "2"], " ", "eps", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "1"}], "+", "NNN"}], ")"}], " ", "NNN"}]}]], "Output",
+ CellChangeTimes->{
+  3.593889757765995*^9, 3.5938897957853174`*^9, {3.5938898888633127`*^9, 
+   3.593889941184163*^9}, {3.5938899935280266`*^9, 3.593890012687789*^9}}],
+
+Cell[BoxData["\<\"Solve for eps.\"\>"], "Print",
+ CellChangeTimes->{
+  3.593889795784316*^9, {3.5938898888573103`*^9, 3.5938899411821613`*^9}, {
+   3.593889993527026*^9, 3.593890012690791*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"eps", "\[Rule]", 
+   FractionBox[
+    RowBox[{"2", " ", "EE"}], 
+    RowBox[{
+     RowBox[{"-", "2"}], "+", "NNN", "+", 
+     SuperscriptBox["NNN", "2"]}]]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.593889757765995*^9, 3.5938897957853174`*^9, {3.5938898888633127`*^9, 
+   3.593889941184163*^9}, {3.5938899935280266`*^9, 3.593890012692792*^9}}],
+
+Cell[BoxData["\<\"Kinetic Energy.\"\>"], "Print",
+ CellChangeTimes->{
+  3.593889795784316*^9, {3.5938898888573103`*^9, 3.5938899411821613`*^9}, {
+   3.593889993527026*^9, 3.593890012695793*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"EE", " ", "NNN"}], 
+  RowBox[{"2", "+", "NNN"}]]], "Output",
+ CellChangeTimes->{
+  3.593889757765995*^9, 3.5938897957853174`*^9, {3.5938898888633127`*^9, 
+   3.593889941184163*^9}, {3.5938899935280266`*^9, 3.5938900126987963`*^9}}],
+
+Cell[BoxData["\<\"Potential Energy.\"\>"], "Print",
+ CellChangeTimes->{
+  3.593889795784316*^9, {3.5938898888573103`*^9, 3.5938899411821613`*^9}, {
+   3.593889993527026*^9, 3.593890012702798*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"2", " ", "EE"}], 
+  RowBox[{"2", "+", "NNN"}]]], "Output",
+ CellChangeTimes->{
+  3.593889757765995*^9, 3.5938897957853174`*^9, {3.5938898888633127`*^9, 
+   3.593889941184163*^9}, {3.5938899935280266`*^9, 3.593890012705801*^9}}]
+}, Open  ]]
+},
+WindowSize->{601, 750},
+WindowMargins->{{29, Automatic}, {Automatic, 37}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 1848, 55, 503, "Input"],
+Cell[2418, 79, 194, 3, 32, "Print"],
+Cell[2615, 84, 333, 8, 62, "Output"],
+Cell[2951, 94, 196, 3, 32, "Print"],
+Cell[3150, 99, 290, 7, 42, "Output"],
+Cell[3443, 108, 192, 3, 32, "Print"],
+Cell[3638, 113, 457, 13, 62, "Output"],
+Cell[4098, 128, 193, 3, 32, "Print"],
+Cell[4294, 133, 385, 10, 63, "Output"],
+Cell[4682, 145, 194, 3, 32, "Print"],
+Cell[4879, 150, 270, 6, 61, "Output"],
+Cell[5152, 158, 196, 3, 32, "Print"],
+Cell[5351, 163, 266, 6, 62, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

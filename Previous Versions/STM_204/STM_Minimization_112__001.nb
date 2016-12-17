@@ -1,0 +1,2624 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[    130812,       2615]
+NotebookOptionsPosition[    130527,       2601]
+NotebookOutlinePosition[    130895,       2617]
+CellTagsIndexPosition[    130852,       2614]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", 
+     RowBox[{"Various", " ", "minimization", " ", 
+      RowBox[{"algorithms", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", 
+      RowBox[{"K", "^", "3"}]}]}], ",", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.12", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "18"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"RFCMethodMin", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RFCMethodFindMinimum", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RFCMethodNMinimize", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RFCMethodSingleRun", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RFCMethodMax", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FCMFMethodMin", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FCMFMethodODE", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FCMFMethodFindMinimum", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FCMFMethodFindRoot", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FCMFMethodMax", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"P8ModelTypeMin", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"P8ModelType8s", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"P8ModelType8sX4", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"P8ModelType8s1", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"P8ModelTypeMax", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "STMMinimization", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"PlotODEResults", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{"ReturnTangentialGradient", " ", "\[Rule]", " ", "False"}], 
+       ",", " ", 
+       RowBox[{"DoPrintInfo", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{"NoOfTsteps", " ", "\[Rule]", " ", "3"}], ",", 
+       RowBox[{"PlotCombinedResults", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{"SolveForCoeff", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"DoNotConstrainCoefficients", " ", "\[Rule]", " ", "False"}], 
+       ",", 
+       RowBox[{"InvalidCoeffWeight", " ", "\[Rule]", " ", 
+        RowBox[{"10", "^", "6"}]}], ",", 
+       RowBox[{"PositiveCoeffF4Sign", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"IdxSolveCoeffF4", " ", "\[RuleDelayed]", "idxD4T0Cababefef"}],
+        ",", 
+       RowBox[{"PositiveCoeffF2Sign", " ", "\[Rule]", " ", "False"}], ",", 
+       RowBox[{"IdxSolveCoeffF2", " ", "\[RuleDelayed]", "idxD2T2Cabbd"}], 
+       ",", 
+       RowBox[{"RescaleOutOfRangeCoeff", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"UseP4Model", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"UseP2Model", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"OutputLambda", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"OutputAllTIdx", " ", "\[Rule]", " ", "True"}], ",", 
+       RowBox[{"OutputF4P", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{"UseSetPrecision", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{"PrecisionDigits", " ", "\[Rule]", " ", "100"}], ",", 
+       RowBox[{"WorkingPrecisionDigits", " ", "\[Rule]", " ", "200"}], ",", 
+       RowBox[{"MaximumIterations", " ", "\[Rule]", " ", "20"}], ",", 
+       RowBox[{"FCMFMethod", " ", "\[Rule]", " ", "FCMFMethodFindMinimum"}], 
+       ",", 
+       RowBox[{"RFCMethod", " ", "\[Rule]", " ", "RFCMethodNMinimize"}], ",", 
+       RowBox[{"P8ModelType", " ", "\[Rule]", " ", "P8ModelType8s"}], ",", 
+       RowBox[{"UseStepMonitor", " ", "\[Rule]", " ", "False"}]}], "}"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RunFindCoefficientsCounter", "=", "0"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"RunFindCoefficients", "[", 
+      RowBox[{
+       RowBox[{"initCoeffF2Val_", "?", "VectorQ"}], ",", 
+       RowBox[{"initCoeffF4Val_", "?", "VectorQ"}], ",", 
+       RowBox[{"tMax_", "?", "NumericQ"}], ",", 
+       RowBox[{"R13SizeWeight_", "?", "NumericQ"}], ",", 
+       RowBox[{"R13S3Weight_", "?", "NumericQ"}], ",", 
+       RowBox[{"ModelDivergenceWeight_", "?", "NumericQ"}], ",", 
+       "rawOpts___"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "sol", ",", "varListF4", ",", "varListF2", ",", "ii", ",", " ", 
+         "initCoeffF4", ",", "initCoeffF2", ",", "opts", ",", "constrF4", ",",
+          "constrF2", ",", "findMinInitValsF4", ",", "findMinInitValsF2", ",",
+          "solveForCoeffVal", ",", "idxSolveCoeffF4Val", ",", "coeffF4Sign", 
+         ",", "invalidCoeffWeightVal", ",", "idxSolveCoeffF2Val", ",", 
+         "coeffF2Sign", ",", "useP2ModelVal", ",", "useP4ModelVal", ",", 
+         "findMinInitVals", ",", "useSetPrecisionVal", ",", 
+         "precisionDigitsVal", ",", "rfcMethodVal", ",", "constrLst", ",", 
+         "funcAndConstrLst", ",", "varList", ",", 
+         "doNotConstrainCoefficientsVal"}], "}"}], ",", "\[IndentingNewLine]",
+        "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"opts", "=", 
+         RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<RunFindCoefficients::$MaxPrecision = \>\"", ",", " ", 
+          "$MaxPrecision"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"$MaxPrecision", "=", "Infinity"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"solveForCoeffVal", "=", 
+         RowBox[{
+          RowBox[{"SolveForCoeff", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"idxSolveCoeffF4Val", "=", 
+         RowBox[{
+          RowBox[{"IdxSolveCoeffF4", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"coeffF4Sign", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"PositiveCoeffF4Sign", "/.", "opts"}], " ", "/.", 
+             RowBox[{"Options", "[", "STMMinimization", "]"}]}], ")"}], ",", 
+           "1", ",", 
+           RowBox[{"-", "1"}], ",", "1"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"useP4ModelVal", " ", "=", " ", 
+         RowBox[{
+          RowBox[{"UseP4Model", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"idxSolveCoeffF2Val", "=", 
+         RowBox[{
+          RowBox[{"IdxSolveCoeffF2", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"coeffF2Sign", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"PositiveCoeffF2Sign", "/.", "opts"}], " ", "/.", 
+             RowBox[{"Options", "[", "STMMinimization", "]"}]}], ")"}], ",", 
+           "1", ",", 
+           RowBox[{"-", "1"}], ",", "1"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"useP2ModelVal", " ", "=", " ", 
+         RowBox[{
+          RowBox[{"UseP2Model", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"invalidCoeffWeightVal", "=", 
+         RowBox[{
+          RowBox[{"InvalidCoeffWeight", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"useSetPrecisionVal", "=", 
+         RowBox[{
+          RowBox[{"UseSetPrecision", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"precisionDigitsVal", "=", 
+         RowBox[{
+          RowBox[{"PrecisionDigits", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"rfcMethodVal", "=", 
+         RowBox[{
+          RowBox[{"RFCMethod", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"doNotConstrainCoefficientsVal", "=", 
+         RowBox[{
+          RowBox[{"DoNotConstrainCoefficients", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+          "rfcMethodVal", " ", "\[Equal]", " ", "RFCMethodSingleRun"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<RunFindCoefficients::Single run.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"solveForCoeffVal", "=", "False"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"rfcMethodVal", "<", "RFCMethodMin"}], " ", "||", " ", 
+           RowBox[{"rfcMethodVal", ">", "RFCMethodMax"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<RunFindCoefficients::RFCMethod is out of range. Value = \
+\>\"", ",", "rfcMethodVal"}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"!", "useP2ModelVal"}], " ", "&&", " ", 
+           RowBox[{"!", "useP4ModelVal"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<RunFindCoefficients::At least one of F4 or F2 models must \
+be included.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "initCoeffF2Val", "]"}], " ", "!=", 
+           "NoOfTermsF2"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<RunFindCoefficients::initCoeffF2Val has incorrect length = \
+\>\"", ",", " ", 
+              RowBox[{"Length", "[", "initCoeffF2Val", "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "initCoeffF4Val", "]"}], " ", "!=", 
+           "NoOfTermsF4"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<RunFindCoefficients::initCoeffF4Val has incorrect length = \
+\>\"", ",", " ", 
+              RowBox[{"Length", "[", "initCoeffF4Val", "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"initCoeffF2", "=", "initCoeffF2Val"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"initCoeffF4", "=", "initCoeffF4Val"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"useSetPrecisionVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"initCoeffF2", "=", 
+             RowBox[{"SetPrecision", "[", 
+              RowBox[{"initCoeffF2", ",", "precisionDigitsVal"}], "]"}]}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"initCoeffF4", "=", 
+             RowBox[{"SetPrecision", "[", 
+              RowBox[{"initCoeffF4", ",", "precisionDigitsVal"}], "]"}]}], 
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"initCoeffF2", "=", 
+         RowBox[{"Normalize", "[", "initCoeffF2", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"initCoeffF4", "=", 
+         RowBox[{"Normalize", "[", "initCoeffF4", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", "Variables", " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"varListF2", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"ToExpression", "[", 
+            RowBox[{"\"\<varF2n\>\"", " ", "<>", " ", 
+             RowBox[{"TermMatrixF2", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"varListF4", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"ToExpression", "[", 
+            RowBox[{"\"\<varF4n\>\"", " ", "<>", " ", 
+             RowBox[{"TermMatrix", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NoOfTermsF4"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", "useP2ModelVal"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"initCoeffF2", "=", 
+             RowBox[{"0", "*", "initCoeffF2"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"varListF2", "=", 
+             RowBox[{"0", "*", "varListF2"}]}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", "useP4ModelVal"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"initCoeffF4", "=", 
+             RowBox[{"0", "*", "initCoeffF4"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"varListF4", "=", 
+             RowBox[{"0", "*", "varListF4"}]}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<RunFindCoefficients::Normalized initial coefficients F2 are: \
+\>\"", ",", " ", "initCoeffF2"}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<RunFindCoefficients::Normalized initial coefficients F4 are: \
+\>\"", ",", " ", "initCoeffF4"}], "]"}], ";"}], "\[IndentingNewLine]", "*)"}],
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"solveForCoeffVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"varListF2", "=", 
+             RowBox[{"Delete", "[", 
+              RowBox[{"varListF2", ",", "idxSolveCoeffF2Val"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"initCoeffF2", "=", 
+             RowBox[{"Delete", "[", 
+              RowBox[{"initCoeffF2", ",", "idxSolveCoeffF2Val"}], "]"}]}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"varListF4", "=", 
+             RowBox[{"Delete", "[", 
+              RowBox[{"varListF4", ",", "idxSolveCoeffF4Val"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"initCoeffF4", "=", 
+             RowBox[{"Delete", "[", 
+              RowBox[{"initCoeffF4", ",", "idxSolveCoeffF4Val"}], "]"}]}], 
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<initCoeffF2 = \>\"", ",", " ", "initCoeffF2"}], "]"}],
+           ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<varListF2 = \>\"", ",", " ", "varListF2"}], "]"}], 
+          ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<initCoeffF4 = \>\"", ",", " ", "initCoeffF4"}], "]"}],
+           ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<varListF4 = \>\"", ",", " ", "varListF4"}], "]"}], 
+          ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"varList", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Initial", " ", "Values", " ", "for", " ", "Find", " ", "Minimum"}], 
+         " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"useP2ModelVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"findMinInitValsF2", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"varListF2", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                 RowBox[{"initCoeffF2", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}]}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", 
+                 RowBox[{"Length", "[", "varListF2", "]"}]}], "}"}]}], 
+              "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"varList", "=", 
+             RowBox[{"Join", "[", 
+              RowBox[{"varList", ",", "varListF2"}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"findMinInitValsF2", "=", 
+             RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"useP4ModelVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"findMinInitValsF4", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"varListF4", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                 RowBox[{"initCoeffF4", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}]}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", 
+                 RowBox[{"Length", "[", "varListF4", "]"}]}], "}"}]}], 
+              "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"varList", "=", 
+             RowBox[{"Join", "[", 
+              RowBox[{"varList", ",", "varListF4"}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"findMinInitValsF4", "=", 
+             RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<findMinInitValsF2 = \>\"", ",", " ", "findMinInitValsF2"}], 
+           "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<findMinInitValsF4 = \>\"", ",", " ", "findMinInitValsF4"}], 
+           "]"}], ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"findMinInitVals", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{"findMinInitValsF2", ",", "findMinInitValsF4"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<findMinInitVals = \>\"", ",", " ", "findMinInitVals"}], "]"}],
+           ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<varList = \>\"", ",", " ", "varList"}], "]"}], ";"}], 
+         "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "==="}], " ", "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"Main", " ", "minimization", " ", 
+          RowBox[{"call", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+          "rfcMethodVal", " ", "\[Equal]", " ", "RFCMethodSingleRun"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<RunFindCoefficients::Calling FindCoefficientsMinFunc\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"sol", "=", 
+             RowBox[{"FindCoefficientsMinFunc", "[", 
+              RowBox[{
+              "initCoeffF2", ",", "initCoeffF4", ",", "tMax", ",", 
+               "R13SizeWeight", ",", "R13S3Weight", ",", 
+               "ModelDivergenceWeight", ",", 
+               RowBox[{"SolveForCoeff", " ", "\[Rule]", " ", "False"}], ",", 
+               "rawOpts"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "sol", "]"}], ";"}], "\[IndentingNewLine]",
+            ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]",
+         "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"solveForCoeffVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<RunFindCoefficients::Running unconstrained minimization \
+while solving for two coefficients.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+              "rfcMethodVal", " ", "\[Equal]", " ", "RFCMethodFindMinimum"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<RunFindCoefficients::Using FindMinimum wiht \
+ConjugateGradient method.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"sol", "=", 
+                 RowBox[{"FindMinimum", "[", 
+                  RowBox[{
+                   RowBox[{"FindCoefficientsMinFunc", "[", 
+                    RowBox[{
+                    "varListF2", ",", "varListF4", ",", "tMax", ",", 
+                    "R13SizeWeight", ",", "R13S3Weight", ",", 
+                    "ModelDivergenceWeight", ",", "rawOpts"}], "]"}], ",", 
+                   "findMinInitVals", ",", 
+                   RowBox[{
+                   "Method", " ", "\[Rule]", " ", 
+                    "\"\<ConjugateGradient\>\""}]}], "]"}]}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+              "rfcMethodVal", " ", "\[Equal]", " ", "RFCMethodNMinimize"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", "\"\<RunFindCoefficients::Using NMinimize.\>\"",
+                  "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{
+                "Print", "[", 
+                 "\"\<RunFindCoefficients::TODO::Not Implemented yet!!!\>\"", 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";"}], "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"!", "doNotConstrainCoefficientsVal"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<RunFindCoefficients::Running constrained \
+minimization.\>\"", "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"useP2ModelVal", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"constrF2", "=", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Sum", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"varListF2", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], 
+                    "]"}], "-", "1"}], " ", "\[Equal]", "0"}], "}"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<constrF2 = \>\"", ",", " ", "constrF2"}], 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"constrF2", "=", 
+                    RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+                   ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+                "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"useP4ModelVal", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"constrF4", "=", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Sum", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"varListF4", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NoOfTermsF4"}], "}"}]}], 
+                    "]"}], "-", "1"}], " ", "\[Equal]", "0"}], "}"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<constrF4 = \>\"", ",", " ", "constrF4"}], 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"constrF4", "=", 
+                    RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+                   ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+                "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"constrLst", "=", 
+                 RowBox[{"Join", "[", 
+                  RowBox[{"constrF2", ",", "constrF4"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"(*", " ", 
+                 RowBox[{
+                  RowBox[{"Print", "[", 
+                   RowBox[{"\"\<constrLst = \>\"", ",", " ", "constrLst"}], 
+                   "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"funcAndConstrLst", "=", 
+                 RowBox[{"Join", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"FindCoefficientsMinFunc", "[", 
+                    RowBox[{
+                    "varListF2", ",", "varListF4", ",", "tMax", ",", 
+                    "R13SizeWeight", ",", "R13S3Weight", ",", 
+                    "ModelDivergenceWeight", ",", "rawOpts"}], "]"}], "}"}], 
+                   ",", "constrLst"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+               RowBox[{"(*", " ", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{
+                  "\"\<funcAndConstrLst = \>\"", ",", " ", 
+                   "funcAndConstrLst"}], "]"}], ";"}], " ", "*)"}], 
+               "\[IndentingNewLine]", "\[IndentingNewLine]", ")"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<RunFindCoefficients::Running fully unconstrained \
+minimization while rescaling coefficients.\>\"", "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"funcAndConstrLst", "=", 
+                 RowBox[{"FindCoefficientsMinFunc", "[", 
+                  RowBox[{
+                  "varListF2", ",", "varListF4", ",", "tMax", ",", 
+                   "R13SizeWeight", ",", "R13S3Weight", ",", 
+                   "ModelDivergenceWeight", ",", "rawOpts"}], "]"}]}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+              "rfcMethodVal", " ", "\[Equal]", " ", "RFCMethodFindMinimum"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<RunFindCoefficients::Using FindMinimum.\>\"", "]"}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"sol", "=", 
+                 RowBox[{"FindMinimum", "[", 
+                  RowBox[{"funcAndConstrLst", ",", "findMinInitVals", ",", 
+                   RowBox[{"WorkingPrecision", " ", "\[Rule]", " ", "50"}]}], 
+                  "]"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+              "rfcMethodVal", " ", "\[Equal]", " ", "RFCMethodNMinimize"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", "\"\<RunFindCoefficients::Using NMinimize.\>\"",
+                  "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"sol", "=", 
+                 RowBox[{"NMinimize", "[", 
+                  RowBox[{"funcAndConstrLst", ",", "varList", ",", 
+                   RowBox[{"WorkingPrecision", " ", "\[Rule]", " ", "50"}]}], 
+                  "]"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<RunFindCoefficients::RunFindCoefficientsCounter = \>\"", ",", 
+          " ", "RunFindCoefficientsCounter", ",", " ", "\"\<, sol = \>\"", 
+          ",", " ", "sol"}], "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "sol", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MinFindCoefficientsRetVal", "=", 
+     RowBox[{"10", "^", "50"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoeffF2Min", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoeffF4Min", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"LambdaSortedMin", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MinIdx", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MinLambdaRank", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FindCoefficientsMinFunc", "[", 
+      RowBox[{
+       RowBox[{"initCoeffF2Val_", "?", "VectorQ"}], ",", 
+       RowBox[{"initCoeffF4Val_", "?", "VectorQ"}], ",", 
+       RowBox[{"tMax_", "?", "NumericQ"}], ",", 
+       RowBox[{"R13SizeWeight_", "?", "NumericQ"}], ",", 
+       RowBox[{"R13S3Weight_", "?", "NumericQ"}], ",", 
+       RowBox[{"ModelDivergenceWeight_", "?", "NumericQ"}], ",", 
+       "rawOpts___"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+         "retVal", ",", "opts", ",", "sol", ",", 
+          "returnTangentialGradientVal", ",", "f", ",", "fDomain", ",", 
+          "tPlotMultiplier", ",", "tPlot", ",", "plotODEResultsVal", ",", 
+          "divergenceTestVal", ",", "st", ",", "stl", ",", "solValue", ",", 
+          "lambdaSorted", ",", "lambdaRank", ",", "R13testVal", ",", 
+          "doPrintInfoVal", ",", "noOfTsteps", ",", "pltOpts", ",", "DeltaT", 
+          ",", "plotCombinedResultsVal", ",", "stlSortedTbl", ",", 
+          "solValueTbl", ",", "deltaLambdaSortedTbl", ",", "tIdx", ",", 
+          "tVal", ",", "stlSorted", ",", "lambda", ",", "eXXT", ",", 
+          "gradLinearFunc", ",", "gValLinear", ",", "gValMatrix", ",", 
+          "deltaLambda", ",", "deltaLambdaSorted", ",", "sValFuncTbl", ",", 
+          "lambdaFuncTbl", ",", "deltaLambdaFuncTbl", ",", "xRangeFuncTbl", 
+          ",", "xRangeSigmaFuncTbl", ",", "solveForCoeffVal", ",", 
+          "idxSolveCoeffF4Val", ",", "coeffF4Sign", ",", 
+          "invalidCoeffWeightVal", ",", "initCoeffF4", ",", "initCoeffF2", 
+          ",", "coeffF4Sq", ",", "coeffF4Val", ",", "coeffF2Sq", ",", 
+          "coeffF2Val", ",", "coeffOutOfRangeTestVal", ",", "ii", ",", "idx", 
+          ",", "idxSolveCoeffF2Val", ",", "coeffF2Sign", ",", "useP4ModelVal",
+           ",", "useP2ModelVal", ",", "outputLambdaVal", ",", 
+          "outputAllTIdxVal", ",", "outputF4PVal", 
+          RowBox[{"(*", " ", 
+           RowBox[{",", "useFindMinimumVal"}], " ", "*)"}], ",", 
+          "findMinInitVals", ",", "useSetPrecisionVal", ",", 
+          "precisionDigitsVal", ",", "gradVal", ",", "gradSortedVal", ",", 
+          "fcmfMethodVal", ",", "funcVal", ",", "stpCount", ",", 
+          "workingPrecisionDigitsVal", ",", " ", "maximumIterationsVal", ",", 
+          "fLinearFunc", ",", "rescaleOutOfRangeCoeffVal", ",", 
+          "useStepMonitorVal", ",", "p8ModelTypeVal"}], "}"}], ",", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"opts", "=", 
+          RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<FindCoefficientsMinFunc::$MaxPrecision = \>\"", ",", " ", 
+             "$MaxPrecision"}], "]"}], ";"}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"$MaxPrecision", "=", "Infinity"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"noOfTsteps", "=", 
+          RowBox[{
+           RowBox[{"NoOfTsteps", " ", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"plotODEResultsVal", "=", 
+          RowBox[{
+           RowBox[{"PlotODEResults", " ", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"returnTangentialGradientVal", "=", 
+          RowBox[{
+           RowBox[{"ReturnTangentialGradient", "  ", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"doPrintInfoVal", "=", 
+          RowBox[{
+           RowBox[{"DoPrintInfo", "  ", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"plotCombinedResultsVal", "=", 
+          RowBox[{
+           RowBox[{"PlotCombinedResults", "  ", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"solveForCoeffVal", "=", 
+          RowBox[{
+           RowBox[{"SolveForCoeff", " ", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"idxSolveCoeffF4Val", "=", 
+          RowBox[{
+           RowBox[{"IdxSolveCoeffF4", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"coeffF4Sign", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"PositiveCoeffF4Sign", "/.", "opts"}], " ", "/.", 
+              RowBox[{"Options", "[", "STMMinimization", "]"}]}], ")"}], ",", 
+            "1", ",", 
+            RowBox[{"-", "1"}], ",", "1"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"useP4ModelVal", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"UseP4Model", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"idxSolveCoeffF2Val", "=", 
+          RowBox[{
+           RowBox[{"IdxSolveCoeffF2", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"coeffF2Sign", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"PositiveCoeffF2Sign", "/.", "opts"}], " ", "/.", 
+              RowBox[{"Options", "[", "STMMinimization", "]"}]}], ")"}], ",", 
+            "1", ",", 
+            RowBox[{"-", "1"}], ",", "1"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"useP2ModelVal", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"UseP2Model", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"invalidCoeffWeightVal", "=", 
+          RowBox[{
+           RowBox[{"InvalidCoeffWeight", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"outputLambdaVal", "=", 
+          RowBox[{
+           RowBox[{"OutputLambda", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"outputAllTIdxVal", "=", 
+          RowBox[{
+           RowBox[{"OutputAllTIdx", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"outputF4PVal", "=", 
+          RowBox[{
+           RowBox[{"OutputF4P", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"useFindMinimumVal", "=", 
+            RowBox[{
+             RowBox[{"UseFindMinimum", "/.", "opts"}], " ", "/.", 
+             RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";"}], " ",
+           "*)"}], "\[IndentingNewLine]", 
+         RowBox[{"fcmfMethodVal", "=", 
+          RowBox[{
+           RowBox[{"FCMFMethod", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"workingPrecisionDigitsVal", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"WorkingPrecisionDigits", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"maximumIterationsVal", "=", 
+          RowBox[{
+           RowBox[{"MaximumIterations", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", "useP2P4P8sX4val", " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"p8ModelTypeVal", "=", 
+          RowBox[{
+           RowBox[{"P8ModelType", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"rescaleOutOfRangeCoeffVal", "=", 
+          RowBox[{
+           RowBox[{"RescaleOutOfRangeCoeff", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"useStepMonitorVal", "=", 
+          RowBox[{
+           RowBox[{"UseStepMonitor", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<rescaleOutOfRangeCoeffVal = \>\"", ",", " ", 
+             "rescaleOutOfRangeCoeffVal"}], "]"}], ";"}], "*)"}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"fcmfMethodVal", " ", "<", " ", "FCMFMethodMin"}], " ", "||",
+             " ", 
+            RowBox[{"fcmfMethodVal", " ", ">", " ", "FCMFMethodMax"}]}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::FCMFMethod is out of range. Value \
+= \>\"", ",", "fcmfMethodVal"}], "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", " ", "]"}],
+          ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"useSetPrecisionVal", "=", 
+          RowBox[{
+           RowBox[{"UseSetPrecision", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"precisionDigitsVal", "=", 
+          RowBox[{
+           RowBox[{"PrecisionDigits", "/.", "opts"}], " ", "/.", 
+           RowBox[{"Options", "[", "STMMinimization", "]"}]}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"fcmfMethodVal", "\[Equal]", "FCMFMethodFindMinimum"}], 
+              " ", "||", 
+              RowBox[{"fcmfMethodVal", "\[Equal]", "FCMFMethodFindRoot"}]}], 
+             " ", ")"}], "  ", "&&", "  ", 
+            RowBox[{"!", "UseP8sGrad"}]}], ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+             "Print", "[", 
+              "\"\<FindCoefficientsMinFunc::FCMFMethod, which requires \
+UseP8sGrad, was requested but UseP8sGrad is not set. Ignoring \
+FCMFMethod.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"fcmfMethodVal", "=", "FCMFMethodODE"}], ";"}], 
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"RunFindCoefficientsCounter", "++"}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"coeffOutOfRangeTestVal", "=", "0"}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"pltOpts", "=", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"PlotRange", " ", "\[Rule]", " ", "All"}], ",", " ", 
+            RowBox[{"Frame", " ", "\[Rule]", " ", "True"}], ",", " ", 
+            RowBox[{"PlotStyle", " ", "\[Rule]", " ", "Thick"}], ",", " ", 
+            RowBox[{"GridLines", " ", "\[Rule]", " ", "Automatic"}], ",", " ", 
+            RowBox[{"PlotPoints", " ", "\[Rule]", " ", "200"}], ",", " ", 
+            RowBox[{"Method", " ", "\[Rule]", " ", 
+             RowBox[{"{", 
+              RowBox[{"PlotDivision", " ", "\[Rule]", " ", "1"}], "}"}]}], 
+            ",", " ", 
+            RowBox[{"ImageSize", " ", "\[Rule]", " ", "IMAGESIZE"}]}], 
+           "}"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", "strSeparator", "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", "strSeparator", "]"}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"doPrintInfoVal", ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc is called: \>\"", ",", " ", 
+               "RunFindCoefficientsCounter", ",", "\"\< time(s).\>\""}], 
+              "]"}], ";"}], "\[IndentingNewLine]", 
+            RowBox[{"(*", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<initCoeffF2Val = \>\"", ",", " ", 
+                RowBox[{"N", "[", "initCoeffF2Val", "]"}]}], "]"}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<initCoeffF4Val = \>\"", ",", " ", 
+                RowBox[{"N", "[", "initCoeffF4Val", "]"}]}], "]"}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{
+               "\"\<returnTangentialGradientVal = \>\"", ",", " ", 
+                "returnTangentialGradientVal"}], "]"}], ";"}], 
+             "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", ")"}]}], 
+          "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"!", "solveForCoeffVal"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+             "Print", "[", "\"\<NOT solving for coefficients. \>\"", "]"}], 
+             ";", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"useP2ModelVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF2", " ", "=", " ", "initCoeffF2Val"}], 
+                 ";"}], "\[IndentingNewLine]", ")"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF2", " ", "=", " ", 
+                  RowBox[{"0", "*", "initCoeffF2Val"}]}], ";"}], 
+                "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+             ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"useP4ModelVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF4", " ", "=", " ", "initCoeffF4Val"}], 
+                 ";"}], "\[IndentingNewLine]", ")"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF4", " ", "=", " ", 
+                  RowBox[{"0", "*", "initCoeffF4Val"}]}], ";"}], 
+                "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+             ";"}], "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Print", "[", "\"\<Solving for coefficients.\>\"", "]"}],
+              ";", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"useP2ModelVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF2", "=", "initCoeffF2Val"}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"coeffF2Sq", "=", 
+                  RowBox[{"1", "-", 
+                   RowBox[{"Sum", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"initCoeffF2", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", 
+                    RowBox[{"NoOfTermsF2", "-", "1"}]}], "}"}]}], "]"}]}]}], 
+                 ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{"coeffF2Sq", "\[GreaterEqual]", "0"}], ",", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"coeffF2Val", "=", 
+                    RowBox[{"coeffF2Sign", "*", 
+                    RowBox[{"Sqrt", "[", "coeffF2Sq", "]"}]}]}], ";"}], 
+                    "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"coeffF2Val", "=", "0"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    "rescaleOutOfRangeCoeffVal", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::CoeffF2 are out of range. \
+Rescaling.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"initCoeffF2", "=", 
+                    RowBox[{"Normalize", "[", "initCoeffF2", "]"}]}], ";"}], 
+                    "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"coeffOutOfRangeTestVal", "+=", 
+                    RowBox[{
+                    RowBox[{"-", "coeffF2Sq"}], "*", 
+                    "invalidCoeffWeightVal"}]}], ";"}], "\[IndentingNewLine]",
+                     ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                  "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{"initCoeffF2", "=", 
+                  RowBox[{"Insert", "[", 
+                   RowBox[{
+                   "initCoeffF2", ",", "coeffF2Val", ",", 
+                    "idxSolveCoeffF2Val"}], "]"}]}], ";"}], 
+                "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF2", "=", 
+                  RowBox[{"0", "*", 
+                   RowBox[{"Insert", "[", 
+                    RowBox[{
+                    "initCoeffF2Val", ",", "0", ",", "idxSolveCoeffF2Val"}], 
+                    "]"}]}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+              "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"useP4ModelVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF4", "=", "initCoeffF4Val"}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"coeffF4Sq", "=", 
+                  RowBox[{"1", "-", 
+                   RowBox[{"Sum", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"initCoeffF4", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", 
+                    RowBox[{"NoOfTermsF4", "-", "1"}]}], "}"}]}], "]"}]}]}], 
+                 ";", "\[IndentingNewLine]", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{"coeffF4Sq", "\[GreaterEqual]", "0"}], ",", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"coeffF4Val", "=", 
+                    RowBox[{"coeffF4Sign", "*", 
+                    RowBox[{"Sqrt", "[", "coeffF4Sq", "]"}]}]}], ";"}], 
+                    "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"coeffF4Val", "=", "0"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    "rescaleOutOfRangeCoeffVal", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::CoeffF4 are out of range. \
+Rescaling.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"initCoeffF4", "=", 
+                    RowBox[{"Normalize", "[", "initCoeffF4", "]"}]}], ";"}], 
+                    "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"coeffOutOfRangeTestVal", "+=", 
+                    RowBox[{
+                    RowBox[{"-", "coeffF4Sq"}], "*", 
+                    "invalidCoeffWeightVal"}]}], ";"}], "\[IndentingNewLine]",
+                     ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                  "]"}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"initCoeffF4", "=", 
+                  RowBox[{"Insert", "[", 
+                   RowBox[{
+                   "initCoeffF4", ",", "coeffF4Val", ",", 
+                    "idxSolveCoeffF4Val"}], "]"}]}], ";"}], 
+                "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"initCoeffF4", "=", 
+                  RowBox[{"0", "*", 
+                   RowBox[{"Insert", "[", 
+                    RowBox[{
+                    "initCoeffF4Val", ",", "0", ",", "idxSolveCoeffF4Val"}], 
+                    "]"}]}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+              "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+            ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]",
+          "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"useSetPrecisionVal", ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+             "Print", "[", 
+              "\"\<FindCoefficientsMinFunc::Setting precision for \
+coefficients and rescaling.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"initCoeffF2", "=", 
+              RowBox[{"Normalize", "[", 
+               RowBox[{"SetPrecision", "[", 
+                RowBox[{"initCoeffF2", ",", "precisionDigitsVal"}], "]"}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"initCoeffF4", "=", 
+              RowBox[{"Normalize", "[", 
+               RowBox[{"SetPrecision", "[", 
+                RowBox[{"initCoeffF4", ",", "precisionDigitsVal"}], "]"}], 
+               "]"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+          "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"doPrintInfoVal", ",", 
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<FindCoefficientsMinFunc::initCoeffF2 = \>\"", ",", " ", 
+             RowBox[{"N", "[", "initCoeffF2", "]"}]}], "]"}]}], "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"doPrintInfoVal", ",", 
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<FindCoefficientsMinFunc::initCoeffF4 = \>\"", ",", " ", 
+             RowBox[{"N", "[", "initCoeffF4", "]"}]}], "]"}]}], "]"}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<Sum of all initCoeffF2[[ii]]^2 = \>\"", ",", " ", 
+           RowBox[{"Sum", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"initCoeffF2", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], 
+          "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<Sum of all initCoeffF4[[ii]]^2 = \>\"", ",", " ", 
+           RowBox[{"Sum", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"initCoeffF4", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"ii", ",", "1", ",", "NoOfTermsF4"}], "}"}]}], "]"}]}], 
+          "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"useP2ModelVal", ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{"useP4ModelVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{"UseP8sGrad", ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "p8ModelTypeVal", " ", "\[Equal]", " ", "P8ModelType8s"}],
+                     ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using \
+GradP2P4P8sAllLinearNumeric and FP2P4P8sAllLinearNumeric.\>\"", "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "gradLinearFunc", "=", "GradP2P4P8sAllLinearNumeric"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"fLinearFunc", "=", "FP2P4P8sAllLinearNumeric"}], 
+                    ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "p8ModelTypeVal", " ", "\[Equal]", " ", 
+                    "P8ModelType8sX4"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using \
+GradP2P4P8sX4AllLinearNumeric and FP2P4P8sX4AllLinearNumeric.\>\"", "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "gradLinearFunc", "=", "GradP2P4P8sX4AllLinearNumeric"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "fLinearFunc", "=", "FP2P4P8sX4AllLinearNumeric"}], ";"}],
+                     "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "p8ModelTypeVal", " ", "\[Equal]", " ", 
+                    "P8ModelType8s1"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using \
+GradP2P4P8s1AllLinearNumeric and FP2P4P8s1AllLinearNumeric.\>\"", "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "gradLinearFunc", "=", "GradP2P4P8s1AllLinearNumeric"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"fLinearFunc", "=", "FP2P4P8s1AllLinearNumeric"}],
+                     ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using \
+GradP2P4AllLinear.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"gradLinearFunc", "=", "GradP2P4AllLinear"}], ";",
+                     "\[IndentingNewLine]", 
+                    RowBox[{"fLinearFunc", "=", "Indeterminate"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                  "]"}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{"UseP8sGrad", ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::GradP2P8s is not yet \
+implemented.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using GradP2AllLinear.\>\"",
+                     "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"gradLinearFunc", "=", "GradP2OnlyAllLinear"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"fLinearFunc", "=", "Indeterminate"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                  "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+              "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+            ")"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{"useP4ModelVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{"UseP8sGrad", ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using \
+GradP4P8sAllLinearNumeric.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "gradLinearFunc", "=", "GradP4P8sAllLinearNumeric"}], ";",
+                     "\[IndentingNewLine]", 
+                    RowBox[{"fLinearFunc", "=", "FP4P8sAllLinearNumeric"}], 
+                    ";"}], "\[IndentingNewLine]", ")"}], ",", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<FindCoefficientsMinFunc::Using GradP4AllLinear.\>\"",
+                     "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"gradLinearFunc", "=", "GradP4AllLinear"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"fLinearFunc", "=", "FP4AllLinearNumeric"}], 
+                    ";"}], "\[IndentingNewLine]", ")"}]}], 
+                  "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+                ")"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{
+                 "Print", "[", 
+                  "\"\<FindCoefficientsMinFunc::Either F2 or F4 model must be \
+specified.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+                "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+             ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+          "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"(*", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{"\"\<gradLinearFunc = \>\"", ",", " ", 
+             RowBox[{"Definition", "[", "gradLinearFunc", "]"}]}], "]"}], ";",
+            "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{"\"\<fLinearFunc = \>\"", ",", " ", 
+             RowBox[{"Definition", "[", "fLinearFunc", "]"}]}], "]"}], ";"}], 
+          "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+         RowBox[{"UpdateAllCoeffF2", "[", "initCoeffF2", "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"UpdateAllCoeffF4", "[", "initCoeffF4", "]"}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"RunFindCoefficientsCounter", "\[Equal]", "1"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<Initial function value FP4AllLinearNumeric[SIL] = \>\"", 
+               ",", " ", 
+               RowBox[{"FP4AllLinearNumeric", "[", "SIL", "]"}]}], "]"}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"(*", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"Print", "[", 
+                RowBox[{
+                "\"\<Initial gradient value GradP4AllLinearNumeric[SIL,False] \
+= \>\"", ",", " ", 
+                 RowBox[{"GradP4AllLinearNumeric", "[", 
+                  RowBox[{"SIL", ",", "False"}], "]"}]}], "]"}], ";"}], 
+              "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+             RowBox[{"solValue", "=", 
+              RowBox[{"FindUncorrelatedCoordinates", "[", "SI", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"PlotUncorrelatedCoordinates", "[", 
+              RowBox[{
+              "NNN", ",", "solValue", ",", "RunFindCoefficientsCounter", ",", 
+               "\"\<FindCoefficientsMinFunc::Initial values.\>\""}], "]"}], 
+             ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+          "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+            "===", "===", "===", "===", "==="}], " ", "*)"}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+            "fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodFindMinimum"}], 
+            "  ", "||", " ", 
+            RowBox[{
+            "fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodFindRoot"}]}], 
+           " ", ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{"useSetPrecisionVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{
+                 "Print", "[", 
+                  "\"\<Setting precision for initial values. \>\"", "]"}], 
+                 ";", "\[IndentingNewLine]", 
+                 RowBox[{"findMinInitVals", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"SL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                    RowBox[{"SetPrecision", "[", 
+                    RowBox[{
+                    RowBox[{"SIL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                    "precisionDigitsVal"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+                 ";"}], "\[IndentingNewLine]", ")"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"findMinInitVals", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"SL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                    RowBox[{"SIL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+                 ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]",
+               "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+          "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+           "fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodFindMinimum"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+             "Print", "[", 
+              "\"\<FindCoefficientsMinFunc::Using FindMinimum.\>\"", "]"}], 
+             ";", "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+               RowBox[{"Print", "[", 
+                RowBox[{
+                "\"\<findMinInitVals = \>\"", ",", " ", "findMinInitVals"}], 
+                "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"stpCount", "=", "1"}], ";", "\[IndentingNewLine]", 
+             RowBox[{
+             "Print", "[", 
+              "\"\<FindCoefficientsMinFunc::Calling FindMinimum...\>\"", 
+              "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"useStepMonitorVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"sol", "=", 
+                  RowBox[{"FindMinimum", "[", 
+                   RowBox[{
+                    RowBox[{"fLinearFunc", "[", "SL", "]"}], ",", 
+                    "findMinInitVals", ",", 
+                    RowBox[{"Gradient", "\[RuleDelayed]", 
+                    RowBox[{"gradLinearFunc", "[", 
+                    RowBox[{"SL", ",", "False"}], "]"}]}], ",", " ", 
+                    RowBox[{
+                    "WorkingPrecision", " ", "\[Rule]", " ", 
+                    "workingPrecisionDigitsVal"}], ",", " ", 
+                    RowBox[{
+                    "PrecisionGoal", " ", "\[Rule]", " ", "Infinity"}], ",", 
+                    RowBox[{
+                    "Method", " ", "\[Rule]", " ", 
+                    "\"\<ConjugateGradient\>\""}], ",", 
+                    RowBox[{
+                    "MaxIterations", " ", "\[Rule]", " ", 
+                    "maximumIterationsVal"}], ",", 
+                    RowBox[{"StepMonitor", " ", "\[RuleDelayed]", " ", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<Step count = \>\"", ",", 
+                    RowBox[{"stpCount", "++"}], ",", " ", 
+                    "\"\<, fLinearFunc[SL] = \>\"", ",", " ", 
+                    RowBox[{"fLinearFunc", "[", "SL", "]"}]}], "]"}]}]}], 
+                   "]"}]}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"sol", "=", 
+                  RowBox[{"FindMinimum", "[", 
+                   RowBox[{
+                    RowBox[{"fLinearFunc", "[", "SL", "]"}], ",", 
+                    "findMinInitVals", ",", 
+                    RowBox[{"Gradient", "\[RuleDelayed]", 
+                    RowBox[{"gradLinearFunc", "[", 
+                    RowBox[{"SL", ",", "False"}], "]"}]}], ",", " ", 
+                    RowBox[{
+                    "WorkingPrecision", " ", "\[Rule]", " ", 
+                    "workingPrecisionDigitsVal"}], ",", " ", 
+                    RowBox[{
+                    "PrecisionGoal", " ", "\[Rule]", " ", "Infinity"}], ",", 
+                    RowBox[{
+                    "Method", " ", "\[Rule]", " ", 
+                    "\"\<ConjugateGradient\>\""}], ",", 
+                    RowBox[{
+                    "MaxIterations", " ", "\[Rule]", " ", 
+                    "maximumIterationsVal"}], ",", 
+                    RowBox[{"StepMonitor", " ", "\[RuleDelayed]", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"stpCount", "++"}], ")"}]}]}], "]"}]}], ";"}], 
+                "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+             ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+               RowBox[{"Print", "[", 
+                RowBox[{
+                "\"\<FindCoefficientsMinFunc::sol = \>\"", ",", " ", "sol"}], 
+                "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::stpCount = \>\"", ",", " ", 
+               "stpCount", ",", " ", "\"\<, cntNumeric = \>\"", ",", " ", 
+               "cntNumeric", ",", " ", "\"\<, cntGradNumeric = \>\"", ",", 
+               " ", "cntGradNumeric"}], "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"cntNumeric", "=", "0"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"cntGradNumeric", "=", "0"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"stl", "=", 
+              RowBox[{"SL", " ", "/.", " ", 
+               RowBox[{"sol", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}]}], ";"}], 
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+            "===", "===", "===", "===", "==="}], " ", "*)"}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+           "fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodFindRoot"}], ",",
+            "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+             "Print", "[", "\"\<FindCoefficientsMinFunc::Using FindRoot.\>\"",
+               "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"funcVal", "=", 
+              RowBox[{
+               RowBox[{"-", "1"}], "/", 
+               RowBox[{"(", 
+                RowBox[{"2", "*", "coeffP8sGrad"}], ")"}]}]}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"sol", "=", 
+              RowBox[{"FindRoot", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"FP4AllLinearNumeric", "[", "SL", "]"}], " ", 
+                 "\[Equal]", " ", "funcVal"}], ",", "findMinInitVals"}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::cntFP4AllLinearNumeric = \>\"", 
+               ",", " ", "cntFP4AllLinearNumeric"}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"cntFP4AllLinearNumeric", "=", "0"}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"stl", "=", 
+              RowBox[{"SL", " ", "/.", " ", "sol"}]}], ";"}], 
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+            "===", "===", "===", "===", "==="}], " ", "*)"}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+            "fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodFindMinimum"}], 
+            "  ", "||", " ", 
+            RowBox[{
+            "fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodFindRoot"}]}], 
+           " ", ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"st", "=", 
+              RowBox[{"ToMatrix", "[", "stl", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::fLinearFunc[stl] = \>\"", ",", 
+               " ", 
+               RowBox[{"fLinearFunc", "[", "stl", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::FP4All[st] = \>\"", ",", " ", 
+               RowBox[{"FP4All", "[", "st", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::FP2All[st] = \>\"", ",", " ", 
+               RowBox[{"FP2All", "[", "st", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"stlSorted", "=", 
+              RowBox[{"Sort", "[", "stl", "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"solValue", "=", 
+              RowBox[{"FindUncorrelatedCoordinates", "[", "st", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"lambda", "=", 
+              RowBox[{"GetLambda", "[", "solValue", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"eXXT", "=", 
+              RowBox[{"GetE", "[", "solValue", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"gradVal", "=", 
+              RowBox[{"gradLinearFunc", "[", 
+               RowBox[{"stl", ",", "False"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"gradSortedVal", "=", 
+              RowBox[{"SortByFirst", "[", 
+               RowBox[{"stl", ",", "gradVal"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"(*", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"gValLinear", "=", 
+                RowBox[{"GradientMultiplier", "*", "gradVal"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"gValMatrix", "=", 
+                RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"deltaLambda", "=", 
+                RowBox[{"CalculateDeltaLambda", "[", 
+                 RowBox[{"gValMatrix", ",", "eXXT"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"deltaLambdaSorted", "=", 
+                RowBox[{"SortByFirst", "[", 
+                 RowBox[{"lambda", ",", "deltaLambda"}], "]"}]}], ";"}], 
+              "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+             "Print", "[", 
+              "\"\<Sorted values of ALL sab, Lambda and x sigma range.\>\"", 
+              "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"SValFunc", "[", 
+                  RowBox[{"idx", ",", "stlSorted"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"idx", ",", "1", ",", "NA"}], "}"}], ",", 
+                 RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+               ",", 
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"LambdaFunc", "[", 
+                  RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                 RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+               ",", 
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"xRangeSigmaFunc", "[", 
+                  RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                 RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}]}], 
+              "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{
+             "Print", "[", "\"\<Sorted values of gradient.\>\"", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"Plot", "[", 
+               RowBox[{
+                RowBox[{"SValFunc", "[", 
+                 RowBox[{"idx", ",", "gradSortedVal"}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"idx", ",", "1", ",", "NA"}], "}"}], ",", 
+                RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+              "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"(*", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+               "Print", "[", 
+                "\"\<Sorted values of ALL sab, Lambda and Delta Lambda.\>\"", 
+                "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Print", "[", 
+                RowBox[{
+                 RowBox[{"Plot", "[", 
+                  RowBox[{
+                   RowBox[{"SValFunc", "[", 
+                    RowBox[{"idx", ",", "stlSorted"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NA"}], "}"}], ",", 
+                   RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+                 ",", 
+                 RowBox[{"Plot", "[", 
+                  RowBox[{
+                   RowBox[{"LambdaFunc", "[", 
+                    RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                   RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+                 ",", 
+                 RowBox[{"Plot", "[", 
+                  RowBox[{
+                   RowBox[{"Re", "[", 
+                    RowBox[{"DeltaLambdaFunc", "[", 
+                    RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}], 
+                   ",", 
+                   RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                   RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                  "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+               "Print", "[", "\"\<x range and x sigma range.\>\"", "]"}], ";",
+                "\[IndentingNewLine]", 
+               RowBox[{"Print", "[", 
+                RowBox[{
+                 RowBox[{"Plot", "[", 
+                  RowBox[{
+                   RowBox[{"xRangeFunc", "[", 
+                    RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                   RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], ",", 
+                 RowBox[{"Plot", "[", 
+                  RowBox[{
+                   RowBox[{"xRangeSigmaFunc", "[", 
+                    RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                   RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                  "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";"}], 
+              "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"lambdaSorted", "=", 
+              RowBox[{"GetLambdaSorted", "[", "solValue", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"lambdaRank", "=", 
+              RowBox[{"N", "[", 
+               RowBox[{"LambdaRankFunc", "[", "lambdaSorted", "]"}], "]"}]}], 
+             ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::lambdaRank = \>\"", ",", " ", 
+               "lambdaRank"}], "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::lambdaSorted = \>\"", ",", " ", 
+               RowBox[{"N", "[", "lambdaSorted", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"R13testVal", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"GetR13SizeRank", "[", 
+                   RowBox[{"True", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13SizeWeight"}], "+", 
+                 RowBox[{
+                  RowBox[{"GetR13S3Rank", "[", 
+                   RowBox[{"True", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13S3Weight"}]}], ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"GetR13SizeRank", "[", 
+                   RowBox[{"False", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13SizeWeight"}], "+", 
+                 RowBox[{
+                  RowBox[{"GetR13S3Rank", "[", 
+                   RowBox[{"False", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13S3Weight"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"divergenceTestVal", "=", 
+              RowBox[{"ModelDivergenceWeight", "*", "0"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"retVal", "=", 
+              RowBox[{
+              "R13testVal", "+", "divergenceTestVal", "+", 
+               "coeffOutOfRangeTestVal"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::R13testVal = \>\"", ",", " ", 
+               "R13testVal", ",", " ", "\"\<, divergenceTestVal = \>\"", ",", 
+               " ", "divergenceTestVal", ",", " ", 
+               "\"\<, coeffOutOfRangeTestVal = \>\"", ",", " ", 
+               "coeffOutOfRangeTestVal", ",", " ", "\"\<, retVal = \>\"", ",",
+                "retVal"}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+          "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+            "===", "===", "===", "===", "==="}], " ", "*)"}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"fcmfMethodVal", " ", "\[Equal]", " ", "FCMFMethodODE"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+             "Print", "[", 
+              "\"\<FindCoefficientsMinFunc::Using RunNDSolve.\>\"", "]"}], 
+             ";", "\[IndentingNewLine]", 
+             RowBox[{"sol", "=", 
+              RowBox[{"RunNDSolve", "[", 
+               RowBox[{
+               "RunFindCoefficientsCounter", ",", "tMax", ",", 
+                "gradLinearFunc", ",", "returnTangentialGradientVal", ",", 
+                RowBox[{"ODEPrintInfo", " ", "\[Rule]", " ", "False"}]}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"f", "=", 
+              RowBox[{"sEvolution", "/.", " ", 
+               RowBox[{"sol", "[", 
+                RowBox[{"[", "1", "]"}], "]"}]}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"fDomain", "=", 
+              RowBox[{
+               RowBox[{"f", "[", "\"\<Domain\>\"", "]"}], "[", 
+               RowBox[{"[", 
+                RowBox[{"1", ",", "2"}], "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"tPlotMultiplier", "=", "0.99"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"tPlot", "=", 
+              RowBox[{"tPlotMultiplier", "*", "fDomain"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::tPlot = \>\"", ",", " ", 
+               "tPlot"}], "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+             "Print", "[", 
+              "\"\<StdDevLinear[f[t]], MeanLinear[f[t]], and \
+(MeanLinear[f[t]] / StdDevLinear[f[t]]).\>\"", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"Re", "[", 
+                  RowBox[{"StdDevLinear", "[", 
+                   RowBox[{"f", "[", "t", "]"}], "]"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+                 RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], ",", 
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"MeanLinear", "[", 
+                  RowBox[{"f", "[", "t", "]"}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+                 RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], ",", 
+               RowBox[{"Plot", "[", 
+                RowBox[{
+                 RowBox[{"Re", "[", 
+                  RowBox[{
+                   RowBox[{"MeanLinear", "[", 
+                    RowBox[{"f", "[", "t", "]"}], "]"}], "/", 
+                   RowBox[{"StdDevLinear", "[", 
+                    RowBox[{"f", "[", "t", "]"}], "]"}]}], "]"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+                 RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}]}], "]"}], 
+             ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"outputF4PVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"Print", "[", "\"\<FP4All.\>\"", "]"}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"Print", "[", 
+                  RowBox[{"Plot", "[", 
+                   RowBox[{
+                    RowBox[{"FP4All", "[", 
+                    RowBox[{"ToMatrix", "[", 
+                    RowBox[{"f", "[", "t", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}],
+                  ";"}], "\[IndentingNewLine]", ")"}]}], 
+              "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+               RowBox[{"Print", "[", 
+                RowBox[{"Plot", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"StdDevLinear", "[", 
+                    RowBox[{"f", "[", "t", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"StdDevLinear", "[", 
+                    RowBox[{"f", "[", "t", "]"}], "]"}], "]"}]}], "}"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+                  RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], 
+               ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"DeltaT", "=", 
+              RowBox[{"tPlot", "/", "noOfTsteps"}]}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+              "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+                "===", "===", "===", "===", "==="}], " ", "*)"}], 
+             "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{"Copied", " ", "from", " ", 
+               RowBox[{"STM_Tests", "::", "TestRunNDSolve"}]}], " ", "*)"}], 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{"plotCombinedResultsVal", ",", "\[IndentingNewLine]", 
+               RowBox[{"(", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"stlSortedTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{"Indeterminate", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"solValueTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{"Indeterminate", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"deltaLambdaSortedTbl", " ", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{"Indeterminate", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{
+                 "Print", "[", 
+                  "\"\<TestRunNDSolve::Creating table of results.\>\"", "]"}],
+                  ";", "\[IndentingNewLine]", 
+                 RowBox[{"For", "[", 
+                  RowBox[{
+                   RowBox[{"tIdx", "=", "0"}], ",", 
+                   RowBox[{"tIdx", " ", "\[LessEqual]", " ", "noOfTsteps"}], 
+                   ",", 
+                   RowBox[{"tIdx", "++"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"tVal", "=", 
+                    RowBox[{"DeltaT", "*", "tIdx"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"stl", "=", 
+                    RowBox[{"f", "[", "tVal", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"st", "=", 
+                    RowBox[{"ToMatrix", "[", "stl", "]"}]}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"stlSorted", "=", 
+                    RowBox[{"Sort", "[", "stl", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"solValue", "=", 
+                    RowBox[{"FindUncorrelatedCoordinates", "[", "st", "]"}]}],
+                     ";", "\[IndentingNewLine]", 
+                    RowBox[{"lambda", "=", 
+                    RowBox[{"GetLambda", "[", "solValue", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"eXXT", "=", 
+                    RowBox[{"GetE", "[", "solValue", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"gValLinear", "=", 
+                    RowBox[{"GradientMultiplier", "*", 
+                    RowBox[{"gradLinearFunc", "[", 
+                    RowBox[{"stl", ",", "returnTangentialGradientVal"}], 
+                    "]"}]}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"gValMatrix", "=", 
+                    RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"deltaLambda", "=", 
+                    RowBox[{"CalculateDeltaLambda", "[", 
+                    RowBox[{"gValMatrix", ",", "eXXT"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"deltaLambdaSorted", "=", 
+                    RowBox[{"SortByFirst", "[", 
+                    RowBox[{"lambda", ",", "deltaLambda"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"stlSortedTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"tIdx", "+", "1"}], "]"}], "]"}], "=", 
+                    "stlSorted"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"solValueTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"tIdx", "+", "1"}], "]"}], "]"}], "=", 
+                    "solValue"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"deltaLambdaSortedTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"tIdx", "+", "1"}], "]"}], "]"}], "=", 
+                    "deltaLambdaSorted"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"outputLambdaVal", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"lambdaSorted", "=", 
+                    RowBox[{"GetLambdaSorted", "[", "solValue", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    "\"\<FindCoefficientsMinFunc::For tVal = \>\"", ",", " ", 
+                    "tVal", ",", " ", "\"\<, lambdaSorted = \>\"", ",", " ", 
+                    RowBox[{"N", "[", "lambdaSorted", "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"outputAllTIdxVal", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    "\"\<Sorted values of ALL sab, Lambda and Delta Lambda.\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"SValFunc", "[", 
+                    RowBox[{"idx", ",", "stlSorted"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NA"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"LambdaFunc", "[", 
+                    RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"DeltaLambdaFunc", "[", 
+                    RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<x range and x sigma range.\>\"", "]"}],
+                     ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"xRangeFunc", "[", 
+                    RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"xRangeSigmaFunc", "[", 
+                    RowBox[{"idx", ",", "solValue"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                  "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{
+                 "Print", "[", 
+                  "\"\<Sorted values of ALL sab, Lambda and Delta \
+Lambda.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"sValFuncTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"SValFunc", "[", 
+                    RowBox[{"idx", ",", 
+                    RowBox[{"stlSortedTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", "+", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"lambdaFuncTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"LambdaFunc", "[", 
+                    RowBox[{"idx", ",", 
+                    RowBox[{"solValueTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", "+", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"deltaLambdaFuncTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"DeltaLambdaFunc", "[", 
+                    RowBox[{"idx", ",", 
+                    RowBox[{"deltaLambdaSortedTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", "+", "1"}], "]"}], "]"}]}], "]"}], "]"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"xRangeFuncTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"xRangeFunc", "[", 
+                    RowBox[{"idx", ",", 
+                    RowBox[{"solValueTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", "+", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"xRangeSigmaFuncTbl", "=", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"xRangeSigmaFunc", "[", 
+                    RowBox[{"idx", ",", 
+                    RowBox[{"solValueTbl", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", "+", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "0", ",", "noOfTsteps"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                 RowBox[{"Print", "[", 
+                  RowBox[{
+                   RowBox[{"Plot", "[", 
+                    RowBox[{"sValFuncTbl", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NA"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                    ",", 
+                   RowBox[{"Plot", "[", 
+                    RowBox[{"lambdaFuncTbl", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                    ",", 
+                   RowBox[{"Plot", "[", 
+                    RowBox[{"deltaLambdaFuncTbl", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                 "Print", "[", "\"\<x range and x sigma range.\>\"", "]"}], 
+                 ";", "\[IndentingNewLine]", 
+                 RowBox[{"Print", "[", 
+                  RowBox[{
+                   RowBox[{"Plot", "[", 
+                    RowBox[{"xRangeFuncTbl", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], ",", 
+                   RowBox[{"Plot", "[", 
+                    RowBox[{"xRangeSigmaFuncTbl", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+              "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+              "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+                "===", "===", "===", "===", "==="}], " ", "*)"}], 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"stl", "=", 
+              RowBox[{"f", "[", "tPlot", "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"solValue", "=", 
+              RowBox[{"FindUncorrelatedCoordinates", "[", "st", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"lambdaSorted", "=", 
+              RowBox[{"GetLambdaSorted", "[", "solValue", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"lambdaRank", "=", 
+              RowBox[{"N", "[", 
+               RowBox[{"LambdaRankFunc", "[", "lambdaSorted", "]"}], "]"}]}], 
+             ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::lambdaRank = \>\"", ",", " ", 
+               "lambdaRank"}], "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"R13testVal", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"GetR13SizeRank", "[", 
+                   RowBox[{"True", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13SizeWeight"}], "+", 
+                 RowBox[{
+                  RowBox[{"GetR13S3Rank", "[", 
+                   RowBox[{"True", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13S3Weight"}]}], ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"GetR13SizeRank", "[", 
+                   RowBox[{"False", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13SizeWeight"}], "+", 
+                 RowBox[{
+                  RowBox[{"GetR13S3Rank", "[", 
+                   RowBox[{"False", ",", "lambdaRank"}], "]"}], "*", 
+                  "R13S3Weight"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"divergenceTestVal", "=", 
+              RowBox[{"ModelDivergenceWeight", "*", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"fDomain", " ", "\[LessEqual]", "tMax"}], ",", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"tMax", "/", "fDomain"}], ")"}], "-", "1"}], 
+                  ")"}], ",", "0"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"retVal", "=", 
+              RowBox[{
+              "R13testVal", "+", "divergenceTestVal", "+", 
+               "coeffOutOfRangeTestVal"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::R13testVal = \>\"", ",", " ", 
+               "R13testVal", ",", " ", "\"\<, divergenceTestVal = \>\"", ",", 
+               " ", "divergenceTestVal", ",", " ", 
+               "\"\<, coeffOutOfRangeTestVal = \>\"", ",", " ", 
+               "coeffOutOfRangeTestVal", ",", " ", "\"\<, retVal = \>\"", ",",
+                "retVal"}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+          "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+          "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+            "===", "===", "===", "===", "==="}], " ", "*)"}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"retVal", " ", "<", "MinFindCoefficientsRetVal"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"MinFindCoefficientsRetVal", "=", "retVal"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"LambdaSortedMin", "=", "lambdaSorted"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"CoeffF2Min", "=", "initCoeffF2"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"CoeffF4Min", "=", "initCoeffF4"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"MinIdx", "=", "RunFindCoefficientsCounter"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"MinLambdaRank", "=", "lambdaRank"}], ";"}], 
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"doPrintInfoVal", ",", "\[IndentingNewLine]", 
+           RowBox[{"(", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<FindCoefficientsMinFunc::Known minimum value is: = \>\"", 
+               ",", " ", 
+               RowBox[{"N", "[", "MinFindCoefficientsRetVal", "]"}], ",", 
+               " ", "\"\< for run counter = \>\"", ",", " ", "MinIdx"}], 
+              "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"\"\<    CoeffF2Min = \>\"", ",", " ", 
+               RowBox[{"N", "[", "CoeffF2Min", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"\"\<    CoeffF4Min = \>\"", ",", " ", 
+               RowBox[{"N", "[", "CoeffF4Min", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"\"\<    MinLambdaRank = \>\"", ",", " ", 
+               RowBox[{"N", "[", "MinLambdaRank", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"\"\<    LambdaSortedMin = \>\"", ",", " ", 
+               RowBox[{"N", "[", "LambdaSortedMin", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"Plot", "[", 
+               RowBox[{
+                RowBox[{"IndexedVariableFunc", "[", 
+                 RowBox[{"idx", ",", "LambdaSortedMin"}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+                RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+              "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", "strSeparator", "]"}], ";"}], 
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";",
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+       "\[IndentingNewLine]", "]"}], "/;", " ", 
+      RowBox[{
+       RowBox[{"VectorQ", "[", 
+        RowBox[{"initCoeffF2Val", ",", "NumericQ"}], "]"}], "&&", " ", 
+       RowBox[{"VectorQ", "[", 
+        RowBox[{"initCoeffF4Val", ",", "NumericQ"}], "]"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.589320095741832*^9, 3.5893201039893255`*^9}, {
+   3.589329423857788*^9, 3.5893295853613586`*^9}, {3.589329763269908*^9, 
+   3.5893297745684333`*^9}, {3.589581105538309*^9, 3.5895811121937313`*^9}, 
+   3.5899147617662344`*^9, {3.5902758511226187`*^9, 3.5902758547250123`*^9}, {
+   3.5902759348892856`*^9, 3.590275972572328*^9}, {3.590276127599306*^9, 
+   3.5902761333411183`*^9}, {3.590276418959927*^9, 3.5902764971659*^9}, {
+   3.590276694766996*^9, 3.5902767086352105`*^9}, {3.590276799194392*^9, 
+   3.5902768032530894`*^9}, {3.590276866821213*^9, 3.590276965595854*^9}, {
+   3.5902769985237365`*^9, 3.590277013748852*^9}, {3.5902776195264263`*^9, 
+   3.5902776196134825`*^9}, {3.590277710771062*^9, 3.590277774181873*^9}, {
+   3.590278020677681*^9, 3.5902781061745014`*^9}, 3.5902781436223865`*^9, {
+   3.590278950202799*^9, 3.5902789570843744`*^9}, {3.590279350424225*^9, 
+   3.590279373466157*^9}, {3.590279405585501*^9, 3.5902794424650106`*^9}, {
+   3.590279473350534*^9, 3.5902795457619295`*^9}, {3.590279632810778*^9, 
+   3.590279697589826*^9}, {3.5902797906446657`*^9, 3.5902797971009564`*^9}, {
+   3.590279831983884*^9, 3.5902798619798183`*^9}, {3.5902798924440618`*^9, 
+   3.590279912692518*^9}, {3.590279948962621*^9, 3.5902799800232644`*^9}, {
+   3.5902801592342167`*^9, 3.5902801883005333`*^9}, {3.590328062653246*^9, 
+   3.590328104219868*^9}, {3.5903281800482597`*^9, 3.5903282188590508`*^9}, {
+   3.590328634077449*^9, 3.590328648809239*^9}, {3.5903286859168987`*^9, 
+   3.590328696470913*^9}, {3.590328883595269*^9, 3.5903289396925464`*^9}, {
+   3.590328970012696*^9, 3.590329161739108*^9}, {3.590334478162404*^9, 
+   3.5903345602919817`*^9}, {3.5903346140867343`*^9, 
+   3.5903346892786107`*^9}, {3.5903347620849943`*^9, 
+   3.5903347731753635`*^9}, {3.590334827145232*^9, 3.5903349735401163`*^9}, {
+   3.590335007440645*^9, 3.5903351053976364`*^9}, {3.590335346568905*^9, 
+   3.5903353590862226`*^9}, {3.5903354032956047`*^9, 3.590335463990938*^9}, {
+   3.5903355227159634`*^9, 3.5903355284847994`*^9}, {3.590335612059337*^9, 
+   3.590335664427139*^9}, {3.5903356962232695`*^9, 3.5903357308382726`*^9}, {
+   3.590335762513324*^9, 3.5903359972701836`*^9}, {3.5903360366373453`*^9, 
+   3.5903360918830605`*^9}, {3.5903370056361713`*^9, 3.590337014654208*^9}, {
+   3.5903394006550903`*^9, 3.5903394057905025`*^9}, {3.5903430245163465`*^9, 
+   3.5903431725086937`*^9}, {3.590343320748209*^9, 3.590343382985568*^9}, {
+   3.5903434176435995`*^9, 3.590343420970811*^9}, {3.5903434697932568`*^9, 
+   3.590343514521982*^9}, {3.5903435544194946`*^9, 3.5903437664163795`*^9}, {
+   3.590343989373904*^9, 3.590344047588591*^9}, {3.5903440782541437`*^9, 
+   3.590344365469014*^9}, {3.590344400527311*^9, 3.590344611692608*^9}, {
+   3.5903446433726606`*^9, 3.590344650779583*^9}, {3.590344823750532*^9, 
+   3.5903448259459906`*^9}, {3.5903449355318165`*^9, 
+   3.5903449915690575`*^9}, {3.590345044334072*^9, 3.5903450786939063`*^9}, {
+   3.590345203827001*^9, 3.590345222972725*^9}, {3.590348769154357*^9, 
+   3.590348769545617*^9}, {3.5903488147546606`*^9, 3.5903488162316427`*^9}, {
+   3.5903501911953816`*^9, 3.5903502978712735`*^9}, {3.5903503671473155`*^9, 
+   3.590350367336437*^9}, {3.5903504845163097`*^9, 3.590350513861812*^9}, 
+   3.5903506438161736`*^9, {3.5903511450320606`*^9, 3.5903511524149666`*^9}, {
+   3.5903511953515005`*^9, 3.5903511974338846`*^9}, {3.5903526428154206`*^9, 
+   3.590352651153961*^9}, {3.590355277503315*^9, 3.5903553502546625`*^9}, {
+   3.5903554157972193`*^9, 3.590355585300863*^9}, {3.590355692977421*^9, 
+   3.590355807577578*^9}, {3.5903558612552495`*^9, 3.5903559064723005`*^9}, {
+   3.590355938525601*^9, 3.5903559876642556`*^9}, {3.5903560232789245`*^9, 
+   3.5903560306228056`*^9}, {3.5903560732471313`*^9, 
+   3.5903566210821967`*^9}, {3.590356685667118*^9, 3.5903567130283*^9}, {
+   3.590356785460436*^9, 3.5903567907639594`*^9}, {3.5903568312898912`*^9, 
+   3.5903569295772085`*^9}, {3.5903569833859673`*^9, 
+   3.5903569940880795`*^9}, {3.590357028981268*^9, 3.5903570927746625`*^9}, {
+   3.5903571429440317`*^9, 3.5903571848978834`*^9}, {3.5903572317069907`*^9, 
+   3.590357242685286*^9}, {3.5903573028812904`*^9, 3.5903573648985033`*^9}, {
+   3.590357405261327*^9, 3.5903574539166613`*^9}, {3.5903575611679354`*^9, 
+   3.590357581587506*^9}, {3.5903576123029175`*^9, 3.59035769329274*^9}, {
+   3.5903577456675453`*^9, 3.590357927745547*^9}, {3.590357961643074*^9, 
+   3.5903580477653074`*^9}, {3.5903580851011176`*^9, 3.590358169803409*^9}, {
+   3.590359431259715*^9, 3.590359431616952*^9}, {3.5903596503333015`*^9, 
+   3.590359855570693*^9}, 3.590361419308882*^9, {3.590362250366166*^9, 
+   3.590362257544936*^9}, {3.5903624422356744`*^9, 3.5903624502840223`*^9}, {
+   3.5903627718277054`*^9, 3.5903627762456417`*^9}, {3.590362901374797*^9, 
+   3.590362916849081*^9}, {3.5903629907291775`*^9, 3.590362990935314*^9}, {
+   3.5903632367196527`*^9, 3.5903632588443556`*^9}, {3.590364251768036*^9, 
+   3.5903642701482506`*^9}, {3.5903644930063524`*^9, 
+   3.5903644956220903`*^9}, {3.5904151712185783`*^9, 
+   3.5904151753373137`*^9}, {3.5904209279792614`*^9, 
+   3.5904209527056932`*^9}, {3.590420992477124*^9, 3.5904210637294765`*^9}, {
+   3.5904211064368563`*^9, 3.590421113335441*^9}, {3.590421172176544*^9, 
+   3.590421228240802*^9}, {3.590428021733451*^9, 3.5904280267758017`*^9}, {
+   3.5905182930377007`*^9, 3.5905183990671635`*^9}, 3.590518447916627*^9, {
+   3.5905184907741075`*^9, 3.5905185928839655`*^9}, {3.5905186349539227`*^9, 
+   3.590518677961504*^9}, {3.5905190317025843`*^9, 3.5905190319937773`*^9}, {
+   3.590528311520534*^9, 3.5905283431985855`*^9}, {3.5905283875650697`*^9, 
+   3.590528410835534*^9}, {3.5905284756406007`*^9, 3.590528503299982*^9}, {
+   3.5905317695255685`*^9, 3.5905318143113317`*^9}, {3.5905318515530806`*^9, 
+   3.590531931362118*^9}, {3.590531972552491*^9, 3.590531975952751*^9}, {
+   3.59053201084694*^9, 3.5905321398036385`*^9}, {3.5905321793409133`*^9, 
+   3.59053218491862*^9}, {3.590532249243367*^9, 3.5905322978126445`*^9}, {
+   3.5905324161953163`*^9, 3.590532430930108*^9}, {3.590532612011447*^9, 
+   3.5905326182826147`*^9}, {3.5905326610400286`*^9, 
+   3.5905326993965187`*^9}, {3.590532746296687*^9, 3.5905327897945933`*^9}, {
+   3.590532841092684*^9, 3.590532847433898*^9}, {3.590532890845747*^9, 
+   3.5905329114384327`*^9}, {3.590533548382717*^9, 3.5905335914873624`*^9}, {
+   3.590533726797283*^9, 3.590533748708845*^9}, {3.5905340114744673`*^9, 
+   3.5905340232623005`*^9}, {3.590534181820671*^9, 3.5905342697280912`*^9}, {
+   3.590534301060913*^9, 3.590534319155938*^9}, {3.590534391064726*^9, 
+   3.5905344746332617`*^9}, {3.5905349102357435`*^9, 
+   3.5905349460005107`*^9}, {3.5905358469462385`*^9, 
+   3.5905358504005346`*^9}, {3.5905359837121277`*^9, 
+   3.5905361829065027`*^9}, {3.5905362183190365`*^9, 3.590536275556074*^9}, {
+   3.590536373847394*^9, 3.5905364256228013`*^9}, {3.5905407001354504`*^9, 
+   3.590540792847062*^9}, 3.590540999576445*^9, 3.5905429792130227`*^9, {
+   3.5905501087072906`*^9, 3.590550148293147*^9}, {3.5905501984523373`*^9, 
+   3.590550235806162*^9}, {3.590550358381361*^9, 3.590550399276538*^9}, {
+   3.5905504758644924`*^9, 3.5905505232600293`*^9}, {3.5905505666869297`*^9, 
+   3.5905506232235003`*^9}, {3.5905506800812855`*^9, 3.590550771272887*^9}, {
+   3.590551161345845*^9, 3.590551169545294*^9}, {3.590551240782056*^9, 
+   3.5905512462636995`*^9}, {3.5905515229317646`*^9, 
+   3.5905515490411167`*^9}, {3.590551625058676*^9, 3.5905516397424326`*^9}, {
+   3.5905516778762765`*^9, 3.590551729139733*^9}, {3.5905519318376*^9, 
+   3.590551934440602*^9}, {3.590551965936205*^9, 3.59055197352728*^9}, {
+   3.590552005385706*^9, 3.590552107520475*^9}, {3.590552231570461*^9, 
+   3.5905522486978436`*^9}, {3.5905524458767176`*^9, 
+   3.5905524646808243`*^9}, {3.590552823187414*^9, 3.590552902409685*^9}, {
+   3.5905533613639107`*^9, 3.590553432753253*^9}, {3.590588153117117*^9, 
+   3.5905881533532743`*^9}, 3.590588278162217*^9, {3.5905892773492317`*^9, 
+   3.590589277421279*^9}, 3.590589540733265*^9, {3.5905902989661517`*^9, 
+   3.590590426907176*^9}, {3.5905904680204983`*^9, 3.5905904715358343`*^9}, {
+   3.5905905285747395`*^9, 3.5905907179696026`*^9}, {3.59059076088212*^9, 
+   3.590590768846413*^9}, {3.590590803134199*^9, 3.590590939815031*^9}, {
+   3.59059097419688*^9, 3.5905910222498136`*^9}, {3.5905910677930794`*^9, 
+   3.5905910966182356`*^9}, {3.59059132717045*^9, 3.5905913419352627`*^9}, {
+   3.5905914100455256`*^9, 3.590591453601471*^9}, 3.5905914987344637`*^9, {
+   3.590591534232054*^9, 3.590591653618393*^9}, {3.5905916935569344`*^9, 
+   3.590591697685678*^9}, {3.5905923268117666`*^9, 3.590592333143975*^9}, {
+   3.5905924921056137`*^9, 3.590592507459818*^9}, 3.5905926649274635`*^9, {
+   3.5905946220250626`*^9, 3.5905946250860963`*^9}, {3.590595089808931*^9, 
+   3.5905951170290194`*^9}, {3.5905956802903376`*^9, 
+   3.5905957414930105`*^9}, {3.59059754857992*^9, 3.5905977273387146`*^9}, {
+   3.5905980646438723`*^9, 3.590598082858977*^9}, {3.590598702641857*^9, 
+   3.590598708297615*^9}, {3.5906016279959154`*^9, 3.590601628089978*^9}, {
+   3.590601659516863*^9, 3.590601661533203*^9}, {3.5906017112172203`*^9, 
+   3.5906017812667727`*^9}, {3.5906018126346183`*^9, 3.590601922341524*^9}, {
+   3.590601993591874*^9, 3.5906020913188195`*^9}, {3.590602139436796*^9, 
+   3.5906021711618795`*^9}, {3.5906022065564013`*^9, 
+   3.5906022971456027`*^9}, {3.590603493006318*^9, 3.5906035089789324`*^9}, {
+   3.590603588850011*^9, 3.590603684960882*^9}, {3.5906037295665245`*^9, 
+   3.590603755223575*^9}, {3.590603828458244*^9, 3.5906038748620815`*^9}, {
+   3.590603913341654*^9, 3.5906041471900587`*^9}, {3.5906043874877496`*^9, 
+   3.590604387606829*^9}, {3.590604467201724*^9, 3.590604472523261*^9}, {
+   3.5906046435529194`*^9, 3.590604692002117*^9}, {3.5906047320407248`*^9, 
+   3.5906047927900953`*^9}, {3.590609283239246*^9, 3.590609284789276*^9}, {
+   3.590609323953303*^9, 3.5906093867770524`*^9}, {3.5906094230401516`*^9, 
+   3.590609549894453*^9}, {3.59060958209085*^9, 3.5906096421407557`*^9}, 
+   3.590609675632013*^9, 3.5906111845677834`*^9, {3.590611220386587*^9, 
+   3.5906113282792873`*^9}, 3.590611438413478*^9, {3.590611470584858*^9, 
+   3.5906116380381393`*^9}, {3.590612126539776*^9, 3.590612153703828*^9}, 
+   3.5906122494214373`*^9, {3.5906123162858725`*^9, 3.590612328054693*^9}, {
+   3.590613792916174*^9, 3.5906137956049614`*^9}, {3.590613835109214*^9, 
+   3.5906138899696712`*^9}, {3.590620294530855*^9, 3.5906202957036343`*^9}, {
+   3.5906311924441185`*^9, 3.590631275062022*^9}, {3.5906313131613417`*^9, 
+   3.590631419051712*^9}, {3.5906314889691753`*^9, 3.59063149966028*^9}, {
+   3.5906315536531615`*^9, 3.590631590831869*^9}, {3.5906316351463184`*^9, 
+   3.5906316821355453`*^9}, {3.5906320167168927`*^9, 
+   3.5906320220744534`*^9}, {3.5906322977816763`*^9, 
+   3.5906323242042356`*^9}, {3.5906325362771697`*^9, 
+   3.5906325395893707`*^9}, {3.5906325736450024`*^9, 
+   3.5906326851781225`*^9}, {3.5906328781463604`*^9, 3.590632892849131*^9}, {
+   3.5906329946818047`*^9, 3.5906330010860605`*^9}, {3.5906331793465247`*^9, 
+   3.5906332117010255`*^9}, {3.590633326504319*^9, 3.5906333342974977`*^9}, {
+   3.590633376366455*^9, 3.5906334415557775`*^9}, {3.5906799261953783`*^9, 
+   3.590679945766384*^9}, {3.590679997107503*^9, 3.590680007323292*^9}, {
+   3.5906800403732553`*^9, 3.5906803896273537`*^9}, {3.590680448200279*^9, 
+   3.5906806852348013`*^9}, {3.5906808671757116`*^9, 3.590680868128344*^9}, {
+   3.5906815356819706`*^9, 3.5906815364784994`*^9}, {3.590681566696581*^9, 
+   3.590681594666168*^9}, {3.590682153717689*^9, 3.590682155685997*^9}, {
+   3.590682209005431*^9, 3.5906822197655816`*^9}, {3.5906824994824686`*^9, 
+   3.5906825745353456`*^9}, {3.590682766738075*^9, 3.5906827735165796`*^9}, {
+   3.5907737570981765`*^9, 3.5907737645461264`*^9}, {3.5910282082209625`*^9, 
+   3.5910282117680264`*^9}, {3.591028273098424*^9, 3.591028285847088*^9}, {
+   3.5910283168944273`*^9, 3.591028564114687*^9}, {3.591028609390894*^9, 
+   3.591028613622594*^9}, {3.591055321819808*^9, 3.5910554077218966`*^9}, {
+   3.591055438075067*^9, 3.591055535496809*^9}, {3.5910555827732267`*^9, 
+   3.5910555837198553`*^9}, {3.591055618975675*^9, 3.5910556538265505`*^9}, {
+   3.5910556861827946`*^9, 3.5910558302770643`*^9}, {3.5910559286526594`*^9, 
+   3.591055969940097*^9}, {3.5910574050043297`*^9, 3.5910574291373672`*^9}, {
+   3.5911190560820045`*^9, 3.5911190798307877`*^9}, {3.5911191972958508`*^9, 
+   3.5911192453467817`*^9}, {3.591119312924692*^9, 3.5911193326628084`*^9}, {
+   3.5911193694212365`*^9, 3.591119438907414*^9}}]
+},
+WindowSize->{1144, 1249},
+WindowMargins->{{Automatic, 384}, {71, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 129978, 2579, 24398, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

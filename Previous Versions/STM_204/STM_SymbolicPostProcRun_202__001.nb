@@ -1,0 +1,294 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     11405,        285]
+NotebookOptionsPosition[     11142,        272]
+NotebookOutlinePosition[     11491,        287]
+CellTagsIndexPosition[     11448,        284]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"UseY6Value", "=", "True"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"PathList", "=", 
+     RowBox[{"{", "\"\<W:\\\\STM\\\\\>\"", "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Off", "[", 
+     RowBox[{"Part", "::", "\"\<pspec\>\""}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_Symbolic.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_Derivatives.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_SymbolicTrailer.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_SymbolicDab.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], " ", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_SymbolicPostProc.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{"UseY6Value", ",", "\[IndentingNewLine]", 
+      RowBox[{"(", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_SymbolicTrailer_6.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], " ", 
+       "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"DebugProcessRuleValue", "=", "False"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"DebugProcessRules", "=", "False"}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"ProcessRuleValue", "[", "\"\<Ax1A12\>\"", "]"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"ProcessRuleValue", "[", "\"\<A12A13\>\"", "]"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"ProcessRuleValue", "[", "\"\<A12A12\>\"", "]"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"ProcessRuleValue", "[", "\"\<S12S34Ax1A23\>\"", "]"}], "]"}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"ProcessRuleValue", "[", "\"\<A12A13A24A45A56\>\"", "]"}], 
+      "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"ProcessRuleValue", "[", "\"\<Sy1S23Ax2A13\>\"", "]"}], "]"}], 
+     ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rulesTest", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"SumARules", "[", 
+        RowBox[{"[", "ii", "]"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "93", ",", "106"}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"rulesProcLst", "=", 
+      RowBox[{"ProcessRules", "[", "rulesTest", "]"}]}], ";"}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{"UseY6Value", ",", "\[IndentingNewLine]", 
+      RowBox[{"(", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"rulesProcLst", "=", 
+         RowBox[{"ProcessRules", "[", "SumSA6Rules", "]"}]}], ";"}], 
+       "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"(", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"rulesProcLst", "=", 
+         RowBox[{"ProcessRules", "[", "SumARules", "]"}]}], ";"}], 
+       "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rulesLen", "=", 
+     RowBox[{"Length", "[", "rulesProcLst", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"strHlp", "=", "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"strMain", "=", "\"\<\>\""}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"strPrint", "=", "\"\<\>\""}], "\[IndentingNewLine]", 
+   RowBox[{"strPrintCN", "=", "\"\<\>\""}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"ii", "=", "1"}], ",", 
+      RowBox[{"ii", "\[LessEqual]", "rulesLen"}], ",", 
+      RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"(", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<ii = \>\"", ",", " ", "ii", ",", " ", "\"\<, rule = \>\"", ",", 
+          " ", 
+          RowBox[{"rulesProcLst", "[", 
+           RowBox[{"[", 
+            RowBox[{"ii", ",", "1"}], "]"}], "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"StringLength", "[", 
+            RowBox[{"rulesProcLst", "[", 
+             RowBox[{"[", 
+              RowBox[{"ii", ",", "3"}], "]"}], "]"}], "]"}], " ", ">", " ", 
+           "0"}], ",", 
+          RowBox[{"strHlp", "=", 
+           RowBox[{"strHlp", " ", "<>", 
+            RowBox[{"rulesProcLst", "[", 
+             RowBox[{"[", 
+              RowBox[{"ii", ",", "3"}], "]"}], "]"}], " ", "<>", 
+            "strCRLF"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"strMain", "=", 
+         RowBox[{"strMain", " ", "<>", 
+          RowBox[{"rulesProcLst", "[", 
+           RowBox[{"[", 
+            RowBox[{"ii", ",", "2"}], "]"}], "]"}], " ", "<>", "strCRLF"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"strPrint", "=", 
+         RowBox[{
+         "strPrint", " ", "<>", " ", "\"\<Print[\\\"Sum\>\"", " ", "<>", " ", 
+          RowBox[{"rulesProcLst", "[", 
+           RowBox[{"[", 
+            RowBox[{"ii", ",", "1"}], "]"}], "]"}], " ", "<>", " ", 
+          "\"\< = \\\", Sum\>\"", "<>", " ", 
+          RowBox[{"rulesProcLst", "[", 
+           RowBox[{"[", 
+            RowBox[{"ii", ",", "1"}], "]"}], "]"}], " ", "<>", " ", 
+          "\"\< // MatrixForm];\>\"", "  ", "<>", "strCRLF"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"strPrintCN", "=", 
+         RowBox[{
+         "strPrintCN", " ", "<>", " ", "\"\<Print[\\\"Sum\>\"", " ", "<>", 
+          " ", 
+          RowBox[{"rulesProcLst", "[", 
+           RowBox[{"[", 
+            RowBox[{"ii", ",", "1"}], "]"}], "]"}], " ", "<>", " ", 
+          "\"\< = \\\", Chop[N[Sum\>\"", "<>", " ", 
+          RowBox[{"rulesProcLst", "[", 
+           RowBox[{"[", 
+            RowBox[{"ii", ",", "1"}], "]"}], "]"}], " ", "<>", " ", 
+          "\"\<]] // MatrixForm];\>\"", "  ", "<>", "strCRLF"}]}], ";"}], 
+       "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<strHlp:\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "strHlp", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<strMain:\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "strMain", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<strPrint:\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "strPrint", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<strPrintCN:\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "strPrintCN", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.603037447298656*^9, 3.603037473241875*^9}, {
+   3.603037510922189*^9, 3.603037521681703*^9}, 3.6030375633153725`*^9, {
+   3.603037596258771*^9, 3.6030376277886963`*^9}, {3.6030377160486836`*^9, 
+   3.603037722620045*^9}, {3.603037756585588*^9, 3.603037765039197*^9}, {
+   3.6030381058003426`*^9, 3.603038109280653*^9}, {3.603038322440116*^9, 
+   3.603038327105214*^9}, {3.603038562431388*^9, 3.603038594303539*^9}, {
+   3.6030390712790833`*^9, 3.6030391094334035`*^9}, {3.6030391891673193`*^9, 
+   3.603039200996172*^9}, {3.6031180239168315`*^9, 3.60311804196581*^9}, {
+   3.603118073770918*^9, 3.60311808219951*^9}, {3.6031181632212806`*^9, 
+   3.603118224655052*^9}, {3.6031182657973547`*^9, 3.6031183201544313`*^9}, {
+   3.6031203939973555`*^9, 3.6031204529534826`*^9}, {3.603131221112767*^9, 
+   3.603131257488011*^9}, {3.604325762078944*^9, 3.604325833355339*^9}, {
+   3.604325897780512*^9, 3.60432596104373*^9}}]
+},
+WindowSize->{1799, 1185},
+WindowMargins->{{Automatic, 292}, {120, Automatic}},
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 10593, 250, 1712, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

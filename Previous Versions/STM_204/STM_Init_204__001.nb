@@ -1,0 +1,772 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     34835,        763]
+NotebookOptionsPosition[     34498,        749]
+NotebookOutlinePosition[     34921,        765]
+CellTagsIndexPosition[     34878,        762]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", "Summary", ":", " ", 
+    RowBox[{
+    "Loading", " ", "of", " ", "the", " ", "necessary", " ", "modules", " ", 
+     "for", " ", "P4", " ", "and", " ", "P6", " ", 
+     RowBox[{"models", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", "Author", ":", " ", 
+    RowBox[{"Konstantin", " ", 
+     RowBox[{"K", ".", " ", "Konstantinov"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", "Email", ":", " ", 
+    RowBox[{"konstantin", ".", "k", ".", 
+     RowBox[{"konstantinov", "@", "gmail"}], ".", "com"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"License", " ", "type"}], ":", " ", 
+     RowBox[{
+     "GPL", " ", "v3", " ", "or", " ", "any", " ", "later", " ", 
+      "version"}]}], ",", " ", 
+    RowBox[{
+     RowBox[{"see", " ", 
+      RowBox[{"http", ":"}]}], "//", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"www", ".", "gnu", ".", "org"}], "/", "licenses"}], "/"}]}]}], 
+   " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", 
+    RowBox[{"2013", " ", "-", " ", "2015"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", "Version", ":", " ", "Revision", ":", " ", 
+     RowBox[{"2.04", ".001"}]}], ",", " ", 
+    RowBox[{"Date", ":", " ", 
+     RowBox[{
+      RowBox[{"2015", "/", "08"}], "/", "30"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", "Version"}], ":", " ", "10.0"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{"This", " ", "program", " ", "is", " ", "free", " ", 
+    RowBox[{"software", ":", " ", 
+     RowBox[{"you", " ", "can", " ", "redistribute", " ", "it", " ", 
+      RowBox[{"and", "/", "or"}], " ", "modify", " ", "it", " ", "under", " ",
+       "the", " ", "terms"}]}]}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "of", " ", "the", " ", "GNU", " ", "General", " ", "Public", " ", 
+     "License", " ", "as", " ", "published", " ", "by", " ", "the", " ", 
+     "Free", " ", "Software", " ", "Foundation"}], ","}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "either", " ", "version", " ", "3", " ", "of", " ", "the", " ", 
+     "License"}], ",", " ", 
+    RowBox[{"or", " ", "any", " ", "later", " ", 
+     RowBox[{"version", ".", " ", "This"}], " ", "program", " ", "is", " ", 
+     "distributed", " ", "in", " ", "the", " ", "hope", " ", "that"}]}], "  ",
+    "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"it", " ", "will", " ", "be", " ", "useful"}], ",", " ", 
+    RowBox[{
+     RowBox[{"but", " ", "WITHOUT", " ", "ANY", " ", "WARRANTY"}], ";", " ", 
+     RowBox[{
+     "without", " ", "even", " ", "the", " ", "implied", " ", "warranty", " ",
+       "of", " ", "MERCHANTABILITY"}]}]}], " ", "*)"}], " ", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"or", " ", "FITNESS", " ", "FOR", " ", "A", " ", "PARTICULAR", " ", 
+    RowBox[{"PURPOSE", ".", " ", "See"}], " ", "the", " ", "GNU", " ", 
+    "General", " ", "Public", " ", "License", " ", "for", " ", "more", " ", 
+    RowBox[{"details", "."}]}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "You", " ", "should", " ", "have", " ", "received", " ", "a", " ", "copy", 
+    " ", "of", " ", "the", " ", "GNU", " ", "General", " ", "Public", " ", 
+    "License", " ", "along", " ", "with", " ", "this", " ", 
+    RowBox[{"program", "."}]}], " ", "*)"}], " ", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"If", " ", "not"}], ",", " ", 
+    RowBox[{
+     RowBox[{"see", " ", "<", 
+      RowBox[{"http", ":"}]}], "//", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"www", ".", "gnu", ".", "org"}], "/", "licenses"}], "/"}], 
+      ">", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "STMInit", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"UseComplexVariables", " ", "\[Rule]", " ", "False"}], ",", 
+       RowBox[{"UseReImVariables", " ", "\[Rule]", " ", "False"}], ",", 
+       RowBox[{"UseY6", " ", "\[Rule]", " ", "False"}], ",", " ", 
+       RowBox[{"SilentRun", " ", "\[Rule]", " ", "False"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "If", " ", "true", " ", "then", " ", "complex", " ", "variables", " ", 
+     "will", " ", "be", " ", 
+     RowBox[{"used", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"UseComplexVariablesValue", "=", "False"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "If", " ", "complex", " ", "variables", " ", "are", " ", "used", " ", 
+     "then", " ", "if", " ", "true", " ", "then", " ", "Re", " ", "and", " ", 
+     "Im", " ", "variables", " ", "will", " ", "be", " ", 
+     RowBox[{"used", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"UseReImVariablesValue", "=", "False"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "If", " ", "True", " ", "then", " ", "load", " ", "and", " ", "use", " ",
+       "Y6"}], " ", "-", " ", 
+     RowBox[{"6", "th", " ", "power", " ", 
+      RowBox[{"moments", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"UseY6Value", "=", "False"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "If", " ", "True", " ", "then", " ", "some", " ", "output", " ", "is", 
+     " ", "suppressed"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SilentRunValue", "=", "False"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MaxMoment", "=", "5"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Needs", "[", "\"\<NumericalCalculus`\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"LoadModules", "[", 
+      RowBox[{"pathListVal_", ",", "rawOpts___"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "opts", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", "\"\<Loading modules...\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"opts", "=", 
+         RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"UseComplexVariablesValue", "=", 
+         RowBox[{
+          RowBox[{"UseComplexVariables", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMInit", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"SilentRunValue", "=", 
+         RowBox[{
+          RowBox[{"SilentRun", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMInit", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"UseReImVariablesValue", "=", "False"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"UseComplexVariablesValue", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"UseReImVariablesValue", "=", 
+             RowBox[{
+              RowBox[{"UseReImVariables", " ", "/.", "opts"}], " ", "/.", 
+              RowBox[{"Options", "[", "STMInit", "]"}]}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"UseComplexVariablesValue", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"UseReImVariablesValue", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", "\"\<LoadModules::Using Re Im variables.\>\"", 
+                 "]"}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", "\"\<LoadModules::Using complex variables.\>\"",
+                  "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<LoadModules::Using real variables.\>\"", "]"}],
+             ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"UseY6Value", "=", 
+         RowBox[{
+          RowBox[{"UseY6", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMInit", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", "UseY6Value"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<LoadModules::Moments 1 through 5 are being used.\>\"", 
+             "]"}], ";"}], "\[IndentingNewLine]", ")"}], 
+          "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<LoadModules::Moments 1 through 6 are being used.\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"MaxMoment", "=", "6"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Common.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_InitValues.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P2Terms.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P2Func.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P2Grad.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P4Terms.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P4Func.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P4FuncImpl.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P4Grad.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P4GradGenerated.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P4GradImpl.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P6Terms.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P6Func.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_P6Grad.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Output.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Calc.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Derivatives.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_ODE.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Minimization.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_MinF2.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Tests.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Get", "[", 
+         RowBox[{"\"\<STM_Dynamics.m\>\"", ",", 
+          RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+           "===", "===", "===", "===", "===", "="}], " ", "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", "UseComplexVariablesValue"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<LoadModules::Loading STM_YDerivativesImpl.m, \
+STM_CommonReal.m\>\"", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Get", "[", 
+             RowBox[{"\"\<STM_YDerivativesImpl.m\>\"", ",", 
+              RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Get", "[", 
+             RowBox[{"\"\<STM_CommonReal.m\>\"", ",", 
+              RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], ";"}],
+            "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"UseReImVariablesValue", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<LoadModules::Loading STM_YDerivativesImplReImCYI.m, \
+STM_YDerivativesImplReImGen.m, STM_YDerivativesImplReIm.m, STM_CommonReIm.m\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Get", "[", 
+                 RowBox[{"\"\<STM_YDerivativesImplReImCYI.m\>\"", ",", 
+                  RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Get", "[", 
+                 RowBox[{"\"\<STM_YDerivativesImplReImGen.m\>\"", ",", 
+                  RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Get", "[", 
+                 RowBox[{"\"\<STM_YDerivativesImplReIm.m\>\"", ",", 
+                  RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Get", "[", 
+                 RowBox[{"\"\<STM_CommonReIm.m\>\"", ",", 
+                  RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"UseY6Value", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<LoadModules::Loading \
+STM_YDerivativesImpl_6_ReImCYI.m, STM_YDerivativesImpl_6_ReImGen.m\>\"", 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Get", "[", 
+                    RowBox[{"\"\<STM_YDerivativesImpl_6_ReImCYI.m\>\"", ",", 
+                    RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Get", "[", 
+                    RowBox[{"\"\<STM_YDerivativesImpl_6_ReImGen.m\>\"", ",", 
+                    RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                    ";"}], "\[IndentingNewLine]", ")"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+               ")"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<LoadModules::Loading STM_YDerivativesImplCplx.m, \
+STM_CommonComplex.m\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Get", "[", 
+                 RowBox[{"\"\<STM_YDerivativesImplCplx.m\>\"", ",", 
+                  RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Get", "[", 
+                 RowBox[{"\"\<STM_CommonComplex.m\>\"", ",", 
+                  RowBox[{"Path", "\[Rule]", " ", "pathListVal"}]}], "]"}], 
+                ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+             "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+         "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "ProcessOptions", " ", "ensures", " ", "that", " ", "options", " ", "are",
+      " ", "in", " ", "a", " ", "flat", " ", 
+     RowBox[{"list", ".", " ", "It"}], " ", "wraps", " ", "List", " ", "over",
+      " ", "raw", " ", "options", " ", "if", " ", 
+     RowBox[{"necessary", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ProcessOptions", "[", "rawOpts___", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "opts", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"opts", "=", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"{", "rawOpts", "}"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "opts", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Initialize", " ", "all", " ", 
+     RowBox[{"models", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"InitializeModels", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"InitializeF2Model", "[", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"InitializeF4Model", "[", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"InitializeF6Model", "[", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Gradient", " ", "for", " ", "all", " ", 
+     RowBox[{"models", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Linear", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "all", " ", "known", " ", 
+     RowBox[{"terms", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradAllLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"GradAll", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "all", " ", "known", " ", 
+     RowBox[{"terms", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "Uses", " ", "global", " ", "values", " ", "of", " ", "coefficients", 
+      " ", "as", " ", "stored", " ", "in", " ", "CoeffF2"}], ",", " ", 
+     "CoeffF4", ",", " ", 
+     RowBox[{"and", " ", 
+      RowBox[{"CoeffF6", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradAll", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "gradVal", ",", "gradValP2", ",", "gradValP4", ",", "gradValP6"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"!!", 
+          RowBox[{"!", " ", 
+           RowBox[{
+           "We", " ", "must", " ", "calculate", " ", "GradP4All", " ", 
+            "because", " ", "GradP2All", " ", "relies", " ", "on", " ", 
+            "certain", " ", "variables"}]}]}], ",", " ", 
+         RowBox[{
+         "which", " ", "GradP4All", " ", "calculates", " ", "calling", " ", 
+          RowBox[{
+           RowBox[{"CalculateP4Invariants", " ", "!!"}], "!"}]}]}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"gradValP4", "=", 
+         RowBox[{"GradP4All", "[", 
+          RowBox[{"sab", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"gradValP2", "=", 
+         RowBox[{"GradP2All", "[", 
+          RowBox[{"sab", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"gradValP6", "=", 
+         RowBox[{"GradP6All", "[", 
+          RowBox[{"sab", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"gradValP2", "+", "gradValP4", "+", "gradValP6"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2P4AllLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"GradP2P4All", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "all", " ", "known", " ", 
+     RowBox[{"terms", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "Uses", " ", "global", " ", "values", " ", "of", " ", "coefficients", 
+      " ", "as", " ", "stored", " ", "in", " ", "CoeffF2"}], ",", " ", 
+     "CoeffF4", ",", " ", 
+     RowBox[{"and", " ", 
+      RowBox[{"CoeffF6", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2P4All", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "gradValP2", ",", "gradValP4"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"!!", 
+          RowBox[{"!", " ", 
+           RowBox[{
+           "We", " ", "must", " ", "calculate", " ", "GradP4All", " ", 
+            "because", " ", "GradP2All", " ", "relies", " ", "on", " ", 
+            "certain", " ", "variables"}]}]}], ",", " ", 
+         RowBox[{
+         "which", " ", "GradP4All", " ", "calculates", " ", "calling", " ", 
+          RowBox[{
+           RowBox[{"CalculateP4Invariants", " ", "!!"}], "!"}]}]}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"gradValP4", "=", 
+         RowBox[{"GradP4All", "[", 
+          RowBox[{"sab", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"gradValP2", "=", 
+         RowBox[{"GradP2All", "[", 
+          RowBox[{"sab", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"gradValP2", "+", "gradValP4"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.589320446288376*^9, 3.5893204769958305`*^9}, {
+   3.589320522719287*^9, 3.58932054900179*^9}, {3.589320599500426*^9, 
+   3.589320608779608*^9}, {3.5893267199560785`*^9, 3.58932672700077*^9}, {
+   3.589377965456886*^9, 3.5893779704011793`*^9}, {3.5895530136665783`*^9, 
+   3.589553018590851*^9}, {3.5895789505438137`*^9, 3.589578958036795*^9}, {
+   3.58958104143571*^9, 3.5895810539390187`*^9}, {3.5895820138802395`*^9, 
+   3.589582050885829*^9}, {3.589582773072844*^9, 3.589582780937072*^9}, {
+   3.5895828126631536`*^9, 3.5895828726340075`*^9}, {3.5896284192958813`*^9, 
+   3.5896284245930166`*^9}, {3.589628458672819*^9, 3.5896284627823963`*^9}, {
+   3.589644478762413*^9, 3.589644517858091*^9}, {3.589914689692337*^9, 
+   3.5899147066065755`*^9}, {3.5899180305873117`*^9, 
+   3.5899180402587395`*^9}, {3.5899180903353252`*^9, 3.589918103882329*^9}, {
+   3.5899181364179506`*^9, 3.5899181480496807`*^9}, {3.5899320563075733`*^9, 
+   3.589932066361248*^9}, {3.590328329699712*^9, 3.5903283478958063`*^9}, {
+   3.59035339197828*^9, 3.5903534538924255`*^9}, {3.5903534896441846`*^9, 
+   3.5903535482601366`*^9}, {3.5903540042711816`*^9, 
+   3.5903541442161827`*^9}, {3.5903595866339693`*^9, 3.590359617634571*^9}, {
+   3.5903602134795427`*^9, 3.5903602191943407`*^9}, {3.5907774549115767`*^9, 
+   3.590777462273469*^9}, 3.591050161995874*^9, {3.593201993437055*^9, 
+   3.593202016879634*^9}, {3.59344999876954*^9, 3.59345001047934*^9}, {
+   3.6024371283362207`*^9, 3.6024371484985933`*^9}, {3.6026288650213137`*^9, 
+   3.602629006640299*^9}, {3.6026290370775013`*^9, 3.6026291770023627`*^9}, {
+   3.6026292073164783`*^9, 3.602629355694949*^9}, {3.6026296742863817`*^9, 
+   3.6026296745035257`*^9}, {3.6026297215697613`*^9, 
+   3.6026297445840344`*^9}, {3.602629797232979*^9, 3.6026298076058598`*^9}, {
+   3.602688892312811*^9, 3.602688896656694*^9}, {3.602689132826827*^9, 
+   3.6026891399543743`*^9}, {3.602957682646713*^9, 3.602957880299885*^9}, {
+   3.6029579174685535`*^9, 3.602957953969776*^9}, {3.6029579910473847`*^9, 
+   3.6029580366076183`*^9}, {3.602958127666052*^9, 3.602958130134688*^9}, 
+   3.6030346275795965`*^9, {3.603034674887993*^9, 3.603034733698024*^9}, {
+   3.6030349603484383`*^9, 3.6030350320099974`*^9}, {3.6042724985972404`*^9, 
+   3.6042727188115005`*^9}, {3.60427275390068*^9, 3.604272813460182*^9}, {
+   3.6042731203631268`*^9, 3.604273161582128*^9}, 3.604325461542533*^9, {
+   3.604325651175783*^9, 3.604325655895542*^9}, {3.6043264764735937`*^9, 
+   3.6043264804148464`*^9}, {3.604329912969695*^9, 3.604329931200766*^9}, {
+   3.6499669877172823`*^9, 3.6499670734901886`*^9}, {3.6499671039086432`*^9, 
+   3.649967104281269*^9}}]
+},
+WindowSize->{1333, 1189},
+WindowMargins->{{Automatic, 121}, {Automatic, 105}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 33949, 727, 4172, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

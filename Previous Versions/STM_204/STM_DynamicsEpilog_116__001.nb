@@ -1,0 +1,178 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      6137,        169]
+NotebookOptionsPosition[      5858,        155]
+NotebookOutlinePosition[      6225,        171]
+CellTagsIndexPosition[      6182,        168]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Epliog", " ", "for", " ", "Dynamics", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.16", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "11"}], "/", "11"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Initializing UAllSab.\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ySymb", "=", 
+     RowBox[{"CalculateY", "[", 
+      RowBox[{"S", ",", "False"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ySymbT", "=", 
+     RowBox[{"CalculateY", "[", 
+      RowBox[{"ST", ",", "False"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"UAllSab", "=", 
+     RowBox[{"UAllYFunc", "[", 
+      RowBox[{
+      "ySymb", ",", "kValList", ",", "GammaValList", ",", "AlphaValList", ",",
+        "M2Val"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"UAllSabT", "=", 
+     RowBox[{"UAllYFunc", "[", 
+      RowBox[{
+      "ySymbT", ",", "kValList", ",", "GammaValList", ",", "AlphaValList", 
+       ",", "M2Val"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"PrintTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Initializing Y derivatives.\>\"", "]"}], ";"}],
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<dYAll\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dYAll", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"D", "[", 
+        RowBox[{"ySymb", ",", 
+         RowBox[{"SL", "[", 
+          RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], " ", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"PrintTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Print", "[", "\"\<Initializing UAllSab derivatives.\>\"", "]"}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", "\"\<dUAllT\>\"", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+       RowBox[{"dUAllT", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"D", "[", 
+           RowBox[{"UAllSabT", ",", 
+            RowBox[{"STL", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], " ", 
+      "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"DistributeDefinitions", "[", 
+      RowBox[{"UAllSabT", ",", "STL", ",", "NA"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"dUAllT", "=", 
+      RowBox[{"ParallelTable", "[", 
+       RowBox[{
+        RowBox[{"D", "[", 
+         RowBox[{"UAllSabT", ",", 
+          RowBox[{"STL", "[", 
+           RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"PrintTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+    "*)"}]}]}]], "Input",
+ CellChangeTimes->{{3.593219891922586*^9, 3.5932198941220517`*^9}, {
+   3.593220061361186*^9, 3.5932200630082827`*^9}, {3.5932234477996597`*^9, 
+   3.593223490449003*^9}, {3.5932235386700497`*^9, 3.593223556509905*^9}, {
+   3.5932235954858065`*^9, 3.593223642442011*^9}, {3.5932236897814703`*^9, 
+   3.5932237298040676`*^9}, {3.5932237646622334`*^9, 
+   3.5932238208705864`*^9}, {3.5932241015381055`*^9, 
+   3.5932241025838003`*^9}, {3.5932243019933186`*^9, 
+   3.5932243404879003`*^9}, {3.593301257697062*^9, 3.5933013173981943`*^9}, {
+   3.5933015629999065`*^9, 3.5933015971187787`*^9}, {3.5933064298553753`*^9, 
+   3.593306483870453*^9}, {3.5933065669419355`*^9, 3.5933065678005085`*^9}, {
+   3.5933066726675835`*^9, 3.5933067062900424`*^9}, {3.593308121330202*^9, 
+   3.5933081380693817`*^9}, {3.59330817161979*^9, 3.593308206461059*^9}, {
+   3.5933640314855223`*^9, 3.5933640728149266`*^9}, 3.593364133742536*^9, {
+   3.593364183040721*^9, 3.5933641838440266`*^9}, {3.5933642686845055`*^9, 
+   3.5933642780287323`*^9}, 3.5933643304926767`*^9}]
+},
+WindowSize->{1222, 1036},
+WindowMargins->{{Automatic, 54}, {Automatic, 97}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 5309, 133, 746, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

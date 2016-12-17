@@ -1,0 +1,1347 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     61135,       1338]
+NotebookOptionsPosition[     60853,       1324]
+NotebookOutlinePosition[     61220,       1340]
+CellTagsIndexPosition[     61177,       1337]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{
+     "Delta", " ", "lambda", " ", "gradient", " ", "tests", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.12", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "18"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"TestF4GradientsLambdaIgnoreLevel", "=", "0"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestF4GradientsLambdaIgnoreIncorrectTimeSign", "=", "False"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestF4GradientsLambdaIgnoreComplexTSolutions", "=", "False"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestF4GradientsLambdaComplexTolerance", "=", 
+     RowBox[{"10", "^", 
+      RowBox[{"-", "3"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RunIDidx", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TermNameIdx", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"NoOfSolIdx", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IgnoredSolIdx", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TdSatSmaxIdx", "=", "5"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SwapSignIdx", "=", "6"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SSignDeltaLambdaIdx", "=", "7"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"EpsSignDeltaLambdaIdx", "=", "8"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SNm2minusNm1SignIdx", "=", "9"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SNminusNm1SignIdx", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MaxTestF4GradientsLambdaIdx", "=", "10"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestF4GradientsLambdaSingleRun", "[", 
+      RowBox[{
+       RowBox[{"runID_", "?", "IntegerQ"}], ",", 
+       RowBox[{"sMinVal_", "?", "NumericQ"}], ",", 
+       RowBox[{"sMaxVal_", "?", "NumericQ"}], ",", 
+       RowBox[{"tVal_", "?", "NumericQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "termsVal", ",", "invIdx", ",", "tngIdx", ",", "gValLinear", ",", 
+         "gValMatrix", ",", "deltaLambda", ",", "deltaLambdaSorted", ",", 
+         "lambda", ",", "eXXT", ",", "gVal", ",", "sol", ",", "f4Val", ",", 
+         "deltaLambda11Func", ",", "solLen", ",", "TdS", ",", 
+         "deltaLambda12Func", ",", "ignoreSol", ",", "ii", ",", "SwapSign", 
+         ",", "deltaLambda12", ",", "gradT", ",", "gradS1", ",", "gradS2", 
+         ",", "gradS3", ",", "gradEps", ",", "tttRule"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"termsVal", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"Indeterminate", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "MaxTestF4GradientsLambdaIdx"}], 
+            "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "RunIDidx", "]"}], "]"}], "=", " ", "runID"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "TermNameIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"TermMatrix", "[", 
+          RowBox[{"[", "runID", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ignoreSol", "=", "False"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"eXXT", "=", 
+         RowBox[{"eeReconstruct", "[", "eprimIJidentity", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<GradP4All[SI,False]\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gValLinear", " ", "=", " ", 
+         RowBox[{"GradP4All", "[", 
+          RowBox[{"SI", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<gValMatrix\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gValMatrix", "=", 
+         RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<deltaLambda\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"deltaLambda", "=", 
+         RowBox[{"Expand", "[", 
+          RowBox[{"CalculateDeltaLambda", "[", 
+           RowBox[{"gValMatrix", ",", "eXXT", ",", "False"}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<deltaLambda = \>\"", ",", " ", 
+          RowBox[{"deltaLambda", " ", "//", " ", "MatrixForm"}]}], "]"}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<grad functions.\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"gradT", "[", 
+            RowBox[{"TTT_", ",", "SSS_"}], "]"}], "=", 
+           RowBox[{"deltaLambda", "[", 
+            RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"gradS1", "[", 
+            RowBox[{"TTT_", ",", "SSS_"}], "]"}], "=", 
+           RowBox[{"deltaLambda", "[", 
+            RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"gradS2", "[", 
+            RowBox[{"TTT_", ",", "SSS_"}], "]"}], "=", 
+           RowBox[{"deltaLambda", "[", 
+            RowBox[{"[", "3", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"gradS3", "[", 
+            RowBox[{"TTT_", ",", "SSS_"}], "]"}], "=", 
+           RowBox[{"deltaLambda", "[", 
+            RowBox[{"[", "4", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"gradEps", "[", 
+            RowBox[{"TTT_", ",", "SSS_"}], "]"}], "=", 
+           RowBox[{"deltaLambda", "[", 
+            RowBox[{"[", "5", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"tttRule", "=", 
+         RowBox[{"{", 
+          RowBox[{"TTT", " ", "\[Rule]", " ", "tVal"}], "}"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"gradT", "[", "SSS_", "]"}], "=", 
+         RowBox[{
+          RowBox[{"deltaLambda", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], " ", "/.", " ", "tttRule"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"gradS1", "[", "SSS_", "]"}], "=", 
+         RowBox[{
+          RowBox[{"deltaLambda", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "/.", " ", "tttRule"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"gradS2", "[", "SSS_", "]"}], "=", 
+         RowBox[{
+          RowBox[{"deltaLambda", "[", 
+           RowBox[{"[", "3", "]"}], "]"}], "/.", " ", "tttRule"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"gradS3", "[", "SSS_", "]"}], "=", 
+         RowBox[{
+          RowBox[{"deltaLambda", "[", 
+           RowBox[{"[", "4", "]"}], "]"}], "/.", " ", "tttRule"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"gradEps", "[", "SSS_", "]"}], "=", 
+         RowBox[{
+          RowBox[{"deltaLambda", "[", 
+           RowBox[{"[", "5", "]"}], "]"}], "/.", " ", "tttRule"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Definition[gradT] = \>\"", ",", " ", 
+          RowBox[{"Definition", "[", "gradT", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"Plot3D", "[", 
+            RowBox[{
+             RowBox[{"gradT", "[", 
+              RowBox[{"TTT", ",", "SSS"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"TTT", ",", "sMinVal", ",", 
+               RowBox[{"2", "*", "sMaxVal"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"SSS", ",", "sMinVal", ",", "sMaxVal"}], "}"}], ",", 
+             RowBox[{"ImageSize", " ", "\[Rule]", "IMAGESIZE"}]}], "]"}], 
+           "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"Plot", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"gradT", "[", 
+                RowBox[{"tVal", ",", "SSS"}], "]"}], ",", 
+               RowBox[{"gradS1", "[", 
+                RowBox[{"tVal", ",", "SSS"}], "]"}], ",", 
+               RowBox[{"gradS2", "[", 
+                RowBox[{"tVal", ",", "SSS"}], "]"}], ",", 
+               RowBox[{"gradS3", "[", 
+                RowBox[{"tVal", ",", "SSS"}], "]"}], ",", 
+               RowBox[{"gradEps", "[", 
+                RowBox[{"tVal", ",", "SSS"}], "]"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"SSS", ",", "sMinVal", ",", "sMaxVal"}], "}"}], ",", 
+             RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], "]"}],
+           ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"gradT", "[", "SSS", "]"}], ",", 
+             RowBox[{"gradS1", "[", "SSS", "]"}], ",", 
+             RowBox[{"gradS2", "[", "SSS", "]"}], ",", 
+             RowBox[{"gradS3", "[", "SSS", "]"}], ",", 
+             RowBox[{"gradEps", "[", "SSS", "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"SSS", ",", "sMinVal", ",", "sMaxVal"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "defaultPltOpts2", "]"}]}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestF4GradientsLambdaSingleRunOld", "[", 
+      RowBox[{
+       RowBox[{"runID_", "?", "IntegerQ"}], ",", 
+       RowBox[{"sMinVal_", "?", "NumericQ"}], ",", 
+       RowBox[{"sMaxVal_", "?", "NumericQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "termsVal", ",", "invIdx", ",", "tngIdx", ",", "gValLinear", ",", 
+         "gValMatrix", ",", "deltaLambda", ",", "deltaLambdaSorted", ",", 
+         "lambda", ",", "eXXT", ",", "gVal", ",", "sol", ",", "f4Val", ",", 
+         "deltaLambda11Func", ",", "solLen", ",", "TdS", ",", 
+         "deltaLambda12Func", ",", "ignoreSol", ",", "ii", ",", "SwapSign", 
+         ",", "deltaLambda12"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"termsVal", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"Indeterminate", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "MaxTestF4GradientsLambdaIdx"}], 
+            "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "RunIDidx", "]"}], "]"}], "=", " ", "runID"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "TermNameIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"TermMatrix", "[", 
+          RowBox[{"[", "runID", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ignoreSol", "=", "False"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", "\"\<F4Func[S,False]\>\"", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"f4Val", "=", 
+           RowBox[{"Expand", "[", 
+            RowBox[{"F4Func", "[", 
+             RowBox[{"S", ",", "False"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"gVal", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"D", "[", 
+              RowBox[{"f4Val", ",", 
+               RowBox[{"SL", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+         "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"eXXT", "=", 
+         RowBox[{"eeReconstruct", "[", "eprimIJidentity", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<GradP4All[SI,False]\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gValLinear", " ", "=", " ", 
+         RowBox[{"GradP4All", "[", 
+          RowBox[{"SI", ",", "False"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<gValMatrix\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gValMatrix", "=", 
+         RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<deltaLambda\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"deltaLambda", "=", 
+         RowBox[{"Expand", "[", 
+          RowBox[{"CalculateDeltaLambda", "[", 
+           RowBox[{"gValMatrix", ",", "eXXT", ",", "False"}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<deltaLambda = \>\"", ",", " ", 
+          RowBox[{"deltaLambda", " ", "//", " ", "MatrixForm"}]}], "]"}], ";",
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<deltaLambda[[2]] = \>\"", ",", " ", 
+          RowBox[{"Simplify", "[", 
+           RowBox[{"deltaLambda", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+        "Print", "[", "\"\<Solving for proper time coordinate.\>\"", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"sol", "=", 
+         RowBox[{"Solve", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"deltaLambda", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", "0"}], ",", "TTT"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"solLen", "=", 
+         RowBox[{"Length", "[", "sol", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<solLen = \>\"", ",", " ", "solLen"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "NoOfSolIdx", "]"}], "]"}], "=", " ", "solLen"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"ttt1Val", "=", 
+         RowBox[{"TTT", " ", "/.", 
+          RowBox[{"sol", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"ttt1", "[", "SSS_", "]"}], "=", "ttt1Val"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"deltaLambda11", "=", 
+         RowBox[{"deltaLambda", " ", "/.", " ", 
+          RowBox[{"sol", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"deltaLambda11Func", "[", "SSS_", "]"}], "=", 
+         "deltaLambda11"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"TdS", "=", 
+         RowBox[{
+          RowBox[{"Re", "[", 
+           RowBox[{"ttt1", "[", "sMaxVal", "]"}], "]"}], "/", "sMaxVal"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "TdSatSmaxIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"N", "[", "TdS", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<TdS[sMaxVal] = \>\"", ",", " ", 
+          RowBox[{"N", "[", "TdS", "]"}]}], "]"}], ";", "\[IndentingNewLine]",
+         "\[IndentingNewLine]", 
+        RowBox[{"SwapSign", "=", 
+         RowBox[{"-", 
+          RowBox[{"Sign", "[", 
+           RowBox[{
+            RowBox[{"Re", "[", 
+             RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "SwapSignIdx", "]"}], "]"}], "=", " ", "SwapSign"}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"SwapSign", "<", "0"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<!!! Sign of Delta Lambda for T is positive. Swapping sign \
+!!!\>\"", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"deltaLambda11Func", "[", "SSS_", "]"}], "=", 
+             RowBox[{"-", "deltaLambda11"}]}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "EpsSignDeltaLambdaIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"Sign", "[", 
+          RowBox[{
+           RowBox[{"Re", "[", 
+            RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+           RowBox[{"[", "3", "]"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "SSignDeltaLambdaIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"Sign", "[", 
+          RowBox[{
+           RowBox[{"Re", "[", 
+            RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+           RowBox[{"[", 
+            RowBox[{"NNN", "-", "1"}], "]"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "SNm2minusNm1SignIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"Sign", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Re", "[", 
+             RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+           RowBox[{
+            RowBox[{"Re", "[", 
+             RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "SNminusNm1SignIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"Sign", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Re", "[", 
+             RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+            RowBox[{"[", "NNN", "]"}], "]"}], "-", 
+           RowBox[{
+            RowBox[{"Re", "[", 
+             RowBox[{"deltaLambda11Func", "[", "sMaxVal", "]"}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+            "TestF4GradientsLambdaIgnoreIncorrectTimeSign", " ", "&&", " ", 
+             RowBox[{"TdS", " ", "<", " ", "0"}]}], ")"}], " ", "||", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Abs", "[", "TdS", "]"}], " ", "<", " ", 
+             "TestF4GradientsLambdaIgnoreLevel"}], ")"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"ignoreSol", "=", "True"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+               "TestF4GradientsLambdaIgnoreIncorrectTimeSign", " ", "&&", " ", 
+                RowBox[{"TdS", " ", "<", " ", "0"}]}], ")"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", "\"\<Ignoring due to negative sign of TdS.\>\"",
+                  "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Abs", "[", "TdS", "]"}], " ", "<", " ", 
+                "TestF4GradientsLambdaIgnoreLevel"}], ")"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<ignoring due to small absolute value of TdS.\>\"", 
+                 "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"solLen", " ", "\[Equal]", "3"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"ttt2Val", "=", 
+                 RowBox[{"TTT", " ", "/.", 
+                  RowBox[{"sol", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}]}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"ttt3Val", "=", 
+                 RowBox[{"TTT", " ", "/.", 
+                  RowBox[{"sol", "[", 
+                   RowBox[{"[", "3", "]"}], "]"}]}]}], ";", 
+                "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"ttt2", "[", "SSS_", "]"}], "=", "ttt2Val"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"ttt3", "[", "SSS_", "]"}], "=", "ttt3Val"}], ";", 
+                "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", "\"\<Plotting solutions.\>\"", "]"}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"Plot", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                   ",", "\[IndentingNewLine]", 
+                  RowBox[{"Plot", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt2", "[", "sss", "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt2", "[", "sss", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                   ",", "\[IndentingNewLine]", 
+                  RowBox[{"Plot", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt3", "[", "sss", "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt3", "[", "sss", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                   "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+               "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"solLen", " ", "\[Equal]", "2"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"ttt2Val", "=", 
+                    RowBox[{"TTT", " ", "/.", 
+                    RowBox[{"sol", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}]}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"ttt2", "[", "SSS_", "]"}], "=", "ttt2Val"}], ";",
+                     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<Plotting TWO solutions.\>\"", "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", "\[IndentingNewLine]", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt2", "[", "sss", "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt2", "[", "sss", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    "TestF4GradientsLambdaIgnoreComplexTSolutions", ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Abs", "[", 
+                    RowBox[{
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt1", "[", "sMaxVal", "]"}], "]"}], "/", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sMaxVal", "]"}], "]"}]}], "]"}], 
+                    " ", ">", " ", "TestF4GradientsLambdaComplexTolerance"}], 
+                    ")"}], " ", "||", " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Abs", "[", 
+                    RowBox[{
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt2", "[", "sMaxVal", "]"}], "]"}], "/", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt2", "[", "sMaxVal", "]"}], "]"}]}], "]"}], 
+                    " ", ">", " ", "TestF4GradientsLambdaComplexTolerance"}], 
+                    ")"}]}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Both solutions are sufficiently complex - \
+IGNORING!!!\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"ignoreSol", "=", "True"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}], 
+                   "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{
+                    "Print", "[", "\"\<Plotting SINGLE solution.\>\"", "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}], ",", 
+                    RowBox[{"Im", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+               ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"solLen", " ", "\[NotEqual]", " ", "2"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"!", "ignoreSol"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Time, proper time, small spaces...\>\"", "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "3", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Spaces, differences, and (time/space).\>\"", "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}], "/", "sss"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+               ")"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"!", "ignoreSol"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Time, proper time, small spaces for 1-st (out of 2) \
+solutions...\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "3", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Spaces, differences, and (time/space).\>\"", "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda11Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}], "/", "sss"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"deltaLambda12", "=", 
+                    RowBox[{"deltaLambda", " ", "/.", " ", 
+                    RowBox[{"sol", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}]}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "SSS_", "]"}], "=", 
+                    "deltaLambda12"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Time, proper time, small spaces for 2-nd (out of 2) \
+solutions...\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "3", "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Spaces, differences, and (time/space).\>\"", "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "1"}], "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Re", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", "-", "2"}], "]"}], "]"}], "-", 
+                    RowBox[{
+                    RowBox[{"deltaLambda12Func", "[", "sss", "]"}], "[", 
+                    RowBox[{"[", "NNN", "]"}], "]"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}],
+                     ",", 
+                    RowBox[{"Plot", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Re", "[", 
+                    RowBox[{"ttt1", "[", "sss", "]"}], "]"}], "/", "sss"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"sss", ",", "sMinVal", ",", "sMaxVal"}], "}"}], 
+                    ",", 
+                    RowBox[{"PlotRange", " ", "\[Rule]", " ", "Automatic"}], 
+                    ",", " ", 
+                    RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], 
+                    "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+               ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"termsVal", "[", 
+          RowBox[{"[", "IgnoredSolIdx", "]"}], "]"}], "=", " ", 
+         RowBox[{"If", "[", 
+          RowBox[{"ignoreSol", ",", "1", ",", "0"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "termsVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestF4GradientsLambda", "[", 
+      RowBox[{
+       RowBox[{"startRunID_", "?", "IntegerQ"}], ",", 
+       RowBox[{"endRunID_", "?", "IntegerQ"}], ",", 
+       RowBox[{"sMaxVal_", "?", "NumericQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"sMinVal", ",", "runID", ",", "termsVal", ",", "termsTbl"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", 
+         "\"\<TestF4GradientsLambda::Testing all gradients for R(1,3) + \
+proper time + small spaces model...\>\"", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"termsTbl", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"Indeterminate", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", 
+             RowBox[{"(", 
+              RowBox[{"endRunID", "-", "startRunID", "+", "1"}], ")"}]}], 
+            "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"sMinVal", "=", 
+         RowBox[{"2", "*", "IVTEpsilonSpaceVal"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"runID", "=", "startRunID"}], ",", " ", 
+          RowBox[{"runID", " ", "\[LessEqual]", " ", "endRunID"}], ",", 
+          RowBox[{"runID", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", "strSeparator", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<Running for runID = \>\"", ",", " ", "runID", ",", " ", 
+              RowBox[{"\"\<, term name = \>\"", " ", "<>", " ", 
+               RowBox[{"TermMatrix", "[", 
+                RowBox[{"[", "runID", "]"}], "]"}]}]}], "]"}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", "\"\<ResetCoeffF4\>\"", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"ResetCoeffF4", "[", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"UpdateCoeffF4", "[", 
+             RowBox[{"runID", ",", "1"}], "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"termsVal", "=", 
+             RowBox[{"TestF4GradientsLambdaSingleRun", "[", 
+              RowBox[{"runID", ",", "sMinVal", ",", "sMaxVal", ",", "TVal"}], 
+              "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"termsTbl", "[", 
+              RowBox[{"[", 
+               RowBox[{"runID", "-", "startRunID", "+", "1"}], "]"}], "]"}], 
+             "=", "termsVal"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"PrintTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]",
+            ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]",
+         "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<termsTbl = \>\"", ",", " ", 
+          RowBox[{"termsTbl", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}],
+     ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestF4GradientsLambda2Terms", "[", 
+      RowBox[{
+       RowBox[{"CabcdefghStart_", "?", "NumericQ"}], ",", 
+       RowBox[{"CabcdefghEnd_", "?", "NumericQ"}], ",", 
+       RowBox[{"noOfPoins_", "?", "IntegerQ"}], ",", 
+       RowBox[{"sMaxVal_", "?", "NumericQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "runID", ",", "step", ",", "CabcdefghVal", ",", "termsTbl", ",", 
+         "termsVal", ",", "sMinVal"}], "}"}], ",", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"step", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"CabcdefghEnd", "-", "CabcdefghStart"}], ")"}], "/", 
+          "noOfPoins"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"termsTbl", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"Indeterminate", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", 
+             RowBox[{"noOfPoins", "+", "1"}]}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"sMinVal", "=", 
+         RowBox[{"2", "*", "IVTEpsilonSpaceVal"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"runID", "=", "0"}], ",", 
+          RowBox[{"runID", "\[LessEqual]", "noOfPoins"}], ",", 
+          RowBox[{"runID", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", "strSeparator", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"CabcdefghVal", "=", 
+             RowBox[{"CabcdefghStart", "+", 
+              RowBox[{"step", "*", "runID"}]}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<Running for runID = \>\"", ",", "runID", ",", 
+              "\"\<, CabcdefghVal = \>\"", ",", 
+              RowBox[{"N", "[", "CabcdefghVal", "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"ResetCoeffF4", "[", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"UpdateCoeffF4", "[", 
+             RowBox[{"idxD4T4Cabbdbfbh", ",", "1"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"UpdateCoeffF4", "[", 
+             RowBox[{"idxD4T8Cabcdefgh", ",", "CabcdefghVal"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"termsVal", "=", 
+             RowBox[{"TestF4GradientsLambdaSingleRun", "[", 
+              RowBox[{"runID", ",", "sMinVal", ",", "sMaxVal", ",", "TVal"}], 
+              "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"termsTbl", "[", 
+              RowBox[{"[", 
+               RowBox[{"runID", "+", "1"}], "]"}], "]"}], "=", "termsVal"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"PrintTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]",
+            ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]",
+         "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<termsTbl = \>\"", ",", 
+          RowBox[{"termsTbl", "//", "MatrixForm"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}],
+     ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.591374449916141*^9, 3.5913744662940264`*^9}, {
+   3.5913745414039392`*^9, 3.5913745456027327`*^9}, {3.5913746278288183`*^9, 
+   3.5913746280269504`*^9}, {3.591374669839737*^9, 3.591374764189103*^9}, {
+   3.591376296716465*^9, 3.5913763627113223`*^9}, {3.591376525475523*^9, 
+   3.591376535322067*^9}, {3.5913765825634613`*^9, 3.5913765887325597`*^9}, {
+   3.591376821374052*^9, 3.5913768576561637`*^9}, {3.5913769022137737`*^9, 
+   3.591377022896452*^9}, {3.5913771093589115`*^9, 3.5913771161134005`*^9}, {
+   3.591377562895254*^9, 3.591377563076372*^9}, 3.59137759885515*^9, {
+   3.5913776312977095`*^9, 3.591377662616523*^9}, {3.591377712972026*^9, 
+   3.591377732357964*^9}, {3.5913777624690547`*^9, 3.5913777667398925`*^9}, {
+   3.5913780321862965`*^9, 3.591378216894046*^9}, {3.591378252028644*^9, 
+   3.591378252354862*^9}, 3.5913783180945506`*^9, {3.591378863102343*^9, 
+   3.5913789039084625`*^9}, {3.591378937327671*^9, 3.5913790143048267`*^9}, 
+   3.5913810540078177`*^9}]
+},
+WindowSize->{1444, 1365},
+WindowMargins->{{Automatic, 12}, {21, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 60304, 1302, 8981, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,575 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     22566,        566]
+NotebookOptionsPosition[     22285,        552]
+NotebookOutlinePosition[     22652,        568]
+CellTagsIndexPosition[     22609,        565]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", 
+     RowBox[{
+      RowBox[{"Gradient", " ", "of", " ", "2"}], "-", 
+      RowBox[{
+      "nd", " ", "power", " ", "polynom", " ", "minimization", " ", 
+       "function", " ", "and", " ", "its", " ", "decomposition", " ", "into", 
+       " ", 
+       RowBox[{"invariants", "."}]}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", 
+      RowBox[{"K", "^", "3"}]}]}], ",", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.10", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "14"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"MOVE", " ", "somewhere", " ", "to", " ", "F2", " ", 
+    RowBox[{"??", "?"}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "Print", "[", 
+     "\"\<TODO::In gradient implementation Tangential gradient was not \
+included.\>\"", "]"}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Renormalization", " ", "coefficients", " ", "for", " ", 
+     RowBox[{"gradient", ".", " ", "Used"}], " ", "for", " ", 
+     RowBox[{"convenience", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoeffF2NormIdentity", "=", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "The", " ", "values", " ", "in", " ", "CoeffF4NormF4", " ", "are", " ", 
+     "such", " ", "so", " ", "that", " ", "to", " ", "have", " ", "gradient", 
+     " ", "coincide", " ", "with", " ", "the", " ", "F4", " ", "old", " ", 
+     "style", " ", 
+     RowBox[{"function", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", 
+     "\"\<TODO::CoeffF2NormF2 must be changed from default value to be in the \
+same form as for P4 model.\>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoeffF2NormF2", "=", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoeffF2Norm", "=", "CoeffF2NormF2"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Resets", " ", "CoeffF2", " ", "to", " ", "all", " ", 
+     RowBox[{"zeros", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ResetCoeffF2", "[", "]"}], ":=", 
+     RowBox[{"ResetCoeffF2", "[", "False", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ResetCoeffF2", "[", 
+      RowBox[{"printOut_", "?", "BooleanQ"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"printOut", ",", 
+          RowBox[{"Print", "[", "\"\<Resetting CoeffF2.\>\"", "]"}]}], "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"CoeffF2", "=", "CoeffF2Zero"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"IsGradientInitialized", "=", "False"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Updates", " ", 
+     RowBox[{"CoeffF2", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"UpdateCoeffF2", "[", 
+      RowBox[{
+       RowBox[{"idx_", "?", "IntegerQ"}], ",", 
+       RowBox[{"coeffVal_", "?", "NumericQ"}]}], "]"}], ":=", 
+     RowBox[{"UpdateCoeffF2", "[", 
+      RowBox[{"idx", ",", "coeffVal", ",", "False"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"UpdateCoeffF2", "[", 
+      RowBox[{
+       RowBox[{"idx_", "?", "IntegerQ"}], ",", 
+       RowBox[{"coeffVal_", "?", "NumericQ"}], ",", 
+       RowBox[{"printOut_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"printOut", ",", 
+          RowBox[{"Print", "[", "\"\<Updating CoeffF2.\>\"", "]"}]}], "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"idx", " ", "<", " ", "1"}], " ", "||", " ", 
+           RowBox[{"idx", " ", ">", " ", "NoOfTermsF2"}]}], ",", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<UpdateCoeffF2::idx is out of range. idx = \>\"", ",", " ", 
+              "idx"}], "]"}], ";", " ", 
+            RowBox[{"ResetCoeffF2", "[", "]"}], ";", 
+            RowBox[{"Return", "[", "]"}], ";"}], ")"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"CoeffF2", "[", 
+          RowBox[{"[", 
+           RowBox[{"1", ",", "idx"}], "]"}], "]"}], " ", "=", " ", 
+         "coeffVal"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"IsGradientInitialized", "=", "False"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"UpdateAllCoeffF2", "[", 
+      RowBox[{"allCoeff_", "?", "VectorQ"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "ii", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "allCoeff", "]"}], "\[NotEqual]", " ", 
+           "NoOfTermsF2"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<UpdateAllCoeffF2::allCoeff have incorret length = \>\"", 
+              ",", 
+              RowBox[{"Length", "[", "allCoeff", "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Abort", "[", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ResetCoeffF2", "[", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"ii", "=", "1"}], ",", 
+          RowBox[{"ii", " ", "\[LessEqual]", " ", "NoOfTermsF2"}], ",", 
+          RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"UpdateCoeffF2", "[", 
+             RowBox[{"ii", ",", 
+              RowBox[{"allCoeff", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Linear", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "all", " ", "known", " ", 
+     RowBox[{"terms", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2AllLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"GradP2All", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "for", " ", "all", " ", 
+     "known", " ", 
+     RowBox[{"terms", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Uses", " ", "global", " ", "values", " ", "of", " ", "coefficients", " ",
+      "as", " ", "stored", " ", "in", " ", 
+     RowBox[{"CoeffF2", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2All", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "gradValTbl", ",", "ii"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"CalculateP2Invariants", "[", "sab", "]"}], ";"}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"gradValTbl", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"GradP2FuncList", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], ")"}], "[", 
+            RowBox[{"sab", ",", "False", ",", "False"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"CoeffF2", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "ii"}], "]"}], "]"}], "*", 
+            RowBox[{"gradValTbl", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Must", " ", "be", " ", "used", " ", "when", " ", "only", " ", "P2", " ", 
+     "model", " ", "is", " ", 
+     RowBox[{"used", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2OnlyAllLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"GradP2OnlyAll", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Must", " ", "be", " ", "used", " ", "when", " ", "only", " ", "P2", " ", 
+     "model", " ", "is", " ", 
+     RowBox[{"used", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2OnlyAll", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"CalculateP2Invariants", "[", "sab", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"GradP2All", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", 
+     "\"\<TODO::Implement CalculateP2Invariants in a more efficient way.\>\"",
+      "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CalculateP2Invariants", "[", 
+      RowBox[{"sab_", "?", "MatrixQ"}], "]"}], ":=", 
+     RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2T4CabcdLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"GradP2T4CabcdLinear", "[", 
+      RowBox[{"sabLinear", ",", "returnTangentialGradient", ",", "True"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2T2CabbdLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"GradP2T2CabbdLinear", "[", 
+      RowBox[{"sabLinear", ",", "returnTangentialGradient", ",", "True"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2T0CababLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"GradP2T0CababLinear", "[", 
+      RowBox[{"sabLinear", ",", "returnTangentialGradient", ",", "True"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"GradP2FuncList", "=", 
+     RowBox[{"{", 
+      RowBox[{"GradP2T4Cabcd", ",", "GradP2T2Cabbd", ",", "GradP2T0Cabab"}], 
+      "}"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2T4Cabcd", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP2Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF2Norm", "[", 
+                RowBox[{"[", "idxD2T4Cabcd", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"4", "*", 
+                  RowBox[{"(", 
+                   RowBox[{"SumS12", " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2T2Cabbd", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP2Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF2Norm", "[", 
+                RowBox[{"[", "idxD2T2Cabbd", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"2", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP2T0Cabab", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP2Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF2Norm", "[", 
+                RowBox[{"[", "idxD2T0Cabab", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 InterpretationBox[
+                  StyleBox[
+                   RowBox[{"4", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}],
+                   ShowStringCharacters->True,
+                   NumberMarks->True],
+                  InputForm[
+                  4 Part[$CellContext`sab, $CellContext`a, $CellContext`b]],
+                  AutoDelete->True,
+                  Editable->True],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5903528052093725`*^9, 3.5903528071856527`*^9}, {
+   3.5903528633449745`*^9, 3.59035309696823*^9}, {3.590353646528442*^9, 
+   3.590353666642809*^9}, {3.590354354301797*^9, 3.5903543985832233`*^9}, {
+   3.5903545125949917`*^9, 3.5903545129502277`*^9}, {3.5903594572860107`*^9, 
+   3.590359457662261*^9}, {3.590360327241143*^9, 3.590360342744447*^9}, {
+   3.590360941390279*^9, 3.590360941886609*^9}, {3.590361299047963*^9, 
+   3.590361384179537*^9}, {3.5903615615794296`*^9, 3.5903618459374003`*^9}, {
+   3.5903618925213585`*^9, 3.5903620001628923`*^9}, {3.590362042286886*^9, 
+   3.59036205111075*^9}, 3.590773851322794*^9}]
+},
+WindowSize->{1359, 1500},
+WindowMargins->{{55, Automatic}, {-6, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 21736, 530, 3500, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

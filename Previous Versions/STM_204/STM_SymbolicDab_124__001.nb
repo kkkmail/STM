@@ -1,0 +1,1443 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     70123,       1434]
+NotebookOptionsPosition[     69837,       1420]
+NotebookOutlinePosition[     70207,       1436]
+CellTagsIndexPosition[     70164,       1433]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Dab", " ", 
+      RowBox[{"transformation", "."}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", 
+    RowBox[{"2013", " ", "-", " ", "2014"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.24", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", " ", 
+     RowBox[{
+      RowBox[{"2014", "/", "03"}], "/", "02"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Off", "[", 
+     RowBox[{"Part", "::", "\"\<pspec\>\""}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"PathList", "=", 
+     RowBox[{"{", "\"\<W:\\\\STM\\\\\>\"", "}"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_Symbolic.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Get", "[", 
+     RowBox[{"\"\<STM_SymbolicTrailer.m\>\"", ",", 
+      RowBox[{"Path", "\[Rule]", " ", "PathList"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"DebugSymbolicDab", " ", "=", " ", "False"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"DabShiftValue", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StringShift", "[", 
+      RowBox[{"shiftVal_", "?", "IntegerQ"}], "]"}], ":=", 
+     RowBox[{"Apply", "[", 
+      RowBox[{"StringJoin", ",", 
+       RowBox[{"Table", "[", 
+        RowBox[{"\"\< \>\"", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"ii", ",", "1", ",", "shiftVal"}], "}"}]}], "]"}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Dab", "[", "rawExpr_", "]"}], ":=", 
+     RowBox[{"Dab", "[", 
+      RowBox[{"rawExpr", ",", "\"\<s\>\""}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Dab", "[", 
+      RowBox[{"rawExpr_", ",", 
+       RowBox[{"diffVarName_", "?", "StringQ"}]}], "]"}], ":=", 
+     RowBox[{"Dab", "[", 
+      RowBox[{"rawExpr", ",", "diffVarName", ",", 
+       RowBox[{
+        RowBox[{"-", "DabShiftValue"}], "+", "1"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Dab", "[", 
+      RowBox[{"rawExpr_", ",", 
+       RowBox[{"diffVarName_", "?", "StringQ"}], ",", 
+       RowBox[{"shiftVal_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "expr", ",", "exLen", ",", "exLst", ",", "exHead", ",", "ii", ",", 
+         "elem", ",", "elemDab", ",", "retVal", ",", "elemDabLen", ",", 
+         "elemDabPart", ",", "elemDabHead", ",", "elemDabLst", ",", "partLen",
+          ",", "partHead", ",", "partElem", ",", "partLst", ",", "jj", ",", 
+         "kdLst", ",", " ", "ind", ",", "kdRule", ",", "indNew", ",", 
+         "kdRuleElem", ",", "partLstNew", ",", "elemDabPartNew", ",", 
+         "elemDabNewLst", ",", "dummy", ",", "shift", ",", "antiSymVal", ",", 
+         "symVal", ",", "isConstant"}], "}"}], ",", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"shift", "=", 
+         RowBox[{"shiftVal", "+", "DabShiftValue"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", "\"\<  \>\""}],
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", "sep"}], "]"}],
+             ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", "sep"}], "]"}],
+             ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", "sep"}], "]"}],
+             ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<Dab::Starting\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"expr", "=", 
+         RowBox[{"CanonicOrdering", "[", 
+          RowBox[{"Expand", "[", "rawExpr", "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"exLen", "=", 
+         RowBox[{"Length", "[", "expr", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"exLst", "=", 
+         RowBox[{"Apply", "[", 
+          RowBox[{"List", ",", "expr"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"exHead", "=", 
+         RowBox[{"Head", "[", "expr", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"antiSymVal", "=", 
+         RowBox[{"OptionValue", "[", 
+          RowBox[{
+           RowBox[{"ToExpression", "[", "diffVarName", "]"}], ",", 
+           "AntiSymmetric"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"symVal", "=", 
+         RowBox[{"OptionValue", "[", 
+          RowBox[{
+           RowBox[{"ToExpression", "[", "diffVarName", "]"}], ",", 
+           "Symmetric"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"isConstant", "=", 
+         RowBox[{"MemberQ", "[", 
+          RowBox[{
+           RowBox[{"Attributes", "[", "expr", "]"}], ",", "Constant"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<expr = \>\"", ",", " ", "expr"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<exLen = \>\"", ",", " ", "exLen"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<exLst = \>\"", ",", " ", "exLst"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<exHead = \>\"", ",", " ", "exHead"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<diffVarName = \>\"", ",", " ", "diffVarName"}], "]"}], ";",
+             "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<antiSymVal = \>\"", ",", " ", "antiSymVal"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<symVal = \>\"", ",", " ", "symVal"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+              RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+              "\"\<isConstant = \>\"", ",", " ", "isConstant"}], "]"}], ";"}],
+            "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";",
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"exLen", "\[Equal]", "0"}], " ", "&&", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+               "\"\<Integer\>\""}], " ", "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+               "\"\<Real\>\""}], " ", "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+               "\"\<Rational\>\""}], "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+               "\"\<Complex\>\""}], " ", "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "expr", "]"}], "\[Equal]", " ", 
+               "\"\<NNN\>\""}], " ", "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "expr", "]"}], "\[Equal]", " ", 
+               "\"\<gamma1\>\""}], "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "expr", "]"}], "\[Equal]", " ", 
+               "\"\<gamma2\>\""}], "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "expr", "]"}], "\[Equal]", " ", 
+               "\"\<gamma3\>\""}], "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "expr", "]"}], "\[Equal]", " ", 
+               "\"\<gamma4\>\""}], "||", " ", 
+              RowBox[{
+               RowBox[{"ToString", "[", "expr", "]"}], "\[Equal]", " ", 
+               "\"\<gamma5\>\""}]}], ")"}]}], " ", "||", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+              "\"\<Symbol\>\""}], "  ", "||", " ", 
+             RowBox[{"isConstant", "\[Equal]", " ", "True"}]}], ")"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing numbers or constants...\>\""}], "]"}], 
+                ";"}], ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "0", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+           "\"\<Plus\>\""}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing Plus. Calling Dab...\>\""}], "]"}], 
+                ";"}], " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"elemDab", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"Dab", "[", 
+                RowBox[{
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], ",", "diffVarName", ",", 
+                 "shift"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "exLen"}], "}"}]}], "]"}]}], ";",
+             "\[IndentingNewLine]", 
+            RowBox[{"retVal", "=", 
+             RowBox[{"Apply", "[", 
+              RowBox[{"Plus", ",", "elemDab"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Plus retVal = \>\"", ",", " ", "retVal"}], "]"}], 
+                ";"}], " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+           "\"\<Times\>\""}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing Times. Calling Dab...\>\""}], "]"}], 
+                ";"}], " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"elemDab", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"Dab", "[", 
+                RowBox[{
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], ",", "diffVarName", ",", 
+                 "shift"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "exLen"}], "}"}]}], "]"}]}], ";",
+             "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Times elemDab = \>\"", ",", " ", "elemDab"}], 
+                 "]"}], ";"}], " ", ")"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"retVal", "=", 
+             RowBox[{"Sum", "[", 
+              RowBox[{
+               RowBox[{"Apply", "[", 
+                RowBox[{"Times", ",", 
+                 RowBox[{"ReplacePart", "[", 
+                  RowBox[{"exLst", ",", 
+                   RowBox[{"ii", " ", "\[Rule]", " ", 
+                    RowBox[{"elemDab", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}]}]}], "]"}]}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "exLen"}], "}"}]}], "]"}]}], ";",
+             "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Times retVal = \>\"", ",", " ", "retVal"}], "]"}],
+                 ";"}], " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+           "\"\<Power\>\""}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing Power...\>\""}], "]"}], ";"}], " ", 
+               ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Power exLst[[1]] = \>\"", ",", " ", 
+                  RowBox[{"exLst", "[", 
+                   RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+                  "\"\<, exLst[[2]] = \>\"", ",", " ", 
+                  RowBox[{"exLst", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}]}], "]"}], ";"}], " ", 
+               ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Calling Dab...\>\""}], "]"}], ";"}], ")"}]}], 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"retVal", "=", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"exLst", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], "*", 
+               RowBox[{"Power", "[", 
+                RowBox[{
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], ",", 
+                 RowBox[{
+                  RowBox[{"exLst", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}], "-", "1"}]}], "]"}], "*", 
+               RowBox[{"Dab", "[", 
+                RowBox[{
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], ",", "diffVarName", ",", 
+                 "shift"}], "]"}]}], "+", 
+              RowBox[{
+               RowBox[{"Log", "[", 
+                RowBox[{"exLst", "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], "]"}], "*", 
+               RowBox[{"Power", "[", 
+                RowBox[{
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], ",", 
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "*", 
+               RowBox[{"Dab", "[", 
+                RowBox[{
+                 RowBox[{"exLst", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], ",", "diffVarName", ",", 
+                 "shift"}], "]"}]}]}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Power retVal = \>\"", ",", " ", "retVal"}], "]"}],
+                 ";"}], ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+           "\"\<SumAll\>\""}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing SumAll...\>\""}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<expr = \>\"", ",", " ", "expr"}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<exLen = \>\"", ",", " ", "exLen"}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<exLst = \>\"", ",", " ", "exLst"}], "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Calling Dab...\>\""}], "]"}], ";"}], ")"}]}], 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"elemDab", "=", 
+             RowBox[{"Expand", "[", 
+              RowBox[{"Dab", "[", 
+               RowBox[{
+                RowBox[{"exLst", "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], ",", "diffVarName", ",", 
+                "shift"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"elemDab", " ", "\[Equal]", "0"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{"DebugSymbolicDab", ",", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<elemDab = \>\"", ",", " ", "elemDab"}], "]"}], ";"}],
+                    ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Return", "[", "0", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"elemDabLen", "=", 
+             RowBox[{"Length", "[", "elemDab", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"elemDabHead", "=", 
+             RowBox[{"Head", "[", "elemDab", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"elemDabLst", "=", 
+             RowBox[{"Apply", "[", 
+              RowBox[{"List", ",", "elemDab"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"elemDabNewLst", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{"Indeterminate", ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "elemDabLen"}], "}"}]}], "]"}]}],
+             ";", "\[IndentingNewLine]", 
+            RowBox[{"ind", "=", 
+             RowBox[{"exLst", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll elemDab = \>\"", ",", " ", "elemDab"}], 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll elemDabLen = \>\"", ",", " ", 
+                  "elemDabLen"}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll elemDabHead = \>\"", ",", " ", 
+                  "elemDabHead"}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll elemDabLst = \>\"", ",", " ", 
+                  "elemDabLst"}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll ind = \>\"", ",", " ", "ind"}], "]"}], ";",
+                 "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll elemDabNewLst = \>\"", ",", " ", 
+                  "elemDabNewLst"}], "]"}], ";"}], "\[IndentingNewLine]", 
+               ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"ToString", "[", "elemDabHead", "]"}], "\[NotEqual]", 
+               "\"\<Plus\>\""}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{"DebugSymbolicDab", ",", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll:: Creating fake Plus...\>\""}], "]"}], 
+                    ";"}], ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"elemDabHead", "=", "\"\<Plus\>\""}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"elemDabLen", "=", "1"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"elemDabLst", "=", 
+                 RowBox[{"{", "elemDab", "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"elemDabNewLst", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{"Indeterminate", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "elemDabLen"}], "}"}]}], 
+                  "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll updated elemDab = \>\"", ",", " ", 
+                    "elemDab"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll updated elemDabLen = \>\"", ",", " ", 
+                    "elemDabLen"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll updated elemDabHead = \>\"", ",", " ", 
+                    "elemDabHead"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll updated elemDabLst = \>\"", ",", " ", 
+                    "elemDabLst"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll updated ind = \>\"", ",", " ", "ind"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll updated elemDabNewLst = \>\"", ",", " ", 
+                    "elemDabNewLst"}], "]"}], ";"}], "\[IndentingNewLine]", 
+                   ")"}]}], "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"ToString", "[", "elemDabHead", "]"}], "\[Equal]", 
+               " ", "\"\<Plus\>\""}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{"DebugSymbolicDab", ",", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll:: Post processing Plus...\>\""}], "]"}], 
+                    ";"}], ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"For", "[", 
+                 RowBox[{
+                  RowBox[{"ii", "=", "1"}], ",", 
+                  RowBox[{"ii", " ", "\[LessEqual]", " ", "elemDabLen"}], ",",
+                   " ", 
+                  RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"elemDabPart", "=", 
+                    RowBox[{"elemDabLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"partLen", "=", 
+                    RowBox[{"Length", "[", "elemDabPart", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"partHead", "=", 
+                    RowBox[{"Head", "[", "elemDabPart", "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"partLst", "=", 
+                    RowBox[{"Apply", "[", 
+                    RowBox[{"List", ",", "elemDabPart"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"partLstNew", "=", "partLst"}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", "sep"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::ii = \>\"", ",", " ", "ii", ",", " ", 
+                    "\"\<, elemDabPart = \>\"", ",", " ", "elemDabPart"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll partLen = \>\"", ",", " ", "partLen"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll partHead = \>\"", ",", " ", "partHead"}],
+                     "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll partLst = \>\"", ",", " ", "partLst"}], 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"ToString", "[", "partHead", "]"}], 
+                    "\[NotEqual]", "\"\<Times\>\""}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", "sep"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::Plus post processing was expecting to \
+see Times inside but got: \>\"", ",", " ", "elemDabPart"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<expr = \>\"", ",", " ", "expr"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<exLen = \>\"", ",", " ", "exLen"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<exLst = \>\"", ",", " ", "exLst"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<exHead = \>\"", ",", " ", "exHead"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<diffVarName = \>\"", ",", " ", "diffVarName"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<antiSymVal = \>\"", ",", " ", "antiSymVal"}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<symVal = \>\"", ",", " ", "symVal"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<isConstant = \>\"", ",", " ", "isConstant"}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDab = \>\"", ",", " ", "elemDab"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDabLen = \>\"", ",", " ", 
+                    "elemDabLen"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDabHead = \>\"", ",", " ", 
+                    "elemDabHead"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDabLst = \>\"", ",", " ", 
+                    "elemDabLst"}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll ind = \>\"", ",", " ", "ind"}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDabNewLst = \>\"", ",", " ", 
+                    "elemDabNewLst"}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"kdRule", "=", 
+                    RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"indNew", "=", "ind"}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"For", "[", 
+                    RowBox[{
+                    RowBox[{"jj", "=", "1"}], ",", 
+                    RowBox[{"jj", " ", "\[LessEqual]", " ", "partLen"}], ",", 
+                    RowBox[{"jj", "++"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::jj = \>\"", ",", " ", "jj", ",", " ", 
+                    "\"\<, partLst[[\>\"", ",", "jj", ",", "\"\<]] = \>\"", 
+                    ",", " ", 
+                    RowBox[{"partLst", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], ",", " ", 
+                    "\"\<, head = \>\"", ",", " ", 
+                    RowBox[{"Head", "[", 
+                    RowBox[{"partLst", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], "]"}]}], "]"}], ";"}], 
+                    " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"ToString", "[", 
+                    RowBox[{"Head", "[", 
+                    RowBox[{"partLst", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], "]"}], "]"}], 
+                    "\[Equal]", "\"\<KroneckerDelta\>\""}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"kdLst", "=", 
+                    RowBox[{"Apply", "[", 
+                    RowBox[{"List", ",", 
+                    RowBox[{"partLst", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<We got KroneckerDelta!!!\>\""}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::kdLst = \>\"", ",", " ", "kdLst"}], 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"Intersection", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"kdLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "}"}], ",", "indNew"}], 
+                    "]"}], "]"}], " ", "\[Equal]", "0"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::Found kdLst does not have common \
+indicies with indNew. Igonring.\>\""}], "]"}], ";"}], " ", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"dummy", "=", "1"}], ";"}], "\[IndentingNewLine]",
+                     ")"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::Found kdLst has common indicies with \
+ind. Processing.\>\""}], "]"}], ";"}], " ", ")"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"partLstNew", "[", 
+                    RowBox[{"[", "jj", "]"}], "]"}], "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"kdRuleElem", "=", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"kdLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], " ", "\[Rule]", " ", 
+                    RowBox[{"kdLst", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}]}], "}"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll::kdRuleElem = \>\"", ",", " ", 
+                    "kdRuleElem"}], "]"}], ";"}], ")"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"indNew", "=", 
+                    RowBox[{"Complement", "[", 
+                    RowBox[{"indNew", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"kdLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "}"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"kdRule", "=", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{"kdRule", ",", "kdRuleElem"}], "]"}]}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll indNew = \>\"", ",", " ", "indNew"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll kdRule = \>\"", ",", " ", "kdRule"}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll partLstNew = \>\"", ",", " ", 
+                    "partLstNew"}], "]"}], ";"}], "\[IndentingNewLine]", 
+                    ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"ToString", "[", "partHead", "]"}], "\[Equal]", 
+                    "\"\<Times\>\""}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"elemDabPartNew", "=", 
+                    RowBox[{
+                    RowBox[{"Apply", "[", 
+                    RowBox[{"Times", ",", "partLstNew"}], "]"}], " ", "/.", 
+                    " ", "kdRule"}]}], ";"}], "\[IndentingNewLine]", ")"}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll:: Cannot process (yet) partHead != \
+Times.\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"elemDabPartNew", "=", "Indeterminate"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDabPartNew = \>\"", ",", " ", 
+                    "elemDabPartNew"}], "]"}], ";"}], " ", ")"}]}], "]"}], 
+                    ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "indNew", "]"}], " ", "\[Equal]", 
+                    "0"}], " ", ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<indNew has zero length ==> No sum.\>\""}], "]"}], 
+                    ";"}], " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"elemDabNewLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "=", "elemDabPartNew"}], 
+                    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    ")"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<indNew has length > 0 ==> There will be sum.\>\""}], 
+                    "]"}], ";"}], ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"elemDabNewLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "=", 
+                    RowBox[{"SummmAll", "[", 
+                    RowBox[{"elemDabPartNew", ",", "indNew"}], "]"}]}], ";"}],
+                     "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::SumAll elemDabNewLst = \>\"", ",", " ", 
+                    "elemDabNewLst"}], "]"}], ";"}], " ", ")"}]}], "]"}], 
+                    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                   ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+               "\[IndentingNewLine]", "\[IndentingNewLine]", ")"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll:: We actually expect plus here but did not \
+receive it.\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll FINAL elemDabNewLst = \>\"", ",", " ", 
+                  "elemDabNewLst"}], "]"}], ";"}], " ", ")"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"retVal", "=", 
+             RowBox[{"Apply", "[", 
+              RowBox[{"Plus", ",", "elemDabNewLst"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::SumAll retVal = \>\"", ",", " ", "retVal"}], 
+                 "]"}], ";"}], " ", ")"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToString", "[", "exHead", "]"}], "\[Equal]", " ", 
+           "diffVarName"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing \>\"", ",", "diffVarName", ",", 
+                  "\"\<...\>\""}], "]"}], ";"}], " ", ")"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"Length", "[", "exLst", "]"}], "\[Equal]", "2"}], " ",
+                "&&", " ", 
+               RowBox[{
+                RowBox[{"ToString", "[", 
+                 RowBox[{"Head", "[", "exLst", "]"}], "]"}], " ", "\[Equal]", 
+                " ", "\"\<List\>\""}]}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"symVal", " ", "&&", " ", "antiSymVal"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::Error::\>\"", ",", "diffVarName", ",", 
+                    "\"\< has both Symmetric and AntiSymmetric options set.\>\
+\""}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+                   "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"symVal", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::Processing Symmetric \>\"", ",", "diffVarName", 
+                    ",", "\"\<...\>\""}], "]"}], ";"}], " ", ")"}]}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"retVal", "=", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", "A"}], "]"}], "*", 
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", "B"}], "]"}]}], "+", 
+                    RowBox[{
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", "B"}], "]"}], "*", 
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", "A"}], "]"}]}]}], 
+                    ")"}]}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::\>\"", ",", "diffVarName", ",", 
+                    "\"\< retVal = \>\"", ",", " ", "retVal"}], "]"}], ";"}], 
+                    " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+                   "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"antiSymVal", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::Processing AntiSymmetric \>\"", ",", 
+                    "diffVarName", ",", "\"\<...\>\""}], "]"}], ";"}], " ", 
+                    ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"retVal", "=", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", "A"}], "]"}], "*", 
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", "B"}], "]"}]}], "-", 
+                    RowBox[{
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", "B"}], "]"}], "*", 
+                    RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", "A"}], "]"}]}]}], 
+                    ")"}]}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{"DebugSymbolicDab", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::\>\"", ",", "diffVarName", ",", 
+                    "\"\< retVal = \>\"", ",", " ", "retVal"}], "]"}], ";"}], 
+                    " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+                   "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"DebugSymbolicDab", ",", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::Processing \>\"", ",", "diffVarName", ",", 
+                    "\"\< with no symmetry...\>\""}], "]"}], ";"}], " ", 
+                   ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"retVal", "=", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", "A"}], "]"}], "*", 
+                   RowBox[{"KroneckerDelta", "[", 
+                    RowBox[{
+                    RowBox[{"exLst", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", "B"}], "]"}]}], 
+                  ")"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{"DebugSymbolicDab", ",", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                    "\"\<Dab::\>\"", ",", "diffVarName", ",", 
+                    "\"\< retVal = \>\"", ",", " ", "retVal"}], "]"}], ";"}], 
+                   " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab expects to see \>\"", ",", "diffVarName", ",", 
+                  "\"\<[i,j] but got \>\"", ",", " ", "rawExpr", " ", ",", 
+                  " ", "\"\< instead.\>\""}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";"}], "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::Processing derivative of \>\"", ",", " ", 
+                  "exHead", ",", "\"\< by \>\"", ",", "diffVarName", ",", 
+                  "\"\<...\>\""}], "]"}], ";"}], " ", ")"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"retVal", "=", "0"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"DebugSymbolicDab", ",", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                  RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+                  "\"\<Dab::\>\"", ",", "diffVarName", ",", 
+                  "\"\< retVal = \>\"", ",", " ", "retVal"}], "]"}], ";"}], 
+               " ", ")"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "retVal", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "If", " ", "we", " ", "got", " ", "here", " ", "then", " ", "we", 
+          " ", 
+          RowBox[{"don", "'"}], "t", " ", "know", " ", "what", " ", "to", " ",
+           "do"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+          RowBox[{"StringShift", "[", "shift", "]"}], ",", 
+          "\"\<Dab:: cannot determine what to do!\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "Indeterminate", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5901964004058547`*^9, 3.5901965319572754`*^9}, {
+   3.590197076206848*^9, 3.590197083308567*^9}, {3.590197114909569*^9, 
+   3.5901971725478735`*^9}, {3.590197282771121*^9, 3.5901973247620263`*^9}, {
+   3.590197363195567*^9, 3.5901977259956694`*^9}, {3.590197779574274*^9, 
+   3.5901977862657223`*^9}, {3.5901978663499413`*^9, 3.59019786682926*^9}, 
+   3.5901980022322426`*^9, {3.5901980805262733`*^9, 3.590198135044505*^9}, {
+   3.59019821011139*^9, 3.5901984364267898`*^9}, {3.5901985039676733`*^9, 
+   3.590198532456607*^9}, {3.59019861489754*^9, 3.590198657787544*^9}, {
+   3.590198706226734*^9, 3.5901987137697477`*^9}, {3.5901987469678087`*^9, 
+   3.590198805322588*^9}, {3.590198835833865*^9, 3.59019902380728*^9}, {
+   3.5901990976952763`*^9, 3.590199115518119*^9}, {3.5901991619920034`*^9, 
+   3.5901991645567083`*^9}, {3.5901992642759595`*^9, 
+   3.5901993375836782`*^9}, {3.590199482216795*^9, 3.590199524200695*^9}, {
+   3.590199562214957*^9, 3.590199568678253*^9}, {3.59019963467511*^9, 
+   3.590199912892893*^9}, {3.5901999573554416`*^9, 3.5902000260490913`*^9}, {
+   3.5902001212193365`*^9, 3.5902001816605034`*^9}, {3.5902002641062927`*^9, 
+   3.5902004421366715`*^9}, {3.5902009245322475`*^9, 
+   3.5902009542259817`*^9}, {3.590201070858489*^9, 3.5902010750322638`*^9}, {
+   3.5902015858767166`*^9, 3.5902017159570847`*^9}, {3.5902017661554446`*^9, 
+   3.5902019945928144`*^9}, {3.590202068276621*^9, 3.590202239157181*^9}, {
+   3.5902022998435087`*^9, 3.5902025315975227`*^9}, {3.5902026711490836`*^9, 
+   3.590202713122977*^9}, {3.590202829886572*^9, 3.590202860246749*^9}, {
+   3.5902028932086535`*^9, 3.5902029661059747`*^9}, {3.5902030027193074`*^9, 
+   3.5902030097019477`*^9}, {3.5902031438330097`*^9, 3.590203267855429*^9}, {
+   3.5902033009234047`*^9, 3.5902033734235854`*^9}, {3.5902034615861745`*^9, 
+   3.5902035277711577`*^9}, {3.5902036395044107`*^9, 3.590203864949941*^9}, {
+   3.5902039585511436`*^9, 3.5902040974934816`*^9}, {3.590204134578124*^9, 
+   3.590204156057399*^9}, {3.590204203104665*^9, 3.5902042055022593`*^9}, {
+   3.590204313725178*^9, 3.590204324911612*^9}, {3.590204402143937*^9, 
+   3.59020440959789*^9}, {3.590204620081767*^9, 3.5902046471317453`*^9}, {
+   3.590234316088561*^9, 3.5902344079436035`*^9}, {3.5902344671669617`*^9, 
+   3.5902344733790903`*^9}, {3.5902345098502874`*^9, 3.590234614698961*^9}, {
+   3.5902346629730415`*^9, 3.59023472429079*^9}, {3.590234759919466*^9, 
+   3.590234793830001*^9}, {3.5902348374319773`*^9, 3.5902348419309673`*^9}, {
+   3.590234873307681*^9, 3.5902348734777946`*^9}, {3.590234944895255*^9, 
+   3.590234960603694*^9}, {3.5902350402386165`*^9, 3.5902350615667896`*^9}, {
+   3.5902351185496593`*^9, 3.5902351523481207`*^9}, 3.5933635613163614`*^9, {
+   3.5933636226592216`*^9, 3.5933636273193235`*^9}, {3.5933638065153503`*^9, 
+   3.593363825819209*^9}, {3.593364816585285*^9, 3.593364877819072*^9}, {
+   3.5933691929107656`*^9, 3.5933692758379974`*^9}, {3.593369549863228*^9, 
+   3.593369551382243*^9}, {3.593369645510936*^9, 3.593369697516575*^9}, {
+   3.5933697643030577`*^9, 3.5933698825578237`*^9}, {3.593369927707896*^9, 
+   3.593369929304961*^9}, {3.59337053980159*^9, 3.593370540425006*^9}, {
+   3.593371027724577*^9, 3.5933710341498566`*^9}, {3.5933712611840754`*^9, 
+   3.5933714200776577`*^9}, 3.5933714525322742`*^9, {3.5933714962283773`*^9, 
+   3.59337149875406*^9}, {3.5933716806971292`*^9, 3.593371683491991*^9}, {
+   3.593398285006013*^9, 3.5933983788685308`*^9}, {3.593398566157276*^9, 
+   3.59339874052046*^9}, {3.59339878773691*^9, 3.593398790277602*^9}, {
+   3.5935315298632174`*^9, 3.593531595666046*^9}, {3.5935316272341127`*^9, 
+   3.593531663917863*^9}, {3.593531716357792*^9, 3.5935320320190425`*^9}, {
+   3.593534740695099*^9, 3.593534819854824*^9}, {3.5935351318226147`*^9, 
+   3.59353522696727*^9}, {3.593535266269447*^9, 3.5935352810312815`*^9}, {
+   3.5935354304628134`*^9, 3.5935354573497186`*^9}, {3.593535501153894*^9, 
+   3.5935355227923083`*^9}, {3.5935365693401747`*^9, 
+   3.5935365740623193`*^9}, {3.5935366167017207`*^9, 
+   3.5935368110731845`*^9}, {3.5935368779387217`*^9, 
+   3.5935369010831375`*^9}, {3.5935369670440702`*^9, 3.593536968048741*^9}, 
+   3.5935371858077817`*^9, 3.602434918957632*^9, {3.602509901355611*^9, 
+   3.6025099652500167`*^9}, {3.6025112748890505`*^9, 3.602511335452244*^9}, {
+   3.602511374280012*^9, 3.60251141200805*^9}, 3.6025114443925424`*^9, {
+   3.6025117070266714`*^9, 3.6025117388618*^9}, {3.6025124392165923`*^9, 
+   3.602512538486471*^9}, {3.6025125686925173`*^9, 3.602512618375489*^9}, {
+   3.6025128459305115`*^9, 3.6025131304623413`*^9}, {3.602513242469674*^9, 
+   3.6025133070895596`*^9}, {3.6025137186284485`*^9, 
+   3.6025137977849817`*^9}, {3.6025139178616705`*^9, 3.602514017244626*^9}, {
+   3.6025146180567055`*^9, 3.602514620576378*^9}, {3.6025174698943567`*^9, 
+   3.602517525942551*^9}, {3.6025175581759443`*^9, 3.602517601708835*^9}, {
+   3.602517918500074*^9, 3.6025179622491083`*^9}, {3.602518005870057*^9, 
+   3.602518031873314*^9}, {3.60251816500967*^9, 3.602518272119753*^9}, {
+   3.602524427268777*^9, 3.6025244299705696`*^9}, {3.6025244630405164`*^9, 
+   3.602524501111782*^9}, {3.6025248774898214`*^9, 3.6025249458572035`*^9}, 
+   3.6027814099476695`*^9, {3.60278152845932*^9, 3.6027815312211533`*^9}}]
+},
+WindowSize->{1341, 1394},
+WindowMargins->{{Automatic, -42}, {-107, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 69288, 1398, 10196, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

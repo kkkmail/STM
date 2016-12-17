@@ -1,0 +1,3366 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[    136710,       3357]
+NotebookOptionsPosition[    129236,       3164]
+NotebookOutlinePosition[    129604,       3180]
+CellTagsIndexPosition[    129561,       3177]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"exprVal", "=", 
+     RowBox[{
+      RowBox[{"w", "[", 
+       RowBox[{"i1", ",", "i2"}], "]"}], " ", 
+      RowBox[{"w", "[", 
+       RowBox[{"i3", ",", "i1"}], "]"}], " ", 
+      RowBox[{"w", "[", 
+       RowBox[{"i4", ",", "i3"}], "]"}], " ", 
+      RowBox[{"w", "[", 
+       RowBox[{"i5", ",", "i6"}], "]"}], " ", 
+      RowBox[{"w", "[", 
+       RowBox[{"i7", ",", "i5"}], "]"}]}]}], ";"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"exprVal", "=", 
+     RowBox[{"2", "*", 
+      RowBox[{"w", "[", 
+       RowBox[{"i1", ",", "i2"}], "]"}], "*", 
+      RowBox[{"w", "[", 
+       RowBox[{"i4", ",", "i3"}], "]"}], "*", 
+      RowBox[{"w", "[", 
+       RowBox[{"i7", ",", "i8"}], "]"}], "*", 
+      RowBox[{"w", "[", 
+       RowBox[{"i5", ",", "i6"}], "]"}], "*", 
+      RowBox[{"w", "[", 
+       RowBox[{"i3", ",", "i1"}], "]"}], "*", 
+      RowBox[{"w", "[", 
+       RowBox[{"i7", ",", "i5"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"indVar", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "i1", ",", "i2", ",", "i3", ",", "i4", ",", "i5", ",", "i6", ",", "i7", 
+       ",", "i8"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"sep", "=", "\"\<------------------\>\""}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"expr", "=", "exprVal"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ind", "=", "indVar"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"indLen", "=", 
+     RowBox[{"Length", "[", "ind", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exHead", "=", 
+     RowBox[{"Head", "[", "expr", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"newIndRule", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ind", "[", 
+         RowBox[{"[", "ii", "]"}], "]"}], " ", "\[Rule]", " ", 
+        RowBox[{"ToExpression", "[", 
+         RowBox[{"\"\<i\>\"", " ", "<>", " ", 
+          RowBox[{"ToString", "[", "ii", "]"}]}], "]"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "indLen"}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exLst", "=", 
+     RowBox[{"Apply", "[", 
+      RowBox[{"List", ",", "expr"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exLstHlp", "=", "exLst"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exLen", "=", 
+     RowBox[{"Length", "[", "exLst", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<  \>\"", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "sep", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<SummmAll::Starting...\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<expr = \>\"", ",", " ", "expr"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<exHead = \>\"", ",", " ", "exHead"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<ind = \>\"", ",", " ", "ind"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<indLen = \>\"", ",", " ", "indLen"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<exLst = \>\"", ",", " ", "exLst"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<exLen = \>\"", ",", " ", "exLen"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"exLstIndLstPairLst", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"idx", "=", "1"}], ",", 
+      RowBox[{"idx", " ", "\[LessEqual]", " ", "indLen"}], ",", 
+      RowBox[{"idx", "++"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"(", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", "sep", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<idx = \>\"", ",", " ", "idx", ",", " ", "\"\<, ind[[\>\"", ",", 
+          "idx", ",", "\"\<]] = \>\"", ",", " ", 
+          RowBox[{"ind", "[", 
+           RowBox[{"[", "idx", "]"}], "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"delLst", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{"False", ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", 
+             RowBox[{"Length", "[", "exLstHlp", "]"}]}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"idxEx", "=", "1"}], ",", 
+          RowBox[{"idxEx", " ", "\[LessEqual]", 
+           RowBox[{"Length", "[", "exLstHlp", "]"}]}], ",", 
+          RowBox[{"idxEx", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<idxEx = \>\"", ",", " ", "idxEx", ",", " ", 
+              "\"\<, exLstHlp[[\>\"", ",", "idxEx", ",", "\"\<]] = \>\"", ",",
+               " ", 
+              RowBox[{"exLstHlp", "[", 
+               RowBox[{"[", "idxEx", "]"}], "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"MemberQ", "[", 
+               RowBox[{
+                RowBox[{"exLstHlp", "[", 
+                 RowBox[{"[", "idxEx", "]"}], "]"}], ",", 
+                RowBox[{"ind", "[", 
+                 RowBox[{"[", "idx", "]"}], "]"}], ",", "Infinity"}], "]"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<exLstHlp[[\>\"", ",", "idxEx", ",", "\"\<]] has \>\"", 
+                  ",", " ", 
+                  RowBox[{"ind", "[", 
+                   RowBox[{"[", "idx", "]"}], "]"}]}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"delLst", "[", 
+                  RowBox[{"[", "idxEx", "]"}], "]"}], "=", "True"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<delLst = \>\"", ",", " ", "delLst"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"exLstIndLstPair", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ind", "[", 
+             RowBox[{"[", "idx", "]"}], "]"}], "}"}]}], "}"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"idxEx", "=", 
+           RowBox[{"Length", "[", "exLstHlp", "]"}]}], ",", 
+          RowBox[{"idxEx", "\[GreaterEqual]", " ", "1"}], ",", 
+          RowBox[{"idxEx", "--"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"delLst", "[", 
+               RowBox[{"[", "idxEx", "]"}], "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"ex", "=", 
+                 RowBox[{"exLstHlp", "[", 
+                  RowBox[{"[", "idxEx", "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{"\"\<ex = \>\"", ",", " ", "ex"}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"exLstIndLstPair", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "=", 
+                 RowBox[{"Prepend", "[", 
+                  RowBox[{
+                   RowBox[{"exLstIndLstPair", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", "ex"}], "]"}]}], ";",
+                 "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Deleting exLstHlp[[\>\"", ",", "idxEx", ",", 
+                  "\"\<]] = \>\"", ",", 
+                  RowBox[{"exLstHlp", "[", 
+                   RowBox[{"[", "idxEx", "]"}], "]"}]}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"exLstHlp", "=", 
+                 RowBox[{"Delete", "[", 
+                  RowBox[{"exLstHlp", ",", "idxEx"}], "]"}]}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<New exLstHlp = \>\"", ",", " ", "exLstHlp"}], "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<exLstIndLstPair = \>\"", ",", " ", "exLstIndLstPair"}], 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<Checking whether previous pairs have that index: \>\"", ",", 
+          " ", 
+          RowBox[{"ind", "[", 
+           RowBox[{"[", "idx", "]"}], "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<exLstIndLstPairLst (before merge) = \>\"", ",", " ", 
+          "exLstIndLstPairLst"}], "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"IsMerged", "=", "False"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "exLstIndLstPairLst", "]"}], "\[Equal]", 
+           "0"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<Length of exLstIndLstPairLst == 0. Adding \
+exLstIndLstPair.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"exLstIndLstPairLst", "=", 
+             RowBox[{"{", "exLstIndLstPair", "}"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<exLstIndLstPairLst = \>\"", ",", " ", 
+              "exLstIndLstPairLst"}], "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"For", "[", 
+             RowBox[{
+              RowBox[{"ii", "=", "1"}], ",", 
+              RowBox[{"ii", "\[LessEqual]", 
+               RowBox[{"Length", "[", "exLstIndLstPairLst", "]"}]}], ",", 
+              RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Checking exLstIndLstPairLst[[\>\"", ",", "ii", ",", 
+                  "\"\<]] = \>\"", ",", 
+                  RowBox[{"exLstIndLstPairLst", "[", 
+                   RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"MemberQ", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}], ",", "Infinity"}], 
+                   "]"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<Index \>\"", ",", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}], ",", " ", 
+                    "\"\< found. Merging\>\""}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "=", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Join", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"exLstIndLstPair", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}]}], "]"}]}], "}"}]}], ";",
+                     "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    "\"\<New exLstIndLstPairLst[[\>\"", ",", "ii", ",", 
+                    "\"\<]] = \>\"", ",", 
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"IsMerged", "=", "True"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";"}], "\[IndentingNewLine]",
+                    ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"!", "IsMerged"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", "\"\<Not merging!!!\>\"", "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"exLstIndLstPairLst", "=", 
+                 RowBox[{"Append", "[", 
+                  RowBox[{"exLstIndLstPairLst", ",", "exLstIndLstPair"}], 
+                  "]"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<exLstIndLstPairLst (after merge) = \>\"", ",", " ", 
+              "exLstIndLstPairLst"}], "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Length", "[", "exLstIndLstPairLst", "]"}], ">", "1"}],
+               ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 
+                 "\"\<Length of exLstIndLstPairLst > 1. Checking existing \
+pairs.\>\"", "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Finding first element of exLstIndLstPairLst with \>\"", 
+                  ",", " ", 
+                  RowBox[{"ind", "[", 
+                   RowBox[{"[", "idx", "]"}], "]"}]}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"For", "[", 
+                 RowBox[{
+                  RowBox[{"idxInd", "=", "1"}], ",", 
+                  RowBox[{"idxInd", " ", "\[LessEqual]", " ", 
+                   RowBox[{"Length", "[", "exLstIndLstPairLst", "]"}]}], ",", 
+                  RowBox[{"idxInd", "++"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "idxInd", "]"}], "]"}], "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ",", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}], ",", "Infinity"}], 
+                    "]"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<First element with \>\"", ",", " ", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}], ",", " ", 
+                    "\"\< is exLstIndLstPairLst[[\>\"", ",", "idxInd", ",", 
+                    "\"\<]] = \>\"", ",", 
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "idxInd", "]"}], "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";"}], "\[IndentingNewLine]",
+                     ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+                   "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"exLstIndLstPairLstChanged", "=", "True"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"changeReq", "=", "False"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"delLst", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{"False", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", 
+                    RowBox[{"Length", "[", "exLstIndLstPairLst", "]"}]}], 
+                    "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"While", "[", 
+                 RowBox[{
+                 "exLstIndLstPairLstChanged", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    "\"\<Testing if some pairs should be merged for a given \
+index \>\"", ",", " ", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"For", "[", 
+                    RowBox[{
+                    RowBox[{"ii", "=", 
+                    RowBox[{"idxInd", "+", "1"}]}], ",", 
+                    RowBox[{"ii", "\[LessEqual]", 
+                    RowBox[{"Length", "[", "exLstIndLstPairLst", "]"}]}], ",", 
+                    RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    "\"\<exLstIndLstPairLst[[\>\"", ",", "ii", ",", 
+                    "\"\<]] = \>\"", ",", " ", 
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"exLstIndLstPairLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}], ",", "Infinity"}], 
+                    "]"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    "\"\<exLstIndLstPairLst[[\>\"", ",", "ii", ",", 
+                    "\"\<]][[1]] has \>\"", ",", " ", 
+                    RowBox[{"ind", "[", 
+                    RowBox[{"[", "idx", "]"}], "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"delLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "=", "True"}], ";"}], 
+                    "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<delLst = \>\"", ",", " ", "delLst"}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", "changeReq"}], ",", 
+                    RowBox[{"exLstIndLstPairLstChanged", "=", "False"}]}], 
+                    "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", 
+               ")"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+        ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Final exLstHlp = \>\"", ",", " ", "exLstHlp"}], "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<Final exLstIndLstPairLst = \>\"", ",", " ", "exLstIndLstPairLst"}], 
+     "]"}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.602444304962344*^9, 3.6024443586029267`*^9}, {
+   3.6024444562777185`*^9, 3.6024445308101597`*^9}, {3.6024445752496405`*^9, 
+   3.6024449460956388`*^9}, {3.6024449779517717`*^9, 3.602445140692726*^9}, {
+   3.602445245521264*^9, 3.6024453189199514`*^9}, {3.602445509807576*^9, 
+   3.60244577763624*^9}, {3.6024458595165567`*^9, 3.60244611180291*^9}, {
+   3.602446192409381*^9, 3.602446198361327*^9}, {3.60244625084114*^9, 
+   3.602446284975783*^9}, {3.6024463437527733`*^9, 3.602446344640362*^9}, {
+   3.6024463853483663`*^9, 3.60244638551748*^9}, {3.60244645375074*^9, 
+   3.602446498295288*^9}, {3.602446536416577*^9, 3.602446592054484*^9}, {
+   3.6024468084100018`*^9, 3.6024468272495003`*^9}, {3.602447047907874*^9, 
+   3.60244721321553*^9}, {3.602447259148*^9, 3.602447282740649*^9}, {
+   3.6024473584458675`*^9, 3.602447844220106*^9}, {3.602447892793327*^9, 
+   3.602447898701245*^9}, {3.6024479747667027`*^9, 3.6024480084120226`*^9}, {
+   3.6024480666316414`*^9, 3.6024481057525997`*^9}, 3.602448219107787*^9, {
+   3.602448324708837*^9, 3.602448421051746*^9}, {3.602449358995555*^9, 
+   3.602449489347023*^9}, {3.6024496287905235`*^9, 3.602449649718405*^9}, {
+   3.602449731765832*^9, 3.6024497672413635`*^9}, {3.6024498070087442`*^9, 
+   3.602449815102112*^9}, {3.602449848935555*^9, 3.6024499082078743`*^9}, {
+   3.602450087465785*^9, 3.6024500879731216`*^9}, {3.6024501563594847`*^9, 
+   3.602450159841794*^9}, {3.6024502249009523`*^9, 3.602450246877529*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"  \"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343822412`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343852434`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234386243*^9}],
+
+Cell[BoxData["\<\"SummmAll::Starting...\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234386243*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"expr = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"2", " ", 
+    RowBox[{"w", "[", 
+     RowBox[{"i1", ",", "i2"}], "]"}], " ", 
+    RowBox[{"w", "[", 
+     RowBox[{"i3", ",", "i1"}], "]"}], " ", 
+    RowBox[{"w", "[", 
+     RowBox[{"i4", ",", "i3"}], "]"}], " ", 
+    RowBox[{"w", "[", 
+     RowBox[{"i5", ",", "i6"}], "]"}], " ", 
+    RowBox[{"w", "[", 
+     RowBox[{"i7", ",", "i5"}], "]"}], " ", 
+    RowBox[{"w", "[", 
+     RowBox[{"i7", ",", "i8"}], "]"}]}]}],
+  SequenceForm[
+  "expr = ", 
+   2 $CellContext`w[$CellContext`i1, $CellContext`i2] \
+$CellContext`w[$CellContext`i3, $CellContext`i1] \
+$CellContext`w[$CellContext`i4, $CellContext`i3] \
+$CellContext`w[$CellContext`i5, $CellContext`i6] \
+$CellContext`w[$CellContext`i7, $CellContext`i5] \
+$CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343872447`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exHead = \"\>", "\[InvisibleSpace]", "Times"}],
+  SequenceForm["exHead = ", Times],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343882456`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ind = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "i1", ",", "i2", ",", "i3", ",", "i4", ",", "i5", ",", "i6", ",", "i7", 
+     ",", "i8"}], "}"}]}],
+  SequenceForm[
+  "ind = ", {$CellContext`i1, $CellContext`i2, $CellContext`i3, \
+$CellContext`i4, $CellContext`i5, $CellContext`i6, $CellContext`i7, \
+$CellContext`i8}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343882456`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"indLen = \"\>", "\[InvisibleSpace]", "8"}],
+  SequenceForm["indLen = ", 8],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343892455`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i4", ",", "i3"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["exLst = ", {2, 
+    $CellContext`w[$CellContext`i1, $CellContext`i2], 
+    $CellContext`w[$CellContext`i3, $CellContext`i1], 
+    $CellContext`w[$CellContext`i4, $CellContext`i3], 
+    $CellContext`w[$CellContext`i5, $CellContext`i6], 
+    $CellContext`w[$CellContext`i7, $CellContext`i5], 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343892455`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLen = \"\>", "\[InvisibleSpace]", "7"}],
+  SequenceForm["exLen = ", 7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343902464`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343902464`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i1"}],
+  SequenceForm["idx = ", 1, ", ind[[", 1, "]] = ", $CellContext`i1],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343912477`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234392248*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i1", ",", "i2"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i1, $CellContext`i2]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234392248*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] has \"\>", "\[InvisibleSpace]", "i1"}],
+  SequenceForm["exLstHlp[[", 2, "]] has ", $CellContext`i1],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343932486`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i3", ",", "i1"}], "]"}]}],
+  SequenceForm["idxEx = ", 3, ", exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i3, $CellContext`i1]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343932486`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] has \"\>", "\[InvisibleSpace]", "i1"}],
+  SequenceForm["exLstHlp[[", 3, "]] has ", $CellContext`i1],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502343932486`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i4", ",", "i3"}], "]"}]}],
+  SequenceForm["idxEx = ", 4, ", exLstHlp[[", 4, "]] = ", 
+   $CellContext`w[$CellContext`i4, $CellContext`i3]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234394249*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["idxEx = ", 5, ", exLstHlp[[", 5, "]] = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234395251*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "6", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "6", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["idxEx = ", 6, ", exLstHlp[[", 6, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344062576`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "7", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "7", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 7, ", exLstHlp[[", 7, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234412262*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "False", ",", "True", ",", "True", ",", "False", ",", "False", ",", 
+     "False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, True, True, False, False, False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234417264*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ex = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i3", ",", "i1"}], "]"}]}],
+  SequenceForm["ex = ", 
+   $CellContext`w[$CellContext`i3, $CellContext`i1]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344212675`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Deleting exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i3", ",", "i1"}], "]"}]}],
+  SequenceForm["Deleting exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i3, $CellContext`i1]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.60245023442527*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ex = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i1", ",", "i2"}], "]"}]}],
+  SequenceForm["ex = ", 
+   $CellContext`w[$CellContext`i1, $CellContext`i2]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344292727`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Deleting exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i1", ",", "i2"}], "]"}]}],
+  SequenceForm["Deleting exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i1, $CellContext`i2]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234432275*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i4", ",", "i3"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["New exLstHlp = ", {2, 
+    $CellContext`w[$CellContext`i4, $CellContext`i3], 
+    $CellContext`w[$CellContext`i5, $CellContext`i6], 
+    $CellContext`w[$CellContext`i7, $CellContext`i5], 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234437279*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", "i1", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234441281*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i1"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i1],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344462843`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234450287*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst == 0. Adding \
+exLstIndLstPair.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344542885`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", "i1", "}"}]}], "}"}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234458292*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344622955`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i2"}],
+  SequenceForm["idx = ", 2, ", ind[[", 2, "]] = ", $CellContext`i2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234468298*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344723005`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i4", ",", "i3"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i4, $CellContext`i3]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234476303*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["idxEx = ", 3, ", exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344803057`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["idxEx = ", 4, ", exLstHlp[[", 4, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234484315*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 5, ", exLstHlp[[", 5, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234490312*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False", ",", "False", ",", "False", ",", "False"}],
+     "}"}]}],
+  SequenceForm["delLst = ", {False, False, False, False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502344943166`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i4", ",", "i3"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["New exLstHlp = ", {2, 
+    $CellContext`w[$CellContext`i4, $CellContext`i3], 
+    $CellContext`w[$CellContext`i5, $CellContext`i6], 
+    $CellContext`w[$CellContext`i7, $CellContext`i5], 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234499319*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{"{", "i2", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{}, {$CellContext`i2}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345043216`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i2"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234509325*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", "i1", "}"}]}], "}"}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345133286`*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345173316`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", "i1", "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345223346`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Index \"\>", "\[InvisibleSpace]", "i2", 
+   "\[InvisibleSpace]", "\<\" found. Merging\"\>"}],
+  SequenceForm["Index ", $CellContext`i2, " found. Merging"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345263367`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2"}], "}"}]}], "}"}]}],
+  SequenceForm["New exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1, \
+$CellContext`i2}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234530339*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i1", ",", "i2"}], "}"}]}], "}"}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1, \
+$CellContext`i2}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234535343*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234540345*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i3"}],
+  SequenceForm["idx = ", 3, ", ind[[", 3, "]] = ", $CellContext`i3],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234544349*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234549351*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i4", ",", "i3"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i4, $CellContext`i3]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234552353*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] has \"\>", "\[InvisibleSpace]", "i3"}],
+  SequenceForm["exLstHlp[[", 2, "]] has ", $CellContext`i3],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234557358*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["idxEx = ", 3, ", exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345613604`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["idxEx = ", 4, ", exLstHlp[[", 4, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234566364*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 5, ", exLstHlp[[", 5, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345723677`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "True", ",", "False", ",", "False", ",", "False"}], 
+    "}"}]}],
+  SequenceForm["delLst = ", {False, True, False, False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345773706`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ex = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i4", ",", "i3"}], "]"}]}],
+  SequenceForm["ex = ", 
+   $CellContext`w[$CellContext`i4, $CellContext`i3]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345813737`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Deleting exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i4", ",", "i3"}], "]"}]}],
+  SequenceForm["Deleting exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i4, $CellContext`i3]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345853767`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["New exLstHlp = ", {2, 
+    $CellContext`w[$CellContext`i5, $CellContext`i6], 
+    $CellContext`w[$CellContext`i7, $CellContext`i5], 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345903797`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"w", "[", 
+       RowBox[{"i4", ",", "i3"}], "]"}], "}"}], ",", 
+     RowBox[{"{", "i3", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i3}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502345943823`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i3"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i3],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234598384*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i1", ",", "i2"}], "}"}]}], "}"}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1, \
+$CellContext`i2}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346013927`*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346063905`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1]}, {$CellContext`i1, \
+$CellContext`i2}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346113935`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Index \"\>", "\[InvisibleSpace]", "i3", 
+   "\[InvisibleSpace]", "\<\" found. Merging\"\>"}],
+  SequenceForm["Index ", $CellContext`i3, " found. Merging"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346153955`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3"}], "}"}]}], "}"}]}],
+  SequenceForm["New exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346183987`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i1", ",", "i2", ",", "i3"}], "}"}]}], "}"}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346234016`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346284037`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i4"}],
+  SequenceForm["idx = ", 4, ", ind[[", 4, "]] = ", $CellContext`i4],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234632407*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346384125`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346424146`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["idxEx = ", 3, ", exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346464157`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 4, ", exLstHlp[[", 4, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346514206`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False", ",", "False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, False, False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234656424*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["New exLstHlp = ", {2, 
+    $CellContext`w[$CellContext`i5, $CellContext`i6], 
+    $CellContext`w[$CellContext`i7, $CellContext`i5], 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346614275`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{"{", "i4", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{}, {$CellContext`i4}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.60245023466543*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i4"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i4],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346704316`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i1", ",", "i2", ",", "i3"}], "}"}]}], "}"}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234674435*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234678438*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346834416`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Index \"\>", "\[InvisibleSpace]", "i4", 
+   "\[InvisibleSpace]", "\<\" found. Merging\"\>"}],
+  SequenceForm["Index ", $CellContext`i4, " found. Merging"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234687443*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}]}],
+  SequenceForm["New exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346924467`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], 
+    "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502346974497`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347024536`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "5", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i5"}],
+  SequenceForm["idx = ", 5, ", ind[[", 5, "]] = ", $CellContext`i5],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347074575`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234711459*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234716463*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] has \"\>", "\[InvisibleSpace]", "i5"}],
+  SequenceForm["exLstHlp[[", 2, "]] has ", $CellContext`i5],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347194643`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["idxEx = ", 3, ", exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347244687`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] has \"\>", "\[InvisibleSpace]", "i5"}],
+  SequenceForm["exLstHlp[[", 3, "]] has ", $CellContext`i5],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234728471*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 4, ", exLstHlp[[", 4, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347324734`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "True", ",", "True", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, True, True, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234736476*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ex = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["ex = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347414794`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Deleting exLstHlp[[\"\>", "\[InvisibleSpace]", "3", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i5"}], "]"}]}],
+  SequenceForm["Deleting exLstHlp[[", 3, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i5]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234746483*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ex = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["ex = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234749485*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Deleting exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i5", ",", "i6"}], "]"}]}],
+  SequenceForm["Deleting exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i5, $CellContext`i6]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347544875`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["New exLstHlp = ", {2, 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347584906`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", "i5", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234762493*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i5"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i5],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347674975`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"w", "[", 
+         RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+        RowBox[{"w", "[", 
+         RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], 
+    "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234772501*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234776503*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347815065`*^9}],
+
+Cell[BoxData["\<\"Not merging!!!\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234785508*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", "i5", "}"}]}], "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234790511*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 1. Checking existing \
+pairs.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347945156`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Finding first element of exLstIndLstPairLst with \"\>", 
+   "\[InvisibleSpace]", "i5"}],
+  SequenceForm[
+  "Finding first element of exLstIndLstPairLst with ", $CellContext`i5],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502347995195`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"First element with \"\>", "\[InvisibleSpace]", "i5", 
+   "\[InvisibleSpace]", "\<\" is exLstIndLstPairLst[[\"\>", 
+   "\[InvisibleSpace]", "2", "\[InvisibleSpace]", "\<\"]] = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", "i5", "}"}]}], "}"}]}],
+  SequenceForm[
+  "First element with ", $CellContext`i5, " is exLstIndLstPairLst[[", 2, 
+   "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348045216`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Testing if some pairs should be merged for a given index \"\>",
+    "\[InvisibleSpace]", "i5"}],
+  SequenceForm[
+  "Testing if some pairs should be merged for a given index ", \
+$CellContext`i5],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234809524*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348135266`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234817529*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "6", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "6", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i6"}],
+  SequenceForm["idx = ", 6, ", ind[[", 6, "]] = ", $CellContext`i6],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234823534*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234827536*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234830538*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348345404`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"w", "[", 
+      RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}]}],
+  SequenceForm["New exLstHlp = ", {2, 
+    $CellContext`w[$CellContext`i7, $CellContext`i8]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234839545*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{"{", "i6", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{}, {$CellContext`i6}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234844548*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i6"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i6],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.60245023484855*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", "i5", "}"}]}], "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234851553*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234856555*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348615584`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", "i5", "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 2, "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234866562*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Index \"\>", "\[InvisibleSpace]", "i6", 
+   "\[InvisibleSpace]", "\<\" found. Merging\"\>"}],
+  SequenceForm["Index ", $CellContext`i6, " found. Merging"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234871566*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6"}], "}"}]}], "}"}]}],
+  SequenceForm["New exLstIndLstPairLst[[", 2, "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5, \
+$CellContext`i6}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348765683`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i5", ",", "i6"}], "}"}]}], "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5, \
+$CellContext`i6}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348815727`*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 1. Checking existing \
+pairs.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348855743`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Finding first element of exLstIndLstPairLst with \"\>", 
+   "\[InvisibleSpace]", "i6"}],
+  SequenceForm[
+  "Finding first element of exLstIndLstPairLst with ", $CellContext`i6],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234891579*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"First element with \"\>", "\[InvisibleSpace]", "i6", 
+   "\[InvisibleSpace]", "\<\" is exLstIndLstPairLst[[\"\>", 
+   "\[InvisibleSpace]", "2", "\[InvisibleSpace]", "\<\"]] = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6"}], "}"}]}], "}"}]}],
+  SequenceForm[
+  "First element with ", $CellContext`i6, " is exLstIndLstPairLst[[", 2, 
+   "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5, \
+$CellContext`i6}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502348955812`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Testing if some pairs should be merged for a given index \"\>",
+    "\[InvisibleSpace]", "i6"}],
+  SequenceForm[
+  "Testing if some pairs should be merged for a given index ", \
+$CellContext`i6],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349015927`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234905588*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349095917`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "7", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "7", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i7"}],
+  SequenceForm["idx = ", 7, ", ind[[", 7, "]] = ", $CellContext`i7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349135933`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234917596*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["idxEx = ", 2, ", exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349216*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] has \"\>", "\[InvisibleSpace]", "i7"}],
+  SequenceForm["exLstHlp[[", 2, "]] has ", $CellContext`i7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234925602*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "True"}], "}"}]}],
+  SequenceForm["delLst = ", {False, True}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349306073`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ex = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["ex = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.60245023493561*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Deleting exLstHlp[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"w", "[", 
+    RowBox[{"i7", ",", "i8"}], "]"}]}],
+  SequenceForm["Deleting exLstHlp[[", 2, "]] = ", 
+   $CellContext`w[$CellContext`i7, $CellContext`i8]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349396114`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", "2", "}"}]}],
+  SequenceForm["New exLstHlp = ", {2}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234943613*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"w", "[", 
+       RowBox[{"i7", ",", "i8"}], "]"}], "}"}], ",", 
+     RowBox[{"{", "i7", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{
+     $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i7}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349466147`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i7"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234951618*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i5", ",", "i6"}], "}"}]}], "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5, \
+$CellContext`i6}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234955621*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349606256`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234964628*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 2, "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5]}, {$CellContext`i5, \
+$CellContext`i6}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234969631*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Index \"\>", "\[InvisibleSpace]", "i7", 
+   "\[InvisibleSpace]", "\<\" found. Merging\"\>"}],
+  SequenceForm["Index ", $CellContext`i7, " found. Merging"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349756355`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6", ",", "i7"}], "}"}]}], "}"}]}],
+  SequenceForm["New exLstIndLstPairLst[[", 2, "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5], 
+     $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349806385`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i5", ",", "i6", ",", "i7"}], "}"}]}], "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5], 
+      $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234985642*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 1. Checking existing \
+pairs.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450234991645*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Finding first element of exLstIndLstPairLst with \"\>", 
+   "\[InvisibleSpace]", "i7"}],
+  SequenceForm[
+  "Finding first element of exLstIndLstPairLst with ", $CellContext`i7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502349966493`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"First element with \"\>", "\[InvisibleSpace]", "i7", 
+   "\[InvisibleSpace]", "\<\" is exLstIndLstPairLst[[\"\>", 
+   "\[InvisibleSpace]", "2", "\[InvisibleSpace]", "\<\"]] = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6", ",", "i7"}], "}"}]}], "}"}]}],
+  SequenceForm[
+  "First element with ", $CellContext`i7, " is exLstIndLstPairLst[[", 2, 
+   "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5], 
+     $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350016527`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Testing if some pairs should be merged for a given index \"\>",
+    "\[InvisibleSpace]", "i7"}],
+  SequenceForm[
+  "Testing if some pairs should be merged for a given index ", \
+$CellContext`i7],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350076566`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350116596`*^9}],
+
+Cell[BoxData["\<\"------------------\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235016661*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idx = \"\>", "\[InvisibleSpace]", "8", 
+   "\[InvisibleSpace]", "\<\", ind[[\"\>", "\[InvisibleSpace]", "8", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "i8"}],
+  SequenceForm["idx = ", 8, ", ind[[", 8, "]] = ", $CellContext`i8],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235020666*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"idxEx = \"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\", exLstHlp[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["idxEx = ", 1, ", exLstHlp[[", 1, "]] = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350246687`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", "False", "}"}]}],
+  SequenceForm["delLst = ", {False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350286713`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", "2", "}"}]}],
+  SequenceForm["New exLstHlp = ", {2}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235032674*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPair = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{"{", "i8", "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPair = ", {{}, {$CellContext`i8}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235035675*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking whether previous pairs have that index: \"\>", 
+   "\[InvisibleSpace]", "i8"}],
+  SequenceForm[
+  "Checking whether previous pairs have that index: ", $CellContext`i8],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350396776`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (before merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i5", ",", "i6", ",", "i7"}], "}"}]}], "}"}]}], "}"}]}],
+  SequenceForm["exLstIndLstPairLst (before merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5], 
+      $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.60245023504368*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 0. Merging exLstIndLstPair \
+to the first found match.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350476832`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "1", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 1, "]] = ", {{
+     $CellContext`w[$CellContext`i1, $CellContext`i2], 
+     $CellContext`w[$CellContext`i3, $CellContext`i1], 
+     $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235051686*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Checking exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6", ",", "i7"}], "}"}]}], "}"}]}],
+  SequenceForm["Checking exLstIndLstPairLst[[", 2, "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5], 
+     $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350576897`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Index \"\>", "\[InvisibleSpace]", "i8", 
+   "\[InvisibleSpace]", "\<\" found. Merging\"\>"}],
+  SequenceForm["Index ", $CellContext`i8, " found. Merging"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350637107`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New exLstIndLstPairLst[[\"\>", "\[InvisibleSpace]", "2", 
+   "\[InvisibleSpace]", "\<\"]] = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6", ",", "i7", ",", "i8"}], "}"}]}], "}"}]}],
+  SequenceForm["New exLstIndLstPairLst[[", 2, "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5], 
+     $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7, $CellContext`i8}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235068696*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exLstIndLstPairLst (after merge) = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i5", ",", "i6", ",", "i7", ",", "i8"}], "}"}]}], "}"}]}], 
+    "}"}]}],
+  SequenceForm["exLstIndLstPairLst (after merge) = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5], 
+      $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7, $CellContext`i8}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350747013`*^9}],
+
+Cell[BoxData["\<\"Length of exLstIndLstPairLst > 1. Checking existing \
+pairs.\"\>"], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350797033`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Finding first element of exLstIndLstPairLst with \"\>", 
+   "\[InvisibleSpace]", "i8"}],
+  SequenceForm[
+  "Finding first element of exLstIndLstPairLst with ", $CellContext`i8],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502350857105`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"First element with \"\>", "\[InvisibleSpace]", "i8", 
+   "\[InvisibleSpace]", "\<\" is exLstIndLstPairLst[[\"\>", 
+   "\[InvisibleSpace]", "2", "\[InvisibleSpace]", "\<\"]] = \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"w", "[", 
+        RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+       RowBox[{"w", "[", 
+        RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i5", ",", "i6", ",", "i7", ",", "i8"}], "}"}]}], "}"}]}],
+  SequenceForm[
+  "First element with ", $CellContext`i8, " is exLstIndLstPairLst[[", 2, 
+   "]] = ", {{
+     $CellContext`w[$CellContext`i5, $CellContext`i6], 
+     $CellContext`w[$CellContext`i7, $CellContext`i5], 
+     $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7, $CellContext`i8}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235091712*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Testing if some pairs should be merged for a given index \"\>",
+    "\[InvisibleSpace]", "i8"}],
+  SequenceForm[
+  "Testing if some pairs should be merged for a given index ", \
+$CellContext`i8],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.602450235096715*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"delLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"False", ",", "False"}], "}"}]}],
+  SequenceForm["delLst = ", {False, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502351007185`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Final exLstHlp = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", "2", "}"}]}],
+  SequenceForm["Final exLstHlp = ", {2}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502351057215`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Final exLstIndLstPairLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i1", ",", "i2"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i3", ",", "i1"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i4", ",", "i3"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i1", ",", "i2", ",", "i3", ",", "i4"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"w", "[", 
+          RowBox[{"i5", ",", "i6"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i5"}], "]"}], ",", 
+         RowBox[{"w", "[", 
+          RowBox[{"i7", ",", "i8"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i5", ",", "i6", ",", "i7", ",", "i8"}], "}"}]}], "}"}]}], 
+    "}"}]}],
+  SequenceForm["Final exLstIndLstPairLst = ", {{{
+      $CellContext`w[$CellContext`i1, $CellContext`i2], 
+      $CellContext`w[$CellContext`i3, $CellContext`i1], 
+      $CellContext`w[$CellContext`i4, $CellContext`i3]}, {$CellContext`i1, \
+$CellContext`i2, $CellContext`i3, $CellContext`i4}}, {{
+      $CellContext`w[$CellContext`i5, $CellContext`i6], 
+      $CellContext`w[$CellContext`i7, $CellContext`i5], 
+      $CellContext`w[$CellContext`i7, $CellContext`i8]}, {$CellContext`i5, \
+$CellContext`i6, $CellContext`i7, $CellContext`i8}}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6024497869354286`*^9, 3.6024498168072433`*^9}, {
+   3.602449862181343*^9, 3.602449908544098*^9}, 3.602450089088862*^9, 
+   3.6024502351107244`*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1813, 1148},
+WindowMargins->{{Automatic, 204}, {Automatic, 78}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 23998, 521, 4094, "Input"],
+Cell[CellGroupData[{
+Cell[24590, 547, 206, 3, 32, "Print"],
+Cell[24799, 552, 222, 3, 32, "Print"],
+Cell[25024, 557, 220, 3, 32, "Print"],
+Cell[25247, 562, 223, 3, 32, "Print"],
+Cell[25473, 567, 1053, 27, 32, "Print"],
+Cell[26529, 596, 332, 7, 32, "Print"],
+Cell[26864, 605, 588, 14, 32, "Print"],
+Cell[27455, 621, 324, 7, 32, "Print"],
+Cell[27782, 630, 1113, 27, 32, "Print"],
+Cell[28898, 659, 322, 7, 32, "Print"],
+Cell[29223, 668, 222, 3, 32, "Print"],
+Cell[29448, 673, 497, 9, 32, "Print"],
+Cell[29948, 684, 494, 9, 32, "Print"],
+Cell[30445, 695, 601, 12, 32, "Print"],
+Cell[31049, 709, 425, 8, 32, "Print"],
+Cell[31477, 719, 603, 12, 32, "Print"],
+Cell[32083, 733, 425, 8, 32, "Print"],
+Cell[32511, 743, 601, 12, 32, "Print"],
+Cell[33115, 757, 601, 12, 32, "Print"],
+Cell[33719, 771, 603, 12, 32, "Print"],
+Cell[34325, 785, 601, 12, 32, "Print"],
+Cell[34929, 799, 504, 11, 32, "Print"],
+Cell[35436, 812, 423, 10, 32, "Print"],
+Cell[35862, 824, 528, 11, 32, "Print"],
+Cell[36393, 837, 423, 10, 32, "Print"],
+Cell[36819, 849, 529, 11, 32, "Print"],
+Cell[37351, 862, 875, 21, 32, "Print"],
+Cell[38229, 885, 729, 18, 32, "Print"],
+Cell[38961, 905, 426, 9, 32, "Print"],
+Cell[39390, 916, 396, 8, 32, "Print"],
+Cell[39789, 926, 264, 4, 32, "Print"],
+Cell[40056, 932, 772, 19, 32, "Print"],
+Cell[40831, 953, 222, 3, 32, "Print"],
+Cell[41056, 958, 495, 9, 32, "Print"],
+Cell[41554, 969, 496, 9, 32, "Print"],
+Cell[42053, 980, 601, 12, 32, "Print"],
+Cell[42657, 994, 603, 12, 32, "Print"],
+Cell[43263, 1008, 601, 12, 32, "Print"],
+Cell[43867, 1022, 601, 12, 32, "Print"],
+Cell[44471, 1036, 462, 10, 32, "Print"],
+Cell[44936, 1048, 875, 21, 32, "Print"],
+Cell[45814, 1071, 461, 11, 32, "Print"],
+Cell[46278, 1084, 424, 9, 32, "Print"],
+Cell[46705, 1095, 804, 19, 32, "Print"],
+Cell[47512, 1116, 289, 4, 32, "Print"],
+Cell[47804, 1122, 833, 19, 32, "Print"],
+Cell[48640, 1143, 404, 8, 32, "Print"],
+Cell[49047, 1153, 868, 21, 32, "Print"],
+Cell[49918, 1176, 848, 21, 32, "Print"],
+Cell[50769, 1199, 220, 3, 32, "Print"],
+Cell[50992, 1204, 495, 9, 32, "Print"],
+Cell[51490, 1215, 494, 9, 32, "Print"],
+Cell[51987, 1226, 601, 12, 32, "Print"],
+Cell[52591, 1240, 423, 8, 32, "Print"],
+Cell[53017, 1250, 603, 12, 32, "Print"],
+Cell[53623, 1264, 601, 12, 32, "Print"],
+Cell[54227, 1278, 603, 12, 32, "Print"],
+Cell[54833, 1292, 460, 10, 32, "Print"],
+Cell[55296, 1304, 423, 10, 32, "Print"],
+Cell[55722, 1316, 531, 11, 32, "Print"],
+Cell[56256, 1329, 752, 18, 32, "Print"],
+Cell[57011, 1349, 582, 14, 32, "Print"],
+Cell[57596, 1365, 424, 9, 32, "Print"],
+Cell[58023, 1376, 852, 21, 32, "Print"],
+Cell[58878, 1399, 289, 4, 32, "Print"],
+Cell[59170, 1405, 880, 21, 32, "Print"],
+Cell[60053, 1428, 404, 8, 32, "Print"],
+Cell[60460, 1438, 1028, 24, 32, "Print"],
+Cell[61491, 1464, 1011, 24, 32, "Print"],
+Cell[62505, 1490, 222, 3, 32, "Print"],
+Cell[62730, 1495, 495, 9, 32, "Print"],
+Cell[63228, 1506, 496, 9, 32, "Print"],
+Cell[63727, 1517, 603, 12, 32, "Print"],
+Cell[64333, 1531, 603, 12, 32, "Print"],
+Cell[64939, 1545, 603, 12, 32, "Print"],
+Cell[65545, 1559, 434, 9, 32, "Print"],
+Cell[65982, 1570, 752, 18, 32, "Print"],
+Cell[66737, 1590, 458, 11, 32, "Print"],
+Cell[67198, 1603, 426, 9, 32, "Print"],
+Cell[67627, 1614, 1011, 24, 32, "Print"],
+Cell[68641, 1640, 287, 4, 32, "Print"],
+Cell[68931, 1646, 1038, 24, 32, "Print"],
+Cell[69972, 1672, 402, 8, 32, "Print"],
+Cell[70377, 1682, 1056, 24, 32, "Print"],
+Cell[71436, 1708, 1044, 25, 32, "Print"],
+Cell[72483, 1735, 222, 3, 32, "Print"],
+Cell[72708, 1740, 497, 9, 32, "Print"],
+Cell[73208, 1751, 494, 9, 32, "Print"],
+Cell[73705, 1762, 601, 12, 32, "Print"],
+Cell[74309, 1776, 425, 8, 32, "Print"],
+Cell[74737, 1786, 603, 12, 32, "Print"],
+Cell[75343, 1800, 423, 8, 32, "Print"],
+Cell[75769, 1810, 603, 12, 32, "Print"],
+Cell[76375, 1824, 430, 9, 32, "Print"],
+Cell[76808, 1835, 423, 10, 32, "Print"],
+Cell[77234, 1847, 529, 11, 32, "Print"],
+Cell[77766, 1860, 421, 10, 32, "Print"],
+Cell[78190, 1872, 531, 11, 32, "Print"],
+Cell[78724, 1885, 502, 12, 32, "Print"],
+Cell[79229, 1899, 729, 18, 32, "Print"],
+Cell[79961, 1919, 426, 9, 32, "Print"],
+Cell[80390, 1930, 1044, 25, 32, "Print"],
+Cell[81437, 1957, 287, 4, 32, "Print"],
+Cell[81727, 1963, 1066, 24, 32, "Print"],
+Cell[82796, 1989, 216, 3, 32, "Print"],
+Cell[83015, 1994, 1486, 36, 32, "Print"],
+Cell[84504, 2032, 264, 4, 32, "Print"],
+Cell[84771, 2038, 426, 9, 32, "Print"],
+Cell[85200, 2049, 957, 23, 32, "Print"],
+Cell[86160, 2074, 442, 10, 32, "Print"],
+Cell[86605, 2086, 394, 9, 32, "Print"],
+Cell[87002, 2097, 220, 3, 32, "Print"],
+Cell[87225, 2102, 495, 9, 32, "Print"],
+Cell[87723, 2113, 494, 9, 32, "Print"],
+Cell[88220, 2124, 601, 12, 32, "Print"],
+Cell[88824, 2138, 394, 9, 32, "Print"],
+Cell[89221, 2149, 500, 12, 32, "Print"],
+Cell[89724, 2163, 459, 11, 32, "Print"],
+Cell[90186, 2176, 423, 9, 32, "Print"],
+Cell[90612, 2187, 1488, 36, 32, "Print"],
+Cell[92103, 2225, 287, 4, 32, "Print"],
+Cell[92393, 2231, 1066, 24, 32, "Print"],
+Cell[93462, 2257, 831, 19, 32, "Print"],
+Cell[94296, 2278, 402, 8, 32, "Print"],
+Cell[94701, 2288, 870, 21, 32, "Print"],
+Cell[95574, 2311, 1537, 38, 32, "Print"],
+Cell[97114, 2351, 264, 4, 32, "Print"],
+Cell[97381, 2357, 424, 9, 32, "Print"],
+Cell[97808, 2368, 1004, 25, 32, "Print"],
+Cell[98815, 2395, 444, 10, 32, "Print"],
+Cell[99262, 2407, 392, 9, 32, "Print"],
+Cell[99657, 2418, 222, 3, 32, "Print"],
+Cell[99882, 2423, 497, 9, 32, "Print"],
+Cell[100382, 2434, 494, 9, 32, "Print"],
+Cell[100879, 2445, 599, 12, 32, "Print"],
+Cell[101481, 2459, 423, 8, 32, "Print"],
+Cell[101907, 2469, 392, 9, 32, "Print"],
+Cell[102302, 2480, 420, 10, 32, "Print"],
+Cell[102725, 2492, 531, 11, 32, "Print"],
+Cell[103259, 2505, 360, 8, 32, "Print"],
+Cell[103622, 2515, 582, 14, 32, "Print"],
+Cell[104207, 2531, 424, 9, 32, "Print"],
+Cell[104634, 2542, 1537, 38, 32, "Print"],
+Cell[106174, 2582, 289, 4, 32, "Print"],
+Cell[106466, 2588, 1064, 24, 32, "Print"],
+Cell[107533, 2614, 878, 21, 32, "Print"],
+Cell[108414, 2637, 404, 8, 32, "Print"],
+Cell[108821, 2647, 1028, 24, 32, "Print"],
+Cell[109852, 2673, 1698, 41, 32, "Print"],
+Cell[111553, 2716, 262, 4, 32, "Print"],
+Cell[111818, 2722, 426, 9, 32, "Print"],
+Cell[112247, 2733, 1162, 28, 32, "Print"],
+Cell[113412, 2763, 444, 10, 32, "Print"],
+Cell[113859, 2775, 394, 9, 32, "Print"],
+Cell[114256, 2786, 220, 3, 32, "Print"],
+Cell[114479, 2791, 495, 9, 32, "Print"],
+Cell[114977, 2802, 496, 9, 32, "Print"],
+Cell[115476, 2813, 358, 8, 32, "Print"],
+Cell[115837, 2823, 360, 8, 32, "Print"],
+Cell[116200, 2833, 459, 11, 32, "Print"],
+Cell[116662, 2846, 426, 9, 32, "Print"],
+Cell[117091, 2857, 1699, 41, 32, "Print"],
+Cell[118793, 2900, 289, 4, 32, "Print"],
+Cell[119085, 2906, 1064, 24, 32, "Print"],
+Cell[120152, 2932, 1038, 24, 32, "Print"],
+Cell[121193, 2958, 404, 8, 32, "Print"],
+Cell[121600, 2968, 1054, 24, 32, "Print"],
+Cell[122657, 2994, 1733, 42, 32, "Print"],
+Cell[124393, 3038, 264, 4, 32, "Print"],
+Cell[124660, 3044, 426, 9, 32, "Print"],
+Cell[125089, 3055, 1188, 28, 32, "Print"],
+Cell[126280, 3085, 442, 10, 32, "Print"],
+Cell[126725, 3097, 394, 9, 32, "Print"],
+Cell[127122, 3108, 366, 8, 32, "Print"],
+Cell[127491, 3118, 1717, 42, 32, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

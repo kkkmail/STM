@@ -1,0 +1,3926 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[    184225,       3917]
+NotebookOptionsPosition[    183943,       3903]
+NotebookOutlinePosition[    184308,       3919]
+CellTagsIndexPosition[    184265,       3916]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{
+      RowBox[{
+      "Implementation", " ", "of", " ", "gradient", " ", "of", " ", "4"}], 
+      "-", 
+      RowBox[{"th", " ", "power", " ", "polynom", " ", "minimization", " ", 
+       RowBox[{"function", "."}]}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", 
+      RowBox[{"K", "^", "3"}]}]}], ",", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.06", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "07"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T8Cabcdefgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T8Cabcdefgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"8", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"SumS12", "^", "3"}], " ", "+", " ", 
+                    RowBox[{"6", "*", "SumS12", "*", "SumS12p2"}], " ", "-", 
+                    " ", 
+                    RowBox[{"48", "*", "SumS12p2S13"}], " ", "+", " ", 
+                    RowBox[{"16", "*", "SumS12p3"}], " ", "-", " ", 
+                    RowBox[{"12", "*", "SumS12", "*", "SumS12S13"}], " ", "+",
+                     " ", 
+                    RowBox[{"16", "*", "SumS12S13S14"}], " ", "-", " ", 
+                    RowBox[{"8", "*", "SumS12S13S23"}], " ", "+", " ", 
+                    RowBox[{"24", "*", "SumS12S13S24"}], " ", "-", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumS12", "^", "2"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"12", "*", "SumS12p2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "+", " ", 
+                    RowBox[{"24", "*", "SumS12S13", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "+", " ", 
+                    RowBox[{"24", "*", "SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}]}], ")"}]}], 
+                    " ", "-", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "3"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "3"}]}], ")"}]}], 
+                    " ", "+", " ", 
+                    RowBox[{"24", "*", "SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}]}], ")"}]}], " ", "+", 
+                    " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "+", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumS12", "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", "SumS12p2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"24", "*", "SumS12S13", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"144", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"48", "*", "SumS12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"288", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"96", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"24", "*", "SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"96", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                    RowBox[{"144", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                    RowBox[{"24", "*", "SumS12", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"96", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}], ")"}]}]}], 
+                   ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T6Cabbdefgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T6Cabbdefgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{"2", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"-", "2"}], "*", "SumS12", "*", "SumS12p2"}], " ",
+                     "+", " ", 
+                    RowBox[{"20", "*", "SumS12p2S13"}], " ", "-", " ", 
+                    RowBox[{"8", "*", "SumS12p3"}], " ", "+", " ", 
+                    RowBox[{"2", "*", "SumS12", "*", "SumS12S13"}], " ", "-", 
+                    " ", 
+                    RowBox[{"4", "*", "SumS12S13S14"}], " ", "+", " ", 
+                    RowBox[{"4", "*", "SumS12S13S23"}], " ", "-", " ", 
+                    RowBox[{"8", "*", "SumS12S13S24"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumS12", "^", "2"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "+", " ", 
+                    RowBox[{"6", "*", "SumS12p2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", "SumS12S13", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"6", "*", "SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}]}], ")"}]}], 
+                    " ", "+", " ", 
+                    RowBox[{"16", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "3"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "3"}]}], ")"}]}], 
+                    " ", "-", " ", 
+                    RowBox[{"8", "*", "SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "+", " ", 
+                    RowBox[{"20", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}]}], ")"}]}], " ", "+", 
+                    " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "+", " ", 
+                    RowBox[{"24", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumS12", "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", "SumS12p2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", "SumS12S13", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"96", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"24", "*", "SumS12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"192", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"48", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"10", "*", "SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"28", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"56", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                    RowBox[{"72", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", "SumS12", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"64", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"32", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"28", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}], ")"}]}]}], 
+                    ")"}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 2 ((-2) $CellContext`SumS12 $CellContext`SumS12p2 + 
+                   20 $CellContext`SumS12p2S13 - 8 $CellContext`SumS12p3 + 
+                   2 $CellContext`SumS12 $CellContext`SumS12S13 - 
+                   4 $CellContext`SumS12S13S14 + 4 $CellContext`SumS12S13S23 - 
+                   8 $CellContext`SumS12S13S24 + $CellContext`SumS12^2 (
+                    Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) + 
+                   6 $CellContext`SumS12p2 (
+                    Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) - 
+                   8 $CellContext`SumS12S13 (
+                    Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) - 
+                   6 $CellContext`SumS12 (
+                    Part[$CellContext`SumSx1, $CellContext`a]^2 + 
+                    Part[$CellContext`SumSx1, $CellContext`b]^2) + 
+                   16 (Part[$CellContext`SumSx1, $CellContext`a]^3 + 
+                    Part[$CellContext`SumSx1, $CellContext`b]^3) - 
+                   8 $CellContext`SumS12 (
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12, $CellContext`b]) + 
+                   20 (Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`SumSx1, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`a] (
+                    Part[$CellContext`SumSx1, $CellContext`b]^2 + 
+                    2 Part[$CellContext`SumSx1S12, $CellContext`a]) + 
+                    2 Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1S12, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12S13, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12S13, $CellContext`b]) + 
+                   24 (Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1S12, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1S12, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12S23, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12S23, $CellContext`b]) - 
+                   2 $CellContext`SumS12^2 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                   8 $CellContext`SumS12p2 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   12 $CellContext`SumS12S13 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   96 (Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                   24 $CellContext`SumS12 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2 - 
+                   192 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^3 - 
+                   48 (Part[$CellContext`SumSx1p2S12, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2S12, $CellContext`b] + 
+                    2 Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) + 
+                   10 $CellContext`SumS12 (
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    2 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) - 
+                   28 (Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12p2, $CellContext`b] + 
+                    2 Part[$CellContext`SumSx1S12, $CellContext`a] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                    2 Part[$CellContext`SumSx1S12, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) + 
+                   56 (Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p3, $CellContext`b] + 
+                    3 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2) - 
+                   72 (
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`b] (
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b])) + 
+                   12 $CellContext`SumS12 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 64 (
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`b, \
+$CellContext`a] + 2 Part[$CellContext`sab, $CellContext`a, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b]) - 32 
+                   Part[$CellContext`SumSx1Sy2S12, $CellContext`a, \
+$CellContext`b] - 28 (
+                    2 Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 2 Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 2 
+                    Part[$CellContext`SumSx1Sy1S12, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`a, \
+$CellContext`a] + 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`b, \
+$CellContext`b]))],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T5Cabbdbfgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T5Cabbdbfgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "6"}], "*", "SumS12p2S13"}], " ", "+", " ", 
+                  RowBox[{"4", "*", "SumS12p3"}], " ", "+", " ", 
+                  RowBox[{"2", "*", "SumS12S13S14"}], " ", "+", " ", 
+                  RowBox[{"3", "*", "SumS12", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}]}], ")"}]}], 
+                  " ", "-", " ", 
+                  RowBox[{"8", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "3"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "3"}]}], ")"}]}], 
+                  " ", "-", " ", 
+                  RowBox[{"6", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}]}], ")"}]}], " ", "+", 
+                    " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                  RowBox[{"24", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"12", "*", "SumS12", "*", 
+                   RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{"96", "*", 
+                   RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{"24", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "-", " ", 
+                  RowBox[{"3", "*", "SumS12", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{"6", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "-", " ", 
+                  RowBox[{"28", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                  RowBox[{"24", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                  RowBox[{"24", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{"6", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}], ")"}]}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T4Cabbdbfbh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T4Cabbdbfbh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{"4", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "3"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "3"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}]}], ")"}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 4 (Part[$CellContext`SumSx1, $CellContext`a]^3 + 
+                   Part[$CellContext`SumSx1, $CellContext`b]^3 + 
+                   2 Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                   2 Part[$CellContext`SumSx1p3, $CellContext`b] - 3 
+                   Part[$CellContext`SumSx1, $CellContext`a]^2 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 3 
+                   Part[$CellContext`SumSx1, $CellContext`b]^2 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   3 Part[$CellContext`SumSx1p2, $CellContext`a] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   3 Part[$CellContext`SumSx1p2, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                   12 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^3 - 3 
+                   Part[$CellContext`SumSx1, $CellContext`a] (
+                    Part[$CellContext`SumSx1p2, $CellContext`a] - 2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2) - 
+                   3 Part[$CellContext`SumSx1, $CellContext`b] (
+                    Part[$CellContext`SumSx1p2, $CellContext`b] - 2 
+                    Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^2))],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T4Cababefgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T4Cababefgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{"4", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumS12", "*", "SumS12p2"}], " ", "-", " ", 
+                    RowBox[{"4", "*", "SumS12p2S13"}], " ", "+", " ", 
+                    RowBox[{"2", "*", "SumS12p3"}], " ", "-", " ", 
+                    RowBox[{"2", "*", "SumS12", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", "SumS12", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumS12", "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", "SumS12p2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", "SumS12S13", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"16", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"16", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"6", "*", "SumS12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"32", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{"SumS12p2", " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", "SumS12", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{"SumS12p2", " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", "SumS12", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 4 ($CellContext`SumS12 $CellContext`SumS12p2 - 
+                   4 $CellContext`SumS12p2S13 + 2 $CellContext`SumS12p3 - 
+                   2 $CellContext`SumS12 
+                   Part[$CellContext`SumSx1p2, $CellContext`a] - 
+                   2 $CellContext`SumS12 
+                   Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                   4 Part[$CellContext`SumSx1p2S12, $CellContext`a] + 
+                   4 Part[$CellContext`SumSx1p2S12, $CellContext`b] - 8 
+                   Part[$CellContext`SumSx1p3, $CellContext`a] - 8 
+                   Part[$CellContext`SumSx1p3, $CellContext`b] + 
+                   4 Part[$CellContext`SumSx1S12p2, $CellContext`a] + 
+                   4 Part[$CellContext`SumSx1S12p2, $CellContext`b] + \
+$CellContext`SumS12^2 Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   4 $CellContext`SumS12p2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                   4 $CellContext`SumS12S13 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   8 Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   8 Part[$CellContext`SumSx1, $CellContext`b]^2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                   16 Part[$CellContext`SumSx1p2, $CellContext`a] 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                   16 Part[$CellContext`SumSx1p2, $CellContext`b] 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   8 Part[$CellContext`SumSx1S12, $CellContext`a] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   8 Part[$CellContext`SumSx1S12, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   6 $CellContext`SumS12 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2 + 
+                   32 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^3 - 2 
+                   Part[$CellContext`SumSx1, $CellContext`b] \
+($CellContext`SumS12p2 - 2 Part[$CellContext`SumSx1p2, $CellContext`a] - 4 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    2 $CellContext`SumS12 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                    12 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^2) - 2 
+                   Part[$CellContext`SumSx1, $CellContext`a] \
+($CellContext`SumS12p2 - 4 Part[$CellContext`SumSx1p2, $CellContext`a] - 2 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    2 $CellContext`SumS12 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                    4 Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                    12 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^2) - 4 
+                   Part[$CellContext`SumSx1p2Sy1, $CellContext`a, \
+$CellContext`b] - 4 
+                   Part[$CellContext`SumSx1p2Sy1, $CellContext`b, \
+$CellContext`a] - 8 Part[$CellContext`sab, $CellContext`a, $CellContext`b] 
+                   Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b])],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T4Cabbddfgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T4Cabbddfgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{"2", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"-", "2"}], "*", "SumS12p2S13"}], " ", "+", " ", 
+                    "SumS12p3", " ", "-", " ", "SumS12S13S23", " ", "+", " ", 
+                    "SumS12S13S24", " ", "+", " ", 
+                    RowBox[{"SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}]}], ")"}]}], " ", "+", 
+                    " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                    RowBox[{"16", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"3", "*", "SumS12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"32", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", "SumS12", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"14", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}], ")"}]}]}], 
+                    ")"}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 2 ((-2) $CellContext`SumS12p2S13 + $CellContext`SumS12p3 - \
+$CellContext`SumS12S13S23 + $CellContext`SumS12S13S24 + $CellContext`SumS12 (
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12, $CellContext`b]) - 
+                   2 (Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`SumSx1, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`a] (
+                    Part[$CellContext`SumSx1, $CellContext`b]^2 + 
+                    2 Part[$CellContext`SumSx1S12, $CellContext`a]) + 
+                    2 Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1S12, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12S13, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12S13, $CellContext`b]) - 
+                   4 (Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1S12, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1S12, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12S23, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12S23, $CellContext`b]) - 
+                   16 (Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b]) 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   3 $CellContext`SumS12 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2 + 
+                   32 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^3 + 
+                   6 (Part[$CellContext`SumSx1p2S12, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2S12, $CellContext`b] + 
+                    2 Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) - \
+$CellContext`SumS12 (Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    2 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) + 
+                   4 (Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    Part[$CellContext`SumSx1S12p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1S12p2, $CellContext`b] + 
+                    2 Part[$CellContext`SumSx1S12, $CellContext`a] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                    2 Part[$CellContext`SumSx1S12, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) - 
+                   8 (Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p3, $CellContext`b] + 
+                    3 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2) + 
+                   8 (Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`b] (
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b])) - 
+                   3 $CellContext`SumS12 
+                   Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] - 14 (
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`b, \
+$CellContext`a] + 2 Part[$CellContext`sab, $CellContext`a, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b]) + 8 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`a, \
+$CellContext`b] + 6 (
+                    2 Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 2 Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 2 
+                    Part[$CellContext`SumSx1Sy1S12, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`a, \
+$CellContext`a] + 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`b, \
+$CellContext`b]))],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T4Cabbdeffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T4Cabbdeffh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "4"}], "*", 
+                   RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "3"}]}], " ", "-", 
+                  " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"5", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    "SumS12p2", " ", "-", " ", "SumS12S13", " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], " ", "-", " ", 
+                    RowBox[{"5", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "3"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12S13", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", "SumS12p2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", "SumS12S13", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"5", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"13", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"13", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"20", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    "SumS12p2", " ", "-", " ", "SumS12S13", " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"5", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T3Cababbfgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T3Cababbfgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{
+                   RowBox[{"2", "*", "SumS12p2S13"}], " ", "-", " ", 
+                   RowBox[{"2", "*", "SumS12p3"}], " ", "+", " ", 
+                   RowBox[{"8", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                   RowBox[{"6", "*", "SumS12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                   "-", " ", 
+                   RowBox[{"32", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                   "-", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                   "+", " ", 
+                   RowBox[{"SumS12", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                   "-", " ", 
+                   RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                   "+", " ", 
+                   RowBox[{"8", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 2 $CellContext`SumS12p2S13 - 2 $CellContext`SumS12p3 + 
+                  8 (Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b]) 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                  6 $CellContext`SumS12 
+                  Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2 - 
+                  32 Part[$CellContext`sab, $CellContext`a, $CellContext`b]^3 - 
+                  4 (Part[$CellContext`SumSx1p2S12, $CellContext`a] + 
+                   Part[$CellContext`SumSx1p2S12, $CellContext`b] + 
+                   2 Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) + \
+$CellContext`SumS12 (Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    2 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) - 
+                  2 (Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                   Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                   Part[$CellContext`SumSx1S12p2, $CellContext`a] + 
+                   Part[$CellContext`SumSx1S12p2, $CellContext`b] + 
+                   2 Part[$CellContext`SumSx1S12, $CellContext`a] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   2 Part[$CellContext`SumSx1S12, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) + 
+                  8 (Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p3, $CellContext`b] + 
+                    3 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2) - 
+                  4 (Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                   Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   Part[$CellContext`SumSx1, $CellContext`b] (
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b])) + 
+                  4 (Part[$CellContext`SumSx1p2Sy1, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`b, \
+$CellContext`a] + 2 Part[$CellContext`sab, $CellContext`a, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b])],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T3Cabbddfdh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T3Cabbddfdh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "4"}], "*", 
+                   RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"SumSx1S12p2", "[", 
+                   RowBox[{"[", "a", "]"}], "]"}], " ", "-", " ", 
+                  RowBox[{"SumSx1S12p2", "[", 
+                   RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                  RowBox[{"SumSx1S12S13", "[", 
+                   RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                  RowBox[{"SumSx1S12S13", "[", 
+                   RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"16", "*", 
+                   RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{"8", "*", 
+                   RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"8", "*", 
+                   RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{"16", "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                   RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                  "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T2Cababbfbh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T2Cababbfbh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{
+                   RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                   RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                   RowBox[{"2", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                   RowBox[{"2", "*", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                   RowBox[{"16", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                   "-", " ", 
+                   RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 2 Part[$CellContext`SumSx1, $CellContext`a] 
+                   Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                  2 Part[$CellContext`SumSx1, $CellContext`b] 
+                   Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                  2 Part[$CellContext`SumSx1, $CellContext`a]^2 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                  2 Part[$CellContext`SumSx1, $CellContext`b]^2 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 4 
+                  Part[$CellContext`SumSx1p2, $CellContext`a] 
+                  Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 4 
+                  Part[$CellContext`SumSx1p2, $CellContext`b] 
+                  Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                  16 Part[$CellContext`sab, $CellContext`a, $CellContext`b]^3 - 
+                  2 (Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                   Part[$CellContext`SumSx1p3, $CellContext`b] + 
+                   3 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2)],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T2Cababeffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T2Cababeffh", "]"}], "]"}], "*", 
+               RowBox[{"(", "\[InvisibleSpace]", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{
+                   RowBox[{"2", "*", "SumS12p2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}]}], " ", "-", " ", 
+                   RowBox[{"8", "*", "SumS12p2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                   RowBox[{"4", "*", "SumS12S13", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                   RowBox[{"24", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                   RowBox[{"32", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                   "-", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                   "+", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                   RowBox[{"4", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 2 $CellContext`SumS12p2 (
+                    Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) - 
+                  8 $CellContext`SumS12p2 
+                  Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                  4 $CellContext`SumS12S13 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                  24 (Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p2, $CellContext`b]) 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b] - 
+                  32 Part[$CellContext`sab, $CellContext`a, $CellContext`b]^3 - 
+                  4 (Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                   Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                   Part[$CellContext`SumSx1S12p2, $CellContext`a] + 
+                   Part[$CellContext`SumSx1S12p2, $CellContext`b] + 
+                   2 Part[$CellContext`SumSx1S12, $CellContext`a] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   2 Part[$CellContext`SumSx1S12, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) + 
+                  4 (Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                    Part[$CellContext`SumSx1p3, $CellContext`b] + 
+                    3 (Part[$CellContext`SumSx1, $CellContext`a] + 
+                    Part[$CellContext`SumSx1, $CellContext`b]) 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2) - 
+                  4 (Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1p2, $CellContext`a] + 
+                   Part[$CellContext`SumSx1, $CellContext`a]^2 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b] + 
+                   Part[$CellContext`SumSx1, $CellContext`b] (
+                    Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                    Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b])) + 
+                  4 (Part[$CellContext`SumSx1p2Sy1, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`b, \
+$CellContext`a] + 2 Part[$CellContext`sab, $CellContext`a, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b])],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T2Cabbddffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T2Cabbddffh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{
+                  RowBox[{"-", "2"}], "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1S12p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1S12S23", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "^", "2"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T2Cabbdbddh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T2Cabbdbddh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"2", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"4", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T2Cabababgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T2Cabababgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"2", "*", 
+                  RowBox[{"(", 
+                   RowBox[{"SumS12p3", " ", "+", " ", 
+                    RowBox[{"3", "*", "SumS12", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}], " ", 
+                    "+", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T2Cabbdadgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T2Cabbdadgh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{"2", "*", 
+                   RowBox[{"(", 
+                    RowBox[{"SumS12S13S23", " ", "+", " ", 
+                    RowBox[{"3", "*", "SumS12", "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"6", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}], ")"}]}]}], 
+                    ")"}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 2 ($CellContext`SumS12S13S23 + 
+                   3 $CellContext`SumS12 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 6 (
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1p2Sy1, $CellContext`b, \
+$CellContext`a] + 2 Part[$CellContext`sab, $CellContext`a, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b]) - 3 (
+                    2 Part[$CellContext`SumSx1, $CellContext`a] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 2 Part[$CellContext`SumSx1, $CellContext`b] 
+                    Part[$CellContext`SumSx1Sy1, $CellContext`a, \
+$CellContext`b] + 2 
+                    Part[$CellContext`SumSx1Sy1S12, $CellContext`a, \
+$CellContext`b] + 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`a, \
+$CellContext`a] + 
+                    Part[$CellContext`SumSx1Sy2S12, $CellContext`b, \
+$CellContext`b]))],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T1Cababbffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T1Cababbffh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{
+                  RowBox[{"-", 
+                   RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"SumSx1p3", "[", 
+                   RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                  RowBox[{"SumSx1S12p2", "[", 
+                   RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                  RowBox[{"SumSx1S12p2", "[", 
+                   RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1S12", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"8", "*", 
+                   RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}], " ", 
+                  "+", " ", 
+                  RowBox[{
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "+", " ", 
+                  RowBox[{
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}], " ", "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                   RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T1Cabbdaddh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T1Cabbdaddh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "4"}], "*", 
+                   RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"4", "*", 
+                   RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                   RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                   RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "-", " ", 
+                  RowBox[{"8", "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                   RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"2", "*", 
+                   RowBox[{"SumSx1Sy1S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                  RowBox[{"SumSx1Sy2S12", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"a", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                  RowBox[{"SumSx1Sy2S12", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"b", ",", "b"}], "]"}], "]"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T1Cabababbh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T1Cabababbh", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{
+                   RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                   RowBox[{"SumSx1p3", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "+", " ", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"3", "*", 
+                    RowBox[{"SumSx1", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"8", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}], "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 Part[$CellContext`SumSx1p3, $CellContext`a] + 
+                  Part[$CellContext`SumSx1p3, $CellContext`b] + (
+                    3 Part[$CellContext`SumSx1, $CellContext`a] + 
+                    3 Part[$CellContext`SumSx1, $CellContext`b] - 8 
+                    Part[$CellContext`sab, $CellContext`a, $CellContext`b]) 
+                   Part[$CellContext`sab, $CellContext`a, $CellContext`b]^2],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T0Cababbfbf", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T0Cababbfbf", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"4", "*", 
+                  RowBox[{"sab", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                   ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T0Cababefef", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T0Cababefef", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                InterpretationBox[
+                 StyleBox[
+                  RowBox[{"8", "*", 
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{"SumS12p2", " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}]}], " ", "-", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "2"}]}]}], 
+                    ")"}]}],
+                  ShowStringCharacters->True,
+                  NumberMarks->True],
+                 InputForm[
+                 8 Part[$CellContext`sab, $CellContext`a, $CellContext`b] \
+($CellContext`SumS12p2 - 2 Part[$CellContext`SumSx1p2, $CellContext`a] - 2 
+                   Part[$CellContext`SumSx1p2, $CellContext`b] + 
+                   2 Part[$CellContext`sab, $CellContext`a, \
+$CellContext`b]^2)],
+                 AutoDelete->True,
+                 Editable->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T0Cabbddfaf", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T0Cabbddfaf", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"8", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], ")"}]}], " ", 
+                    "-", " ", 
+                    RowBox[{
+                    RowBox[{"SumSx1p2", "[", 
+                    RowBox[{"[", "b", "]"}], "]"}], "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], " ", "+", " ", 
+                    RowBox[{
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}], " ", 
+                    "+", " ", 
+                    RowBox[{"SumSx1Sy2S12", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T0Cabbdbdad", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T0Cabbdbdad", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"2", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"SumSx1p2Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"b", ",", "a"}], "]"}], "]"}], " ", "+", " ", 
+                    RowBox[{"2", "*", 
+                    RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"SumSx1Sy1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ")"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GradP4T0Cabababab", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"gradVal", "=", 
+         RowBox[{"ToLinear", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"a", "\[NotEqual]", "b"}], ",", 
+              RowBox[{
+               RowBox[{"CoeffF4Norm", "[", 
+                RowBox[{"[", "idxD4T0Cabababab", "]"}], "]"}], "*", 
+               RowBox[{"(", 
+                StyleBox[
+                 RowBox[{"8", "*", 
+                  RowBox[{
+                   RowBox[{"sab", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "^", "3"}]}],
+                 ShowStringCharacters->True,
+                 NumberMarks->True], ")"}]}], ",", "0"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "NNN"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "NNN"}], "}"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "gradVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n"}]}]], "Input",
+ CellChangeTimes->{{3.5899317139076214`*^9, 3.589931725061082*^9}, {
+   3.5899318701134763`*^9, 3.5899318933989515`*^9}, {3.5899319323348274`*^9, 
+   3.5899320148930016`*^9}, {3.5899327493486753`*^9, 3.589932780115119*^9}, {
+   3.5899329648530083`*^9, 3.5899330867910204`*^9}, {3.58998759732788*^9, 
+   3.5899876809853745`*^9}, 3.589987756512478*^9, {3.5899880348651285`*^9, 
+   3.589988034917163*^9}, {3.5899884450871143`*^9, 3.589988445239216*^9}, {
+   3.5902433646289577`*^9, 3.5902433671676464`*^9}, {3.590243575618761*^9, 
+   3.5902437647554507`*^9}, 3.5902440604838967`*^9, {3.5902441009507885`*^9, 
+   3.590244511662733*^9}, {3.590244557444541*^9, 3.590244564311103*^9}, {
+   3.590244595161606*^9, 3.5902447210685744`*^9}}]
+},
+WindowSize->{1072, 1361},
+WindowMargins->{{3, Automatic}, {Automatic, 3}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 183394, 3881, 12977, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

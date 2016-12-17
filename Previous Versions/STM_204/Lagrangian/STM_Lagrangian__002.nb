@@ -1,0 +1,323 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     11811,        314]
+NotebookOptionsPosition[     11232,        290]
+NotebookOutlinePosition[     11599,        306]
+CellTagsIndexPosition[     11556,        303]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{"L", ",", "e", ",", "m", ",", "q", ",", "\[Eta]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Sign convention: {+,-,-,-}\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", "\"\<Lagrangian\>\"", "]"}], ";"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Lagrangian with e gauge.\>\"", "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"L", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"(", 
+         RowBox[{"1", "/", "2"}], ")"}]}], "*", 
+       RowBox[{"e", "^", 
+        RowBox[{"-", "1"}]}], "*", 
+       RowBox[{"Subscript", "[", 
+        RowBox[{"\[Eta]", ",", "\[Mu]\[Nu]"}], " ", "]"}], "*", 
+       RowBox[{"Superscript", "[", 
+        RowBox[{
+         RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}], "*", 
+       RowBox[{"Superscript", "[", 
+        RowBox[{
+         RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Nu]"}], "]"}]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "/", "2"}], ")"}], "*", "e", "*", 
+       RowBox[{"m", "^", "2"}]}], "-", 
+      RowBox[{"q", "*", 
+       RowBox[{"Subscript", "[", 
+        RowBox[{"A", ",", "\[Mu]"}], "]"}], "*", 
+       RowBox[{"Superscript", "[", 
+        RowBox[{
+         RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}]}]}]}], 
+    ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<The most classcal Lagrangian\>\"", "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"L", "=", 
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"m", "*", 
+         RowBox[{"Sqrt", "[", 
+          RowBox[{
+           RowBox[{"Subscript", "[", 
+            RowBox[{"\[Eta]", ",", "\[Mu]\[Nu]"}], " ", "]"}], "*", 
+           RowBox[{"Superscript", "[", 
+            RowBox[{
+             RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}], "*", 
+           RowBox[{"Superscript", "[", 
+            RowBox[{
+             RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Nu]"}], "]"}]}], 
+          "]"}]}], "+", 
+        RowBox[{"q", "*", 
+         RowBox[{"Subscript", "[", 
+          RowBox[{"A", ",", "\[Mu]"}], "]"}], "*", 
+         RowBox[{"Superscript", "[", 
+          RowBox[{
+           RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}]}]}], 
+       ")"}]}]}], ";"}], "\[IndentingNewLine]", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Quadratic Lagrangian\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"L", "=", 
+    RowBox[{"-", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"m", "/", "2"}], ")"}], "*", 
+        RowBox[{"Subscript", "[", 
+         RowBox[{"\[Eta]", ",", "\[Mu]\[Nu]"}], " ", "]"}], "*", 
+        RowBox[{"Superscript", "[", 
+         RowBox[{
+          RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}], "*", 
+        RowBox[{"Superscript", "[", 
+         RowBox[{
+          RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Nu]"}], "]"}]}], "+", 
+       RowBox[{"q", "*", 
+        RowBox[{"Subscript", "[", 
+         RowBox[{"A", ",", "\[Mu]"}], "]"}], "*", 
+        RowBox[{"Superscript", "[", 
+         RowBox[{
+          RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}]}]}], 
+      ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<L = \>\"", ",", " ", "L"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"numuReplRule1", "=", 
+   RowBox[{"{", 
+    RowBox[{"\[Nu]", " ", "\[Rule]", " ", "\[Nu]1"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"numuReplRule2", "=", 
+   RowBox[{"{", 
+    RowBox[{"\[Mu]", " ", "\[Rule]", " ", "\[Nu]"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"numuReplRule3", "=", 
+   RowBox[{"{", 
+    RowBox[{"\[Nu]1", " ", "\[Rule]", " ", "\[Mu]"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<-D[L, Xdot]\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"-", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"D", "[", 
+      RowBox[{"L", ",", 
+       RowBox[{"Superscript", "[", 
+        RowBox[{
+         RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Mu]"}], "]"}]}], "]"}], 
+     "+", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"D", "[", 
+          RowBox[{"L", ",", 
+           RowBox[{"Superscript", "[", 
+            RowBox[{
+             RowBox[{"OverDot", "[", "X", "]"}], ",", "\[Nu]"}], "]"}]}], 
+          "]"}], " ", "/.", " ", "numuReplRule1"}], " ", "/.", " ", 
+        "numuReplRule2"}], " ", "/.", " ", "numuReplRule3"}], ")"}]}], 
+    ")"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nuxxrule", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        SubscriptBox["\[Eta]", "\[Mu]\[Nu]"], " ", 
+        TemplateBox[{OverscriptBox["X", "."],"\[Mu]"},
+         "Superscript"], " ", 
+        TemplateBox[{OverscriptBox["X", "."],"\[Nu]"},
+         "Superscript"]}], " ", "\[Rule]", " ", "1"}], "}"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"D", "[", 
+      RowBox[{"L", ",", "e"}], "]"}], " ", "/.", " ", "nuxxrule"}]}], 
+   "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"D", "[", 
+       RowBox[{"L", ",", "e"}], "]"}], "\[IndentingNewLine]", "sol"}], "=", 
+     RowBox[{"Solve", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"D", "[", 
+         RowBox[{"L", ",", "e"}], "]"}], "  ", "\[Equal]", "0"}], ",", "e"}], 
+      "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"e", "^", "2"}], " ", "/.", " ", 
+     RowBox[{"sol", "[", 
+      RowBox[{"[", "2", "]"}], "]"}]}]}], "\[IndentingNewLine]", 
+   "*)"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.6016505334286985`*^9, 3.601650619537818*^9}, {
+  3.6016507245184546`*^9, 3.601650782264763*^9}, {3.6016508390484304`*^9, 
+  3.601650999981182*^9}, {3.6016510894285173`*^9, 3.601651098440497*^9}, {
+  3.6016511978734555`*^9, 3.6016512166789303`*^9}, {3.60165126191894*^9, 
+  3.601651352147794*^9}, {3.6017673509264917`*^9, 3.60176740682057*^9}, {
+  3.601767484098833*^9, 3.6017675304936075`*^9}, {3.6017676260830154`*^9, 
+  3.6017676416903753`*^9}, {3.6017680017702293`*^9, 3.601768262828404*^9}, {
+  3.6017689124793477`*^9, 3.6017689912085705`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"Sign convention: {+,-,-,-}\"\>"], "Print",
+ CellChangeTimes->{{3.601651285159355*^9, 3.601651354544382*^9}, {
+   3.601767386125842*^9, 3.601767409089074*^9}, 3.601767492890664*^9, 
+   3.6017675315342984`*^9, 3.6017676426480055`*^9, 3.6017680831822324`*^9, {
+   3.6017681337647867`*^9, 3.6017681532016797`*^9}, 3.601768235955575*^9, 
+   3.601768267371419*^9, {3.601768949602971*^9, 3.601768992257266*^9}}],
+
+Cell[BoxData["\<\"Lagrangian\"\>"], "Print",
+ CellChangeTimes->{{3.601651285159355*^9, 3.601651354544382*^9}, {
+   3.601767386125842*^9, 3.601767409089074*^9}, 3.601767492890664*^9, 
+   3.6017675315342984`*^9, 3.6017676426480055`*^9, 3.6017680831822324`*^9, {
+   3.6017681337647867`*^9, 3.6017681532016797`*^9}, 3.601768235955575*^9, 
+   3.601768267371419*^9, {3.601768949602971*^9, 3.601768992269281*^9}}],
+
+Cell[BoxData["\<\"Quadratic Lagrangian\"\>"], "Print",
+ CellChangeTimes->{{3.601651285159355*^9, 3.601651354544382*^9}, {
+   3.601767386125842*^9, 3.601767409089074*^9}, 3.601767492890664*^9, 
+   3.6017675315342984`*^9, 3.6017676426480055`*^9, 3.6017680831822324`*^9, {
+   3.6017681337647867`*^9, 3.6017681532016797`*^9}, 3.601768235955575*^9, 
+   3.601768267371419*^9, {3.601768949602971*^9, 3.601768992281282*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   RowBox[{"\<\"L = \"\>", "\[InvisibleSpace]", 
+    RowBox[{"-", "q"}], " ", 
+    SubscriptBox["A", "\[Mu]"], " ", 
+    TemplateBox[{OverscriptBox["X", "."],"\[Mu]"},
+     "Superscript"]}], "-", 
+   RowBox[{
+    FractionBox["1", "2"], " ", "m", " ", 
+    SubscriptBox["\[Eta]", "\[Mu]\[Nu]"], " ", 
+    TemplateBox[{OverscriptBox["X", "."],"\[Mu]"},
+     "Superscript"], " ", 
+    TemplateBox[{OverscriptBox["X", "."],"\[Nu]"},
+     "Superscript"]}]}],
+  SequenceForm[
+  "L = ", -$CellContext`q Subscript[$CellContext`A, $CellContext`\[Mu]] 
+    Superscript[
+      OverDot[$CellContext`X], $CellContext`\[Mu]] + 
+   Rational[-1, 2] $CellContext`m 
+    Subscript[$CellContext`\[Eta], $CellContext`\[Mu]\[Nu]] Superscript[
+      OverDot[$CellContext`X], $CellContext`\[Mu]] Superscript[
+      OverDot[$CellContext`X], $CellContext`\[Nu]]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.601651285159355*^9, 3.601651354544382*^9}, {
+   3.601767386125842*^9, 3.601767409089074*^9}, 3.601767492890664*^9, 
+   3.6017675315342984`*^9, 3.6017676426480055`*^9, 3.6017680831822324`*^9, {
+   3.6017681337647867`*^9, 3.6017681532016797`*^9}, 3.601768235955575*^9, 
+   3.601768267371419*^9, {3.601768949602971*^9, 3.6017689922852836`*^9}}],
+
+Cell[BoxData["\<\"-D[L, Xdot]\"\>"], "Print",
+ CellChangeTimes->{{3.601651285159355*^9, 3.601651354544382*^9}, {
+   3.601767386125842*^9, 3.601767409089074*^9}, 3.601767492890664*^9, 
+   3.6017675315342984`*^9, 3.6017676426480055`*^9, 3.6017680831822324`*^9, {
+   3.6017681337647867`*^9, 3.6017681532016797`*^9}, 3.601768235955575*^9, 
+   3.601768267371419*^9, {3.601768949602971*^9, 3.6017689922892876`*^9}}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"q", " ", 
+   SubscriptBox["A", "\[Mu]"]}], "+", 
+  RowBox[{"m", " ", 
+   SubscriptBox["\[Eta]", "\[Mu]\[Nu]"], " ", 
+   TemplateBox[{OverscriptBox["X", "."],"\[Nu]"},
+    "Superscript"]}]}]], "Output",
+ CellChangeTimes->{
+  3.6016506134157543`*^9, {3.601650734610148*^9, 3.6016507833875055`*^9}, {
+   3.6016508430981145`*^9, 3.601650937448702*^9}, 3.6016510019154654`*^9, 
+   3.6016511001116037`*^9, {3.6016512022953863`*^9, 3.601651217127226*^9}, {
+   3.6016512851613564`*^9, 3.601651354546383*^9}, {3.6017673861288433`*^9, 
+   3.6017674091000805`*^9}, 3.6017674928936644`*^9, 3.6017675315373*^9, 
+   3.6017676426520076`*^9, 3.601768083187237*^9, {3.6017681338018107`*^9, 
+   3.6017681532056828`*^9}, 3.601768235961579*^9, 3.6017682674074383`*^9, {
+   3.601768949642997*^9, 3.6017689922942905`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1562, 976},
+WindowMargins->{{18, Automatic}, {Automatic, 112}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 6832, 186, 1073, "Input"],
+Cell[CellGroupData[{
+Cell[7424, 212, 422, 5, 32, "Print"],
+Cell[7849, 219, 406, 5, 32, "Print"],
+Cell[8258, 226, 416, 5, 32, "Print"],
+Cell[8677, 233, 1277, 28, 52, "Print"],
+Cell[9957, 263, 409, 5, 32, "Print"]
+}, Open  ]],
+Cell[10381, 271, 835, 16, 42, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

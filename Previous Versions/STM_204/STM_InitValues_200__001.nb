@@ -1,0 +1,1368 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     63040,       1359]
+NotebookOptionsPosition[     62756,       1345]
+NotebookOutlinePosition[     63124,       1361]
+CellTagsIndexPosition[     63081,       1358]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Initial", " ", "values", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", 
+    RowBox[{"2013", " ", "-", " ", "2014"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"2.00", ".001"}]}]}]}], ",", 
+    RowBox[{"Date", ":", " ", 
+     RowBox[{
+      RowBox[{"2014", "/", "03"}], "/", "05"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "STMInitValues", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"OutputVariables", " ", "\[Rule]", " ", "False"}], "}"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Rule", " ", "to", " ", "replace", " ", "Lambda0", " ", "by", " ", "sum", 
+     " ", "of", " ", "all", " ", "lambdas"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"This", " ", "rule", " ", "is", " ", "used", " ", "only"}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"InitLambda0Rule", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Initial", " ", "value", " ", "of", " ", "Lambda"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"InitLambda", "=", "Indeterminate"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"InitLambda0ReverseExpr", "=", "Indeterminate"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "The", " ", "following", " ", "types", " ", "of", " ", "initial", " ", 
+     "values", " ", "are", " ", 
+     RowBox[{"defined", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Minimum", " ", "value", " ", "for", " ", "error", " ", 
+     RowBox[{"checking", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTmin", "=", "0"}], ";"}], " ", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Default", " ", "initial", " ", "values", " ", 
+     RowBox[{
+      RowBox[{"(", "distribution", ")"}], ".", " ", "Uses"}], " ", "rndFunc", 
+     " ", "and", " ", "rndArgs", " ", "to", " ", "get", " ", "the", " ", 
+     "random", " ", 
+     RowBox[{"values", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTdistribution", "=", "0"}], ";"}], " ", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Pure", " ", "4", "D", " ", 
+     RowBox[{"Points", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DPoints", "=", "1"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "4", "D", " ", "points", " ", "with", " ", "some", " ", "N", " ", 
+     "dimensional", " ", "normally", " ", "distributed", " ", 
+     RowBox[{"noise", ".", " ", "Must"}], " ", "specify", " ", 
+     RowBox[{"NoiseLevel", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DPointsWithNoise", "=", "2"}], ";"}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Pure", " ", "4", "D", " ", "x", " ", "S1", " ", 
+     RowBox[{"points", ".", " ", "Must"}], " ", "specify", " ", "S1Radius", 
+     " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"radius", " ", "of", " ", "S1"}], ")"}], "."}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DmS1Points", "=", "3"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "4", "D", " ", "x", " ", "S1", " ", "points", " ", "with", " ", "some", 
+     " ", "N", " ", "dimensional", " ", "normally", " ", "distributed", " ", 
+     RowBox[{"noise", ".", " ", "Must"}], " ", "specify", " ", "S1Radius", 
+     " ", "and", " ", 
+     RowBox[{"NoiseLevel", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DmS1PointsWithNoise", "=", "4"}], ";"}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"TODO", " ", "4", "D", " ", "x", " ", "S2"}], " ", "-", " ", 
+     RowBox[{
+      RowBox[{"Add", " ", "!!"}], "!"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Pure", " ", "4", "D", " ", "x", " ", "S2", " ", 
+     RowBox[{"points", ".", " ", "Must"}], " ", "specify", " ", "S1Radius", 
+     " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"radius", " ", "of", " ", "S2"}], ")"}], "."}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DmS2Points", "=", "5"}], ";"}], " ", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "4", "D", " ", "x", " ", "S1", " ", "points", " ", "with", " ", "some", 
+     " ", "N", " ", "dimensional", " ", "normally", " ", "distributed", " ", 
+     RowBox[{"noise", ".", " ", "Must"}], " ", "specify", " ", "S1Radius", 
+     " ", "and", " ", 
+     RowBox[{"NoiseLevel", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DmS2PointsWithNoise", "=", "6"}], ";"}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Pure", " ", "R", 
+      RowBox[{"(", 
+       RowBox[{"1", ",", "3"}], ")"}]}], " ", "+", " ", 
+     RowBox[{"1", " ", "proper", " ", "time"}], " ", "+", " ", 
+     RowBox[{"all", " ", "others", " ", "small", " ", 
+      RowBox[{"(", "EPS", ")"}], " ", "spacelike", " ", 
+      RowBox[{"coordinates", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Must", " ", "specify", " ", "IVTEpsilonVal", " ", "and", " ", 
+     "IVTEpsilonSpaceVal", " ", 
+     RowBox[{"(", 
+      RowBox[{
+      "difference", " ", "between", " ", "spatial", " ", "eigenvalues"}], 
+      ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTT1S3EPS", "=", "7"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Symbolic", " ", "Lambda"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTLAMBDA", "=", "8"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Increading", " ", "Integers", " ", "starting", " ", "from", " ", "1"}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTIncreasingIntegers", " ", "=", " ", "9"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"4", "D", " ", "points"}], ",", " ", 
+     RowBox[{"which", " ", "minimize", " ", "the", " ", "polynom"}]}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVT4DMinPolyValue", " ", "=", " ", "10"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Maximum", " ", "value", " ", "for", " ", "error", " ", 
+     RowBox[{"checking", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTmax", "=", "10"}], ";"}], " ", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Noise", " ", "level", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"if", " ", "used"}], ")"}], ".", " ", "Must"}], " ", "be", " ",
+      "defined", " ", "to", " ", "be", " ", "non", " ", 
+     RowBox[{"zero", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"NoiseLevel", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"S1", " ", "radius", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"if", " ", "used"}], ")"}], ".", " ", "Must"}], " ", "be", " ",
+      "defined", " ", "to", " ", "be", " ", "non", " ", 
+     RowBox[{"zero", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"S1Radius", " ", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Scales", " ", "of", " ", "space", " ", "and", " ", "time", " ", "in", 
+     " ", "4", "D", " ", 
+     RowBox[{"points", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTSpaceScale", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTTimeScale", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"IVTSpaceScale", "=", 
+      RowBox[{"1", "/", 
+       RowBox[{"Sqrt", "[", "3", "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"IVTTimeScale", "=", "1"}], ";"}], "\[IndentingNewLine]", "*)"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTEpsilonVal", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IVTEpsilonSpaceVal", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "The", " ", "following", " ", "types", " ", "of", " ", "normalization", 
+     " ", "of", " ", "initial", " ", "values", " ", "are", " ", 
+     RowBox[{"defined", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"NIVmin", "=", "0"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Minimum", " ", "value", " ", "for", " ", "error", " ", 
+      RowBox[{"checking", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"NIVnone", "=", "0"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Do", " ", "not", " ", "normalize", " ", "initial", " ", "values", " ", 
+      "at", " ", 
+      RowBox[{"all", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"NIVuseOne", "=", "1"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{
+      "Normalize", " ", "initial", " ", "values", " ", "to", " ", "have", " ",
+        "their", " ", "sum"}], " ", "=", " ", "1."}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"NIVuseNA", "=", "2"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{
+      "Normalize", " ", "initial", " ", "values", " ", "to", " ", "have", " ",
+        "their", " ", "sum"}], " ", "=", " ", 
+      RowBox[{"NA", " ", "-", " ", 
+       RowBox[{"DEFAULT", " ", 
+        RowBox[{
+         RowBox[{"VALUE", "!!"}], "!"}]}]}]}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"NIVuseSqrtNA", "=", "3"}], ";", "  ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{
+      "Normalize", " ", "initial", " ", "values", " ", "to", " ", "have", " ",
+        "their", " ", "sum"}], " ", "=", " ", 
+      RowBox[{
+       RowBox[{"Sqrt", "[", "NA", "]"}], "."}]}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"NIVmax", "=", "3"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Maximum", " ", "value", " ", "for", " ", "error", " ", 
+      RowBox[{"checking", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "This", " ", "function", " ", "creates", " ", "initial", " ", "values", 
+      " ", "of", " ", 
+      RowBox[{"intervals", ".", " ", "Parameters"}], " ", "are", " ", 
+      "described", " ", 
+      RowBox[{"above", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"CreateInitialvalues", "[", 
+      RowBox[{
+       RowBox[{"initValuesType_", "?", "IntegerQ"}], ",", 
+       RowBox[{"normInitValType_", "?", "IntegerQ"}], ",", "rawOpts___"}], 
+      "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "x4D", ",", "int4D", ",", "initValTblSum", ",", "coordSumInitVal", 
+         ",", "normalizeInitialValues", ",", "addNoise", ",", "ii", ",", "jj",
+          ",", "kk", ",", "intNoiseVal", ",", "lambda", ",", "eps", ",", 
+         "eps1", ",", "SYY", ",", "SYYL", ",", "SYYLrule", ",", "eXXT", ",", 
+         "XXT", ",", "aa", ",", "bb", ",", "coorNorm", ",", "coords", ",", 
+         "lambdaVec", ",", "lambdaVecNew", ",", "opts", ",", 
+         "useHighPrecisionInitValuesVal", ",", "initValuesPrecisionVal", ",", 
+         "outputVars", ",", "SILre", ",", "SILim", ",", "intNoiseValRe", ",", 
+         "intNoiseValIm"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", "\"\<Creating initial values...\>\"", "]"}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"opts", "=", 
+         RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"useHighPrecisionInitValuesVal", "=", 
+         RowBox[{
+          RowBox[{"UseHighPrecision", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMCommon", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"initValuesPrecisionVal", "=", 
+         RowBox[{
+          RowBox[{"HighPrecisionValue", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMCommon", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"outputVars", "=", 
+         RowBox[{
+          RowBox[{"OutputVariables", " ", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMInitValues", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Set", " ", "symmetric", " ", "and", " ", "antisymmetric", " ", 
+          "parts", " ", "to", " ", 
+          RowBox[{"zero", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"SI", "=", "ZZ"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"AI", "=", "ZZ"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"SIL", "=", "ZL"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"AIL", "=", "ZL"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"initValuesType", " ", "<", " ", "IVTmin"}], " ", "||", 
+           " ", 
+           RowBox[{"initValuesType", " ", ">", " ", "IVTmax"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<CreateInitialvalues::initValuesType is out of range. \
+initValuesType = \>\"", ",", " ", "initValuesType"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"normInitValType", " ", "<", " ", "NIVmin"}], " ", "||", 
+           " ", 
+           RowBox[{"normInitValType", " ", ">", " ", "NIVmax"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<CreateInitialvalues::normInitValType is out of range. \
+normInitValType = \>\"", ",", " ", "normInitValType"}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"normalizeInitialValues", "=", "True"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"coorNorm", "=", "1"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"normInitValType", " ", "\[Equal]", " ", "NIVnone"}], ",", 
+          " ", 
+          RowBox[{"normalizeInitialValues", " ", "=", " ", "False"}]}], "]"}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"normInitValType", " ", "\[Equal]", "NIVuseOne"}], ",", 
+          RowBox[{"coorNorm", " ", "=", " ", "1"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"normInitValType", " ", "\[Equal]", "NIVuseNA"}], ",", 
+          RowBox[{"coorNorm", " ", "=", " ", "NA"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"normInitValType", " ", "\[Equal]", "NIVuseSqrtNA"}], ",", 
+          RowBox[{"coorNorm", " ", "=", 
+           RowBox[{"Sqrt", "[", "NA", "]"}]}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<coorNorm = \>\"", ",", "coorNorm"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"addNoise", "=", "False"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+           "initValuesType", " ", "\[Equal]", " ", "IVT4DPointsWithNoise"}], 
+           " ", "||", " ", 
+           RowBox[{
+           "initValuesType", " ", "\[Equal]", " ", 
+            "IVT4DmS1PointsWithNoise"}]}], ",", 
+          RowBox[{"addNoise", "=", "True"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Resetting", " ", "initial", " ", "lambda", " ", "and", " ", 
+          "lambda", " ", "0", " ", 
+          RowBox[{"rule", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"InitLambda", "=", "Indeterminate"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"InitLambda0Rule", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"InitLambda0ReverseExpr", "=", "Indeterminate"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"initValuesType", "\[Equal]", " ", "IVTdistribution"}], ",",
+           "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<CreateInitialvalues::IVTdistribution.\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"RandomVariate", "[", 
+                RowBox[{"Apply", "[", 
+                 RowBox[{"rndFunc", ",", "rndArgs"}], "]"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"UseComplexVariablesValue", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"AIL", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"RandomVariate", "[", 
+                    RowBox[{"Apply", "[", 
+                    RowBox[{"rndFunc", ",", "rndArgs"}], "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+                ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+             "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+             "useHighPrecisionInitValuesVal", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Setting precision \>\"", ",", " ", 
+                  "initValuesPrecisionVal", ",", " ", "\"\< to SIL\>\""}], 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"SIL", "=", 
+                 RowBox[{"SetPrecision", "[", 
+                  RowBox[{"SIL", ",", "initValuesPrecisionVal"}], "]"}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"AIL", "=", 
+                 RowBox[{"SetPrecision", "[", 
+                  RowBox[{"AIL", ",", "initValuesPrecisionVal"}], "]"}]}], 
+                ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+             "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"initValuesType", "\[Equal]", " ", "IVT4DPoints"}], " ", "||",
+            " ", 
+           RowBox[{
+           "initValuesType", " ", "\[Equal]", " ", "IVT4DPointsWithNoise"}]}],
+           ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<CreateInitialvalues::IVT4DPoints || IVT4DPointsWithNoise.\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"x4D", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"RandomVariate", "[", 
+                 RowBox[{"Apply", "[", 
+                  RowBox[{"rndFunc", ",", "rndArgs"}], "]"}], "]"}], "*", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"jj", "\[Equal]", "1"}], ",", 
+                  RowBox[{"I", "*", "IVTTimeScale"}], ",", "IVTSpaceScale"}], 
+                 "]"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"jj", ",", "1", ",", "4"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+             "useHighPrecisionInitValuesVal", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Setting precision \>\"", ",", " ", 
+                  "initValuesPrecisionVal", ",", " ", "\"\< to x4D\>\""}], 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"x4D", "=", 
+                 RowBox[{"SetPrecision", "[", 
+                  RowBox[{"x4D", ",", "initValuesPrecisionVal"}], "]"}]}], 
+                ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+             "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"outputVars", ",", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<x4D = \>\"", ",", 
+                RowBox[{"x4D", "//", "MatrixForm"}]}], "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"int4D", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"ii", "\[NotEqual]", "jj"}], ",", 
+                 RowBox[{"Re", "[", 
+                  RowBox[{"Sum", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"x4D", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "kk"}], "]"}], "]"}], "-", 
+                    RowBox[{"x4D", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"jj", ",", "kk"}], "]"}], "]"}]}], ")"}], "^", 
+                    "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"kk", ",", "1", ",", "4"}], "}"}]}], "]"}], "]"}],
+                  ",", "0"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"jj", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"outputVars", ",", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<int4D = \>\"", ",", 
+                RowBox[{"int4D", "//", "MatrixForm"}]}], "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"ToLinear", "[", "int4D", "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"initValuesType", "\[Equal]", " ", "IVT4DMinPolyValue"}], 
+          ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<CreateInitialvalues::IVT4DMinPolyValue.\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"x4D", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"RandomVariate", "[", 
+                 RowBox[{"Apply", "[", 
+                  RowBox[{"rndFunc", ",", "rndArgs"}], "]"}], "]"}], "*", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"jj", "\[Equal]", "1"}], ",", 
+                  RowBox[{"I", "*", "IVTTimeScale"}], ",", "IVTSpaceScale"}], 
+                 "]"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"jj", ",", "1", ",", "4"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+             "useHighPrecisionInitValuesVal", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Setting precision \>\"", ",", " ", 
+                  "initValuesPrecisionVal", ",", " ", "\"\< to x4D\>\""}], 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"x4D", "=", 
+                 RowBox[{"SetPrecision", "[", 
+                  RowBox[{"x4D", ",", "initValuesPrecisionVal"}], "]"}]}], 
+                ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+             "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"outputVars", ",", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<x4D = \>\"", ",", 
+                RowBox[{"x4D", "//", "MatrixForm"}]}], "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"int4D", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"ii", "\[NotEqual]", "jj"}], ",", 
+                 RowBox[{"Re", "[", 
+                  RowBox[{"Sum", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"x4D", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "kk"}], "]"}], "]"}], "-", 
+                    RowBox[{"x4D", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"jj", ",", "kk"}], "]"}], "]"}]}], ")"}], "^", 
+                    "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"kk", ",", "1", ",", "4"}], "}"}]}], "]"}], "]"}],
+                  ",", "0"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"jj", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"outputVars", ",", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<int4D = \>\"", ",", 
+                RowBox[{"int4D", "//", "MatrixForm"}]}], "]"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"coords", "=", 
+             RowBox[{"FindUncorrelatedCoordinates", "[", 
+              RowBox[{"int4D", ",", "True"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"lambdaVec", "=", 
+             RowBox[{"GetLambdaVec", "[", "coords", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"lambdaVecNew", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{"ii", " ", ">", " ", "4"}], ",", "0", ",", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"lambdaVec", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], "\[GreaterEqual]", " ", 
+                    "0"}], ",", "IVTSpaceScale", ",", 
+                   RowBox[{"-", "IVTTimeScale"}]}], "]"}]}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eXXT", "=", 
+             RowBox[{"GetE", "[", "coords", "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"SI", "=", 
+             RowBox[{"CalculateSfromLambdaVec", "[", 
+              RowBox[{"lambdaVecNew", ",", "eXXT"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"ToLinear", "[", "SI", "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<lambdaVec = \>\"", ",", " ", 
+              RowBox[{"lambdaVec", " ", "//", " ", "MatrixForm"}]}], "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<lambdaVecNew = \>\"", ",", " ", 
+              RowBox[{"lambdaVecNew", " ", "//", " ", "MatrixForm"}]}], "]"}],
+             ";"}], "\[IndentingNewLine]", 
+           RowBox[{"(*", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Print", "[", 
+              RowBox[{"\"\<eXXT = \>\"", ",", " ", 
+               RowBox[{"eXXT", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", 
+              RowBox[{"\"\<SIL = \>\"", ",", " ", 
+               RowBox[{"SIL", " ", "//", " ", "MatrixForm"}]}], "]"}], ";"}], 
+            "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", ")"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"initValuesType", "\[Equal]", " ", "IVT4DmS1Points"}], " ",
+            "||", " ", 
+           RowBox[{
+           "initValuesType", " ", "\[Equal]", " ", 
+            "IVT4DmS1PointsWithNoise"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<!!! CreateInitialvalues:: IVT4DmS1Points || \
+IVT4DmS1PointsWithNoise are not implemented yet !!!\>\"", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"initValuesType", "\[Equal]", " ", "IVT4DmS2Points"}], " ",
+            "||", " ", 
+           RowBox[{
+           "initValuesType", " ", "\[Equal]", " ", 
+            "IVT4DmS2PointsWithNoise"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<!!! CreateInitialvalues:: IVT4DmS2Points || \
+IVT4DmS2PointsWithNoise are not implemented yet !!!\>\"", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+           ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"initValuesType", "\[Equal]", " ", "IVTT1S3EPS"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<CreateInitialvalues::IVTT1S3EPS.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Clear", "[", 
+             RowBox[{"TTT", ",", "SSS"}], "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"lambda", "=", 
+             RowBox[{"Expand", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"1", "/", "SSS"}], ")"}], "*", 
+                RowBox[{"DiagonalMatrix", "[", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"ii", "\[Equal]", "1"}], ",", 
+                    RowBox[{"-", "TTT"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"ii", "\[Equal]", " ", "NNN"}], ",", "0", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"ii", "\[Equal]", " ", "2"}], ",", 
+                    RowBox[{"SSS", "+", "eps1"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"ii", "\[Equal]", "3"}], ",", "SSS", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"ii", "\[Equal]", "4"}], ",", 
+                    RowBox[{"SSS", "-", "eps1"}], ",", "eps"}], "]"}]}], 
+                    "]"}]}], "]"}]}], "]"}]}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}]}], "]"}], 
+                 "]"}]}], " ", "/.", " ", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"eps", " ", "\[Rule]", " ", "IVTEpsilonVal"}], ",", 
+                 RowBox[{
+                 "eps1", " ", "\[Rule]", " ", "IVTEpsilonSpaceVal"}]}], 
+                "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eXXT", "=", 
+             RowBox[{"eeReconstruct", "[", "eprimIJidentity", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"XXT", " ", "=", " ", 
+             RowBox[{"Expand", "[", 
+              RowBox[{"eXXT", " ", ".", " ", "lambda", " ", ".", " ", 
+               RowBox[{"Transpose", "[", "eXXT", "]"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"SI", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"Expand", "[", 
+                RowBox[{
+                 RowBox[{"XXT", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"aa", ",", "aa"}], "]"}], "]"}], "+", 
+                 RowBox[{"XXT", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"bb", ",", "bb"}], "]"}], "]"}], "-", 
+                 RowBox[{"2", "*", 
+                  RowBox[{"XXT", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"aa", ",", "bb"}], "]"}], "]"}]}]}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"aa", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"bb", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"ToLinear", "[", "SI", "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<lambda = \>\"", ",", " ", 
+              RowBox[{"lambda", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<eXXT = \>\"", ",", " ", 
+              RowBox[{"eXXT", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<XXT = \>\"", ",", " ", 
+              RowBox[{"XXT", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<SI = \>\"", ",", " ", 
+              RowBox[{"SI", " ", "//", " ", "MatrixForm"}]}], "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"initValuesType", "\[Equal]", "IVTLAMBDA"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<CreateInitialvalues::IVTLAMBDA.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"lambda", "=", 
+             RowBox[{"DiagonalMatrix", "[", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"ii", "\[Equal]", " ", "NNN"}], ",", "0", ",", 
+                  RowBox[{"Subscript", "[", 
+                   RowBox[{"\[CapitalLambda]", ",", "ii"}], "]"}]}], "]"}], 
+                ",", 
+                RowBox[{"{", 
+                 RowBox[{"ii", ",", "1", ",", "NNN"}], "}"}]}], "]"}], 
+              "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"eXXT", "=", 
+             RowBox[{"eeReconstruct", "[", "eprimIJidentity", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"XXT", " ", "=", " ", 
+             RowBox[{"Expand", "[", 
+              RowBox[{"eXXT", " ", ".", " ", "lambda", " ", ".", " ", 
+               RowBox[{"Transpose", "[", "eXXT", "]"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"SI", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"Expand", "[", 
+                RowBox[{
+                 RowBox[{"XXT", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"aa", ",", "aa"}], "]"}], "]"}], "+", 
+                 RowBox[{"XXT", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"bb", ",", "bb"}], "]"}], "]"}], "-", 
+                 RowBox[{"2", "*", 
+                  RowBox[{"XXT", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"aa", ",", "bb"}], "]"}], "]"}]}]}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"aa", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"bb", ",", "1", ",", "NNN"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"InitLambda0ReverseExpr", "=", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"1", "/", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"Sqrt", "[", "NNN", "]"}], "+", "1"}], ")"}], "^", 
+                 "2"}]}], ")"}], "*", 
+              RowBox[{"Sum", "[", 
+               RowBox[{
+                RowBox[{"Subscript", "[", 
+                 RowBox[{"\[CapitalLambda]", ",", "ii"}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"ii", ",", "1", ",", 
+                  RowBox[{"NNN", "-", "1"}]}], "}"}]}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"InitLambda0Rule", "=", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Subscript", "[", 
+                RowBox[{"\[CapitalLambda]", ",", "0"}], "]"}], " ", "\[Rule]",
+                " ", "InitLambda0ReverseExpr"}], "}"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"InitLambda", "=", "lambda"}], ";", "\[IndentingNewLine]",
+             "\[IndentingNewLine]", 
+            RowBox[{"For", "[", 
+             RowBox[{
+              RowBox[{"ii", "=", "1"}], ",", 
+              RowBox[{"ii", "\[LessEqual]", 
+               RowBox[{"NNN", "-", "1"}]}], ",", 
+              RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"SI", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"NNN", ",", "ii"}], "]"}], "]"}], "=", 
+                 RowBox[{"Simplify", "[", 
+                  RowBox[{
+                   RowBox[{"SI", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"NNN", ",", "ii"}], "]"}], "]"}], "-", 
+                   "InitLambda0ReverseExpr", "+", 
+                   RowBox[{"Subscript", "[", 
+                    RowBox[{"\[CapitalLambda]", ",", "0"}], "]"}]}], "]"}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"SI", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"ii", ",", "NNN"}], "]"}], "]"}], "=", 
+                 RowBox[{"Simplify", "[", 
+                  RowBox[{
+                   RowBox[{"SI", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "NNN"}], "]"}], "]"}], "-", 
+                   "InitLambda0ReverseExpr", "+", 
+                   RowBox[{"Subscript", "[", 
+                    RowBox[{"\[CapitalLambda]", ",", "0"}], "]"}]}], "]"}]}], 
+                ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+             "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"ToSLinear", "[", "SI", "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<lambda = \>\"", ",", " ", 
+              RowBox[{"lambda", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<eXXT = \>\"", ",", " ", 
+              RowBox[{"eXXT", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<XXT = \>\"", ",", " ", 
+              RowBox[{"XXT", " ", "//", " ", "MatrixForm"}]}], "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"\"\<SI = \>\"", ",", " ", 
+              RowBox[{"SI", " ", "//", " ", "MatrixForm"}]}], "]"}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"initValuesType", "\[Equal]", "IVTIncreasingIntegers"}], 
+          ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", 
+             "\"\<CreateInitialvalues::IVTIncreasingIntegers.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{"ii", ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"SI", "=", 
+             RowBox[{"ToSMatrix", "[", "SIL", "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"addNoise", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<CreateInitialvalues::Adding noise.\>\"", "]"}],
+             ";", "\[IndentingNewLine]", 
+            RowBox[{"intNoiseVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"NoiseLevel", "*", 
+                RowBox[{"RandomReal", "[", 
+                 RowBox[{"NormalDistribution", "[", "]"}], "]"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"UseComplexVariablesValue", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{"UseReImVariablesValue", ",", "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<CreateInitialvalues::Adding noise for Re Im \
+variables is not implemented yet.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "]"}], ";"}], 
+                   "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{
+                "Print", "[", 
+                 "\"\<CreateInitialvalues::Creating complex noise...\>\"", 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"intNoiseValRe", "=", "intNoiseVal"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"intNoiseValIm", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"NoiseLevel", "*", 
+                    RowBox[{"RandomReal", "[", 
+                    RowBox[{"NormalDistribution", "[", "]"}], "]"}]}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"intNoiseVal", "=", 
+                 RowBox[{"Join", "[", 
+                  RowBox[{
+                   RowBox[{"intNoiseValRe", "+", 
+                    RowBox[{"I", "*", "intNoiseValIm"}]}], ",", 
+                   RowBox[{"intNoiseValRe", "-", 
+                    RowBox[{"I", "*", "intNoiseValIm"}]}]}], "]"}]}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+             "useHighPrecisionInitValuesVal", ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<CreateInitialvalues::Setting precision \>\"", ",", " ", 
+                  "initValuesPrecisionVal", ",", " ", 
+                  "\"\< to intNoiseVal\>\""}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"intNoiseVal", "=", 
+                 RowBox[{"SetPrecision", "[", 
+                  RowBox[{"intNoiseVal", ",", "initValuesPrecisionVal"}], 
+                  "]"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+             "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{"outputVars", ",", 
+              RowBox[{"Print", "[", 
+               RowBox[{
+               "\"\<CreateInitialvalues::intNoiseVal = \>\"", ",", " ", 
+                "intNoiseVal"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"SIL", "=", 
+             RowBox[{"SIL", "+", "intNoiseVal"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"normalizeInitialValues", " ", "&&", " ", 
+           RowBox[{"initValuesType", "\[NotEqual]", "IVTT1S3EPS"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "Print", "[", "\"\<CreateInitialvalues::Normalizing...\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<TODO::CreateInitialvalues::Not fixed yet!\>\"",
+              "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"!", "UseComplexVariablesValue"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<CreateInitialvalues::Normalizing initial values.\>\"", 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"initValTblSum", "=", 
+                 RowBox[{"Sum", "[", 
+                  RowBox[{
+                   RowBox[{"SIL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Unadjusted sum of initial values (initValTblSum) = \
+\>\"", ",", "initValTblSum"}], "]"}], ";", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Abs", "[", "initValTblSum", "]"}], 
+                   "\[GreaterEqual]", "InitialValuesZeroTolerance"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"SIL", "=", 
+                    RowBox[{"SIL", "*", 
+                    RowBox[{"(", 
+                    RowBox[{"coorNorm", "/", "initValTblSum"}], ")"}]}]}], 
+                    ";"}], "\[IndentingNewLine]", ")"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Sum of initial values is too small. Adjusting the \
+last initial value.\>\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"SIL", "[", 
+                    RowBox[{"[", "NA", "]"}], "]"}], "=", 
+                    RowBox[{"coorNorm", "-", 
+                    RowBox[{"Sum", "[", 
+                    RowBox[{
+                    RowBox[{"SIL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", 
+                    RowBox[{"NA", "-", "1"}]}], "}"}]}], "]"}]}]}], ";"}], 
+                   "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"coordSumInitVal", "=", 
+                 RowBox[{"Sum", "[", 
+                  RowBox[{
+                   RowBox[{"SIL", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<coordSumInitVal (adjusted sum of initial values) = \
+\>\"", ",", "coordSumInitVal"}], "]"}], ";"}], "\[IndentingNewLine]", ")"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"(", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "Print", "[", 
+                 "\"\<TODO::CreateInitialvalues: Normalization of initial \
+values for complex variables is not yet implemented!!!\>\"", "]"}], ";"}], 
+               "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+        "Print", "[", 
+         "\"\<Initial values rule (SIrule = SL \[Rule] SIL), (AIrule = AL \
+\[Rule] AIL).\>\"", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"SIrule", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"SL", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}], "\[Rule]", 
+            RowBox[{"SIL", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"AIrule", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"AL", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}], "\[Rule]", 
+            RowBox[{"AIL", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+        "Print", "[", 
+         "\"\<Matrix of initial values (SI = ToSMatrix[SIL], AI = \
+ToAMatrix[AIL]).\>\"", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"SI", " ", "=", " ", 
+         RowBox[{"ToSMatrix", "[", "SIL", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"AI", " ", "=", " ", 
+         RowBox[{"ToAMatrix", "[", "AIL", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5893172934134283`*^9, 3.589317299213293*^9}, {
+   3.589317602280154*^9, 3.5893176129002285`*^9}, {3.589320676458684*^9, 
+   3.5893208745196495`*^9}, 3.5893209369992647`*^9, {3.589320995440191*^9, 
+   3.5893211057506638`*^9}, {3.589321141924759*^9, 3.589321216104167*^9}, {
+   3.5893212789268985`*^9, 3.5893213873465586`*^9}, {3.5893214286380606`*^9, 
+   3.589321440390889*^9}, {3.58932184200208*^9, 3.5893218915520835`*^9}, {
+   3.5893220084479437`*^9, 3.5893221857150145`*^9}, {3.5893223830284386`*^9, 
+   3.589322414266666*^9}, {3.5893224498152046`*^9, 3.5893224741193933`*^9}, {
+   3.5893227904348116`*^9, 3.5893228334394565`*^9}, {3.5893228672870007`*^9, 
+   3.589322933439062*^9}, {3.58932296681129*^9, 3.589323263915223*^9}, {
+   3.5893233006807117`*^9, 3.5893233665295706`*^9}, {3.589323442329058*^9, 
+   3.5893234983883963`*^9}, {3.5893235524618835`*^9, 3.589323565153339*^9}, {
+   3.5893236117413673`*^9, 3.589323709930928*^9}, {3.589323755117027*^9, 
+   3.5893242694273047`*^9}, {3.5893242996484346`*^9, 
+   3.5893244104022026`*^9}, {3.589324488068389*^9, 3.5893245273395452`*^9}, {
+   3.589324585399217*^9, 3.589324983812585*^9}, {3.5893250264473367`*^9, 
+   3.589325283351926*^9}, {3.5893253245123158`*^9, 3.589325357868533*^9}, {
+   3.5893253897567744`*^9, 3.5893254055352826`*^9}, {3.589325468001889*^9, 
+   3.5893257088148375`*^9}, {3.589325989425022*^9, 3.589325989694199*^9}, 
+   3.589326053088424*^9, {3.5893281244001665`*^9, 3.58932817946084*^9}, {
+   3.5893283265378017`*^9, 3.5893283348583455`*^9}, {3.5893291501634893`*^9, 
+   3.5893291563376026`*^9}, {3.5894165301486764`*^9, 3.589416543040263*^9}, {
+   3.5895481785163574`*^9, 3.589548190355226*^9}, {3.5895810486955347`*^9, 
+   3.5895810585851054`*^9}, {3.5897232839491005`*^9, 
+   3.5897235662265825`*^9}, {3.5897235981467953`*^9, 
+   3.5897236483191395`*^9}, {3.589723679068576*^9, 3.5897237765383463`*^9}, {
+   3.589723993498528*^9, 3.589724001120593*^9}, {3.589724035606511*^9, 
+   3.5897240450347767`*^9}, {3.5897240802611866`*^9, 
+   3.5897240930747023`*^9}, {3.589724169202293*^9, 3.589724196452403*^9}, 
+   3.589724648426645*^9, {3.5897247541679153`*^9, 3.589724756219279*^9}, {
+   3.5897248100370436`*^9, 3.589724814751177*^9}, {3.589724939520095*^9, 
+   3.5897249597105103`*^9}, {3.589733161499182*^9, 3.5897331642209926`*^9}, {
+   3.5897332853274727`*^9, 3.589733288381504*^9}, {3.5897333615988255`*^9, 
+   3.5897333678379717`*^9}, {3.589733541336271*^9, 3.589733541506385*^9}, 
+   3.589733632376773*^9, 3.589750805141368*^9, 3.5899147333383408`*^9, 
+   3.5907982183170023`*^9, {3.590798281383914*^9, 3.5907983845104475`*^9}, {
+   3.5907992574195433`*^9, 3.5907992664915724`*^9}, {3.5908462800266533`*^9, 
+   3.590846291697409*^9}, 3.5913668687880154`*^9, {3.5913696444792023`*^9, 
+   3.5913696684501324`*^9}, {3.5913698043834667`*^9, 
+   3.5913698386612453`*^9}, {3.5913698795163965`*^9, 3.591369978555213*^9}, {
+   3.591370128479846*^9, 3.5913701501072197`*^9}, {3.5913702241244073`*^9, 
+   3.5913702255723696`*^9}, {3.5913741625611773`*^9, 
+   3.5913742468862157`*^9}, {3.591375066065716*^9, 3.5913750806173873`*^9}, {
+   3.5913753302794347`*^9, 3.5913753706542664`*^9}, {3.5913755264138823`*^9, 
+   3.5913755366636915`*^9}, {3.591375652350588*^9, 3.5913756578982754`*^9}, {
+   3.5913756896833973`*^9, 3.5913757361092477`*^9}, {3.59137591686337*^9, 
+   3.591375932056466*^9}, {3.591375964140787*^9, 3.59137598975381*^9}, {
+   3.591450472470091*^9, 3.5914507235703363`*^9}, {3.5914508624446263`*^9, 
+   3.591450896759286*^9}, {3.591457184907346*^9, 3.591457289479575*^9}, {
+   3.5914573272991915`*^9, 3.591457399385062*^9}, {3.5914574358879795`*^9, 
+   3.5914574831673994`*^9}, {3.5914575166098566`*^9, 3.59145762972803*^9}, {
+   3.591457761715743*^9, 3.5914577764375286`*^9}, {3.591457820304494*^9, 
+   3.5914578925214863`*^9}, 3.59145794489563*^9, {3.5985467023927894`*^9, 
+   3.598546742041032*^9}, {3.598546938752223*^9, 3.5985470895470233`*^9}, {
+   3.5985493433186617`*^9, 3.5985493434097204`*^9}, {3.598714248382586*^9, 
+   3.598714261477253*^9}, {3.5987143949215713`*^9, 3.598714395229776*^9}, {
+   3.5992340666279926`*^9, 3.599234160606976*^9}, {3.5992347854277973`*^9, 
+   3.5992348057475863`*^9}, 3.599234965899953*^9, {3.5992350836124296`*^9, 
+   3.5992351868161087`*^9}, {3.5992352197257924`*^9, 
+   3.5992352677217846`*^9}, {3.599235507514045*^9, 3.5992356395666814`*^9}, {
+   3.5992356877566633`*^9, 3.5992357102666025`*^9}, {3.599235755327506*^9, 
+   3.599235792719323*^9}, {3.600012097948777*^9, 3.600012110678238*^9}, {
+   3.6000122392917085`*^9, 3.6000123081654778`*^9}, {3.600012351359183*^9, 
+   3.60001249424314*^9}, {3.600014272687561*^9, 3.6000143813898*^9}, {
+   3.600014414861043*^9, 3.60001441857251*^9}, {3.6000146732937903`*^9, 
+   3.6000147112430053`*^9}, {3.600014786305894*^9, 3.600014825072653*^9}, {
+   3.600014871895768*^9, 3.6000148859270935`*^9}, 3.602698168662211*^9, {
+   3.602711965465889*^9, 3.602712113745028*^9}, {3.6027124895783777`*^9, 
+   3.6027125076051483`*^9}, {3.602712647968483*^9, 3.6027127079480333`*^9}, 
+   3.6027127478523235`*^9, {3.602713170185136*^9, 3.6027131909032936`*^9}, {
+   3.6027132289336553`*^9, 3.6027132343723135`*^9}, {3.6027133167475405`*^9, 
+   3.602713385657253*^9}, {3.6027134437378387`*^9, 3.6027134574914637`*^9}, {
+   3.6029581162064433`*^9, 3.6029581230059566`*^9}, {3.602958182509447*^9, 
+   3.6029582837036037`*^9}, {3.6029583359963083`*^9, 
+   3.6029584907069817`*^9}, {3.602958552606062*^9, 3.602958621837006*^9}, 
+   3.602982053031004*^9, {3.602983114890057*^9, 3.6029831574613104`*^9}, {
+   3.602983366271887*^9, 3.6029833845580215`*^9}, {3.602983433136262*^9, 
+   3.6029834781661468`*^9}, {3.602983545911106*^9, 3.6029837240693398`*^9}, {
+   3.6030360363593807`*^9, 3.6030360612999334`*^9}}]
+},
+WindowSize->{1248, 1327},
+WindowMargins->{{Automatic, 217}, {Automatic, 31}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 62207, 1323, 10736, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

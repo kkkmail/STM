@@ -1,0 +1,266 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     10124,        257]
+NotebookOptionsPosition[      9843,        243]
+NotebookOutlinePosition[     10211,        259]
+CellTagsIndexPosition[     10168,        256]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Reals", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", 
+    RowBox[{"2013", " ", "-", " ", "2014"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.24", ".001"}]}]}]}], ",", 
+    RowBox[{"Date", ":", " ", 
+     RowBox[{
+      RowBox[{"2014", "/", "03"}], "/", "02"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Function", " ", "to", " ", "create", " ", "variables", " ", "and", " ", 
+    "various", " ", 
+    RowBox[{"helpers", ".", " ", "Creates"}], " ", "GLOBAL", " ", "variables",
+     " ", "as", " ", 
+    RowBox[{"follows", ":"}]}], "  ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"S", " ", "-", " ", 
+    RowBox[{"square", " ", "matrix", " ", "of", " ", 
+     RowBox[{"variables", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"A", " ", "-", " ", 
+    RowBox[{"square", " ", "matrix", " ", "of", " ", "antisymmetric", " ", 
+     RowBox[{"variables", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"SabStr", " ", "-", " ", 
+    RowBox[{
+    "square", " ", "string", " ", "matrix", " ", "of", " ", "variables", " ", 
+     "for", " ", 
+     RowBox[{"functions", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"SL", " ", "-", " ", 
+    RowBox[{"linearized", " ", "symmetric", " ", 
+     RowBox[{"variables", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"AL", " ", "-", " ", 
+    RowBox[{"linearized", " ", "antisymmetric", " ", 
+     RowBox[{"variables", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"SLV", " ", "-", " ", 
+    RowBox[{
+    "linearized", " ", "string", " ", "variables", " ", "for", " ", 
+     "function", " ", 
+     RowBox[{"arguments", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"SLVM", " ", "-", " ", 
+    RowBox[{
+    "mapping", " ", "from", " ", "sab", " ", "string", " ", "matrix", " ", 
+     "to", " ", "linear", " ", "string", " ", "for", " ", 
+     RowBox[{"functions", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"remapTable", " ", "&"}], " ", "remapReverseTable", " ", "to", 
+    " ", "go", " ", "from", " ", "SM", " ", "to", " ", "SL", " ", "and", " ", 
+    RowBox[{"back", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"EE", ",", " ", "EI", ",", " ", 
+    RowBox[{"EIT", " ", "square", " ", "matrix", " ", "of", " ", "1"}], ",", 
+    " ", 
+    RowBox[{
+    "column", " ", "of", " ", "1", " ", "and", " ", "row", " ", "of", " ", 
+     "1."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"ZZ", " ", "-", " ", 
+     RowBox[{"zero", " ", "matrix"}]}], ",", " ", 
+    RowBox[{"ZL", " ", "-", " ", 
+     RowBox[{"zero", " ", "vector", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"for", " ", "convenience"}], ")"}], "."}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"II", " ", "-", " ", 
+    RowBox[{"Identity", " ", 
+     RowBox[{"matrix", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "EEIJ", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "IIIJ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "alphaIJ", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "alphaIJpm1", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "eprimIJidentity", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"YA", " ", "-", " ", 
+    RowBox[{
+    "symbolic", " ", "symmetric", " ", "matrix", " ", "of", " ", "Y", " ", 
+     "with", " ", "diagonal", " ", "elements", " ", "as", " ", 
+     "variables"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"YD", " ", "-", " ", 
+    RowBox[{
+    "just", " ", "diagonal", " ", "elements", " ", "of", " ", "matrix", " ", 
+     "Y", " ", "as", " ", "variables"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"YL", " ", "-", " ", 
+    RowBox[{
+    "linear", " ", "symbolic", " ", "representation", " ", "of", " ", "Y", 
+     " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"contains", " ", "NA", " ", "elements"}], ")"}], "."}]}]}], 
+   " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"CreateVariables", "[", 
+      RowBox[{
+       RowBox[{"nn_", "?", "IntegerQ"}], ",", "rawOpts___"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "MaxIdxLen", ",", "slvmHlp", ",", "na", ",", "opts", ",", "nal", ",", 
+         "ss"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"opts", "=", 
+         RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"MaxIdxLen", "=", 
+         RowBox[{"StringLength", "[", 
+          RowBox[{"ToString", "[", "nn", "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"na", "=", 
+         RowBox[{"nn", "*", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"nn", "-", "1"}], ")"}], "/", "2"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"nal", "=", "na"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"Square", " ", "matrix", " ", "of", " ", "variables"}], " ", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+        "Print", "[", 
+         "\"\<CreateVariables::Creating real S, ST, and SabStr.\>\"", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"S", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ii", "\[Equal]", "jj"}], ",", "0", ",", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"ii", "<", "jj"}], ",", 
+               RowBox[{"ToExpression", "[", 
+                RowBox[{"\"\<Sr\>\"", "<>", 
+                 RowBox[{"ToStringPadded", "[", 
+                  RowBox[{"ii", ",", "MaxIdxLen"}], "]"}], "<>", "\"\<c\>\"", 
+                 "<>", 
+                 RowBox[{"ToStringPadded", "[", 
+                  RowBox[{"jj", ",", "MaxIdxLen"}], "]"}]}], "]"}], ",", 
+               RowBox[{"ToExpression", "[", 
+                RowBox[{"\"\<Sr\>\"", "<>", 
+                 RowBox[{"ToStringPadded", "[", 
+                  RowBox[{"jj", ",", "MaxIdxLen"}], "]"}], "<>", "\"\<c\>\"", 
+                 "<>", 
+                 RowBox[{"ToStringPadded", "[", 
+                  RowBox[{"ii", ",", "MaxIdxLen"}], "]"}]}], "]"}]}], "]"}]}],
+             "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"jj", ",", "1", ",", "nn"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<SL - Linearized variables. \>\"", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"SL", "=", 
+         RowBox[{"ToSLinear", "[", "S", "]"}]}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], "*)"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.6029613153458223`*^9, 3.6029613230659447`*^9}, {
+   3.6029615124412727`*^9, 3.602961550764707*^9}, {3.6029616718516827`*^9, 
+   3.602961673821989*^9}, {3.6029617505649195`*^9, 3.602961788415039*^9}, {
+   3.6029618423238163`*^9, 3.602961885108218*^9}, {3.6029619389959717`*^9, 
+   3.6029619555189376`*^9}, {3.6029619915528517`*^9, 3.602962034903621*^9}, 
+   3.6029620656330147`*^9, {3.6029621802750993`*^9, 3.602962206738659*^9}, {
+   3.602962258721159*^9, 3.602962266013999*^9}, {3.60296270358751*^9, 
+   3.6029627725802994`*^9}}]
+},
+WindowSize->{1183, 946},
+WindowMargins->{{Automatic, 522}, {Automatic, 158}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 9294, 221, 1502, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

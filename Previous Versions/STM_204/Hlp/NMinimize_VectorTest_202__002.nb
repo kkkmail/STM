@@ -1,0 +1,182 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      6574,        172]
+NotebookOptionsPosition[      6329,        159]
+NotebookOutlinePosition[      6674,        174]
+CellTagsIndexPosition[      6631,        171]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Numer", " ", "of", " ", "elements", " ", "in", " ", "the", " ", "list"}],
+     " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"NoOfElements", " ", "=", " ", "10"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"DoPrint", "=", "False"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"counter", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"counterNumeric", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"counterGradNumeric", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Forced", " ", "numeric", " ", "function"}], ",", " ", 
+     RowBox[{
+     "which", " ", "accepts", " ", "list", " ", "of", " ", "variables", " ", 
+      RowBox[{"(", "xLst", ")"}], " ", "and", " ", "returns", " ", 
+      "scalar"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"listNumericFunction", "[", 
+      RowBox[{"xLst_", "?", "VectorQ"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"retVal", ",", "listLen"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"counterNumeric", "++"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{"DoPrint", ",", 
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<listNumericFunction is called: \>\"", ",", " ", 
+             "counterNumeric", ",", "\"\< time(s) with xLst = \>\"", ",", " ", 
+             RowBox[{"ToString", "[", "xLst", "]"}]}], "]"}]}], "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"listLen", "=", 
+          RowBox[{"Length", "[", "xLst", "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"retVal", "=", 
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"xLst", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}], "-", 
+               RowBox[{"ii", "/", "5"}]}], ")"}], "^", "2"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"ii", ",", "1", ",", "listLen"}], "}"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+       "\[IndentingNewLine]", "]"}], "/;", " ", 
+      RowBox[{"VectorQ", "[", 
+       RowBox[{"xLst", ",", "NumericQ"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Variables", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"varList", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"ToExpression", "[", 
+        RowBox[{"\"\<var\>\"", " ", "<>", " ", 
+         RowBox[{"ToString", "[", "ii", "]"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "NoOfElements"}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<varList = \>\"", ",", " ", "varList"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Constraint", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"constrLst", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "1"}], "\[LessEqual]", 
+        RowBox[{"varList", "[", 
+         RowBox[{"[", "ii", "]"}], "]"}], " ", "\[LessEqual]", " ", "1"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "NoOfElements"}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<constrLst = \>\"", ",", " ", "constrLst"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"sol", "=", 
+     RowBox[{"NMinimize", "[", 
+      RowBox[{
+       RowBox[{"Join", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"listNumericFunction", "[", "varList", "]"}], ",", 
+          "constrLst"}], "}"}], "]"}], ",", "varList"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<counterNumeric = \>\"", ",", " ", "counterNumeric", ",", " ", 
+      "\"\<, sol = \>\"", ",", " ", "sol"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+       "===", "===", "===", "==="}], "="}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5903260481307096`*^9, 3.590326256484799*^9}, {
+  3.5903264455604486`*^9, 3.590326446450042*^9}, {3.5903266307360964`*^9, 
+  3.59032675763943*^9}, {3.590326808199031*^9, 3.5903269641756864`*^9}, {
+  3.5903269986916227`*^9, 3.5903270348606596`*^9}, {3.590327092726116*^9, 
+  3.5903270960643325`*^9}, {3.5903277262037215`*^9, 3.5903277529985304`*^9}, {
+  3.5903278364549913`*^9, 3.590327911540888*^9}, {3.590531367164178*^9, 
+  3.5905313799566784`*^9}, {3.5905314137701497`*^9, 3.5905315472758713`*^9}, {
+  3.590531580065662*^9, 3.590531643344714*^9}, {3.590597315972338*^9, 
+  3.590597389264045*^9}, {3.590597419432093*^9, 3.5905974991550736`*^9}, {
+  3.6155839476468253`*^9, 3.6155841437530904`*^9}, {3.6155841865114937`*^9, 
+  3.615584309817402*^9}}]
+},
+WindowSize->{701, 867},
+WindowMargins->{{30, Automatic}, {Automatic, 38}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 5768, 137, 792, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

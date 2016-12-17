@@ -1,0 +1,228 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      8828,        219]
+NotebookOptionsPosition[      8474,        202]
+NotebookOutlinePosition[      8841,        218]
+CellTagsIndexPosition[      8798,        215]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Options", "[", "STMOutput", "]"}], "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"UseKeyTypeInXML", " ", "\[Rule]", " ", "True"}], ",", " ", 
+      RowBox[{
+      "XMLKeyType", " ", "\[Rule]", " ", 
+       "\"\<\\\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, \
+PublicKeyToken=b77a5c561934e089\\\"\>\""}], ",", 
+      RowBox[{"UseValueTypeInXML", " ", "\[Rule]", " ", "True"}], ",", " ", 
+      RowBox[{
+      "XMLValueType", " ", "\[Rule]", " ", 
+       "\"\<\\\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, \
+PublicKeyToken=b77a5c561934e089\\\"\>\""}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ToXML", "[", 
+     RowBox[{"name_", ",", "object_", ",", "rawOpts___"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "s", ",", "sName", ",", "sObj", ",", "crlf", ",", "opts", ",", 
+        "useKeyTypeInXMLVal", ",", "XMLKeyTypeVal", ",", 
+        "useValueTypeInXMLVal", ",", "XMLValueTypeVal"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"opts", " ", "=", 
+        RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"useKeyTypeInXMLVal", "=", 
+        RowBox[{
+         RowBox[{"UseKeyTypeInXML", "/.", "opts"}], " ", "/.", 
+         RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"XMLKeyTypeVal", "=", 
+        RowBox[{
+         RowBox[{"XMLKeyType", "/.", "opts"}], " ", "/.", 
+         RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"useValueTypeInXMLVal", "=", 
+        RowBox[{
+         RowBox[{"UseValueTypeInXML", "/.", "opts"}], " ", "/.", 
+         RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"XMLValueTypeVal", "=", 
+        RowBox[{
+         RowBox[{"XMLValueType", "/.", "opts"}], " ", "/.", 
+         RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"sName", "=", 
+        RowBox[{"ToString", "[", "name", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"sObj", "=", 
+        RowBox[{"ToString", "[", 
+         RowBox[{"InputForm", "[", 
+          RowBox[{
+           RowBox[{"N", "[", "object", "]"}], ",", " ", 
+           RowBox[{"NumberMarks", " ", "\[Rule]", "  ", "False"}]}], "]"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"crlf", "=", 
+          RowBox[{
+           RowBox[{"FromCharacterCode", "[", "13", "]"}], "<>", 
+           RowBox[{"FromCharacterCode", "[", "10", "]"}]}]}], ";"}], " ", 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"crlf", "=", 
+        RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"s", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{
+        "s", " ", "<>", "\"\<  <item>\>\"", " ", "<>", " ", "crlf"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{"useKeyTypeInXMLVal", ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"s", "=", 
+            RowBox[{
+            "s", " ", "<>", "\"\<    <key type=\>\"", " ", "<>", " ", 
+             "XMLKeyTypeVal", " ", "<>", " ", "\"\<>\>\"", " ", "<>", " ", 
+             "crlf"}]}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"s", "=", 
+            RowBox[{
+            "s", " ", "<>", "\"\<    <key>\>\"", " ", "<>", " ", "crlf"}]}], 
+           ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+        "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{
+        "s", " ", "<>", "\"\<      <string>\>\"", " ", "<>", " ", "sName", 
+         " ", "<>", " ", "\"\<</string>\>\"", " ", "<>", " ", "crlf"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{
+        "s", " ", "<>", "\"\<    </key>\>\"", " ", "<>", " ", "crlf"}]}], ";",
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{"useValueTypeInXMLVal", ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"s", "=", 
+            RowBox[{
+            "s", " ", "<>", "\"\<    <value type=\>\"", " ", "<>", " ", 
+             "XMLValueTypeVal", " ", "<>", " ", "\"\<>\>\"", " ", "<>", " ", 
+             "crlf"}]}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"s", "=", 
+            RowBox[{
+            "s", " ", "<>", "\"\<    <value>\>\"", " ", "<>", " ", "crlf"}]}],
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+        "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{
+        "s", " ", "<>", "\"\<      <string>\>\"", " ", "<>", " ", "sObj", " ",
+          "<>", " ", "\"\<</string>\>\"", " ", "<>", " ", "crlf"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{
+        "s", " ", "<>", "\"\<    </value>\>\"", " ", "<>", " ", "crlf"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{
+        "s", " ", "<>", "\"\<  </item>\>\"", " ", "<>", " ", "crlf"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "s", "]"}], ";"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"x", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"ii", ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "10"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"ToXML", "[", 
+    RowBox[{"\"\<x\>\"", ",", "x"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<ToXML[x] = \>\"", ",", " ", 
+    RowBox[{"FromCharacterCode", "[", "13", "]"}], ",", "s"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.598714813613679*^9, 3.5987148247010183`*^9}, {
+  3.5987148692454987`*^9, 3.5987152125046844`*^9}, {3.598715247950139*^9, 
+  3.5987154468647895`*^9}, {3.598715491500332*^9, 3.5987156324936485`*^9}, {
+  3.598724476717351*^9, 3.5987244846375933`*^9}, {3.5987245416683383`*^9, 
+  3.5987246900095167`*^9}, {3.598724745325127*^9, 3.598724746428857*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"ToXML[x] = \"\>", "\[InvisibleSpace]", "\<\"\\r\"\>", 
+   "\[InvisibleSpace]", "\<\"  <item>\\r    <key type=\\\"System.String, \
+mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\\\
+\">\\r      <string>x</string>\\r    </key>\\r    <value \
+type=\\\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, \
+PublicKeyToken=b77a5c561934e089\\\">\\r      <string>{1., 2., 3., 4., 5., 6., \
+7., 8., 9., 10.}</string>\\r    </value>\\r  </item>\\r\"\>"}],
+  SequenceForm[
+  "ToXML[x] = ", "\n", 
+   "  <item>\n    <key type=\"System.String, mscorlib, Version=4.0.0.0, \
+Culture=neutral, PublicKeyToken=b77a5c561934e089\">\n      <string>x</string>\
+\n    </key>\n    <value type=\"System.String, mscorlib, Version=4.0.0.0, \
+Culture=neutral, PublicKeyToken=b77a5c561934e089\">\n      <string>{1., 2., \
+3., 4., 5., 6., 7., 8., 9., 10.}</string>\n    </value>\n  </item>\n"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.5987246445924554`*^9, 3.5987246911682825`*^9}, 
+   3.598724747135324*^9}]
+}, Open  ]]
+},
+WindowSize->{2075, 910},
+WindowMargins->{{136, Automatic}, {63, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 6813, 157, 1313, "Input"],
+Cell[7383, 181, 1075, 18, 258, "Print"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

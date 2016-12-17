@@ -1,0 +1,206 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      7287,        197]
+NotebookOptionsPosition[      7008,        183]
+NotebookOutlinePosition[      7374,        199]
+CellTagsIndexPosition[      7331,        196]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", 
+     RowBox[{"2", "-", 
+      RowBox[{
+      "nd", " ", "power", " ", "polynom", " ", "terms", " ", "and", " ", 
+       RowBox[{"related", "."}]}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", 
+      RowBox[{"K", "^", "3"}]}]}], ",", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.06", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "07"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"NoOfTermsF2", "=", "3"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"CoeffF2Zero", "=", 
+     RowBox[{"{", 
+      RowBox[{"Table", "[", 
+       RowBox[{"0", ",", 
+        RowBox[{"{", 
+         RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}], 
+      "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"CoeffF2", "=", "CoeffF2Zero"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TermMatrixF2", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], ";"}],
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TermExampleMatrixF2", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", 
+        RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"All", " ", "terms", " ", "for", " ", 
+     RowBox[{"convenience", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+    "idxD2T4Cabcd", ";", "\[IndentingNewLine]", "idxD2T2Cabbd", ";", 
+     "\[IndentingNewLine]", "idxD2T0Cabab", ";"}], "\[IndentingNewLine]", 
+    "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Creates", " ", "terms", " ", "for", " ", "2"}], "-", 
+     RowBox[{"nd", " ", "power", " ", 
+      RowBox[{"polynom", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"InitializeTermsF2", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", "\"\<Constructing 2-nd power terms.\>\"", "]"}],
+         ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<D = 2, 4 terms.\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<D2T4Cabcd\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"idxD2T4Cabcd", "=", "1"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"TermMatrixF2", "[", 
+          RowBox[{"[", "idxD2T4Cabcd", "]"}], "]"}], "=", 
+         "\"\<coeffD2T4Cabcd\>\""}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"TermExampleMatrixF2", "[", 
+          RowBox[{"[", "idxD2T4Cabcd", "]"}], "]"}], "=", 
+         RowBox[{
+          RowBox[{"S", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "2"}], "]"}], "]"}], "*", 
+          RowBox[{"S", "[", 
+           RowBox[{"[", 
+            RowBox[{"3", ",", "4"}], "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<D = 2, 2 terms.\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<D2T2Cabbd\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"idxD2T2Cabbd", "=", "2"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"TermMatrixF2", "[", 
+          RowBox[{"[", "idxD2T2Cabbd", "]"}], "]"}], "=", 
+         "\"\<coeffD2T2Cabbd\>\""}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"TermExampleMatrixF2", "[", 
+          RowBox[{"[", "idxD2T2Cabbd", "]"}], "]"}], "=", 
+         RowBox[{
+          RowBox[{"S", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "2"}], "]"}], "]"}], "*", 
+          RowBox[{"S", "[", 
+           RowBox[{"[", 
+            RowBox[{"2", ",", "4"}], "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<D = 2, 0 terms.\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<D2T0Cabab\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"idxD2T0Cabab", "=", "3"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"TermMatrixF2", "[", 
+          RowBox[{"[", "idxD2T0Cabab", "]"}], "]"}], "=", 
+         "\"\<coeffD2T0Cabab\>\""}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"TermExampleMatrixF2", "[", 
+          RowBox[{"[", "idxD2T0Cabab", "]"}], "]"}], "=", 
+         RowBox[{
+          RowBox[{"S", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "2"}], "]"}], "]"}], "*", 
+          RowBox[{"S", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "2"}], "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5903602912001925`*^9, 3.590360456694173*^9}, {
+   3.5903605500762296`*^9, 3.5903608131950865`*^9}, {3.5903610261856303`*^9, 
+   3.5903610262816944`*^9}, 3.5903625600029364`*^9}]
+},
+WindowSize->{923, 1307},
+WindowMargins->{{58, Automatic}, {Automatic, 25}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 6459, 161, 1421, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

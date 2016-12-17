@@ -1,0 +1,208 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7545,        199]
+NotebookOptionsPosition[      7209,        182]
+NotebookOutlinePosition[      7573,        198]
+CellTagsIndexPosition[      7530,        195]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{
+    RowBox[{
+    "d\[CapitalLambda]\[CapitalLambda]", ".", 
+     "d\[CapitalLambda]\[CapitalLambda]"}], "+", 
+    RowBox[{
+    "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}], "-", 
+    RowBox[{
+    "\[CapitalLambda]\[CapitalLambda]", ".", 
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", "EEh", 
+     ".", "dEE"}], "-", 
+    RowBox[{
+    "\[CapitalLambda]\[CapitalLambda]", ".", 
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", "EEh", 
+     ".", "dEE"}], "+", 
+    RowBox[{
+    "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"expr", "=", 
+    RowBox[{
+     RowBox[{
+     "dEE", ".", "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", 
+      ".", "\[CapitalLambda]\[CapitalLambda]", ".", "EEh"}], "+", 
+     RowBox[{
+     "dEE", ".", "\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]", ".", "EEh"}], "+", 
+     RowBox[{
+     "dEE", ".", "\[CapitalLambda]\[CapitalLambda]", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh"}], "+", 
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]"}], "+", 
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]"}], "+", 
+     RowBox[{
+     "EE", ".", "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "dEE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]"}], "+", 
+     RowBox[{
+     "EE", ".", "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE", 
+      ".", "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"expr", "=", 
+    RowBox[{
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "dEE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}], "+", 
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "dEE"}], "+", 
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE"}]}]}], ";"}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"expr", "=", 
+    RowBox[{
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]"}], "-", 
+     RowBox[{"2", " ", 
+      RowBox[{
+      "d\[CapitalLambda]\[CapitalLambda]", ".", 
+       "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}]}], "+", 
+     RowBox[{"2", " ", 
+      RowBox[{
+      "d\[CapitalLambda]\[CapitalLambda]", ".", 
+       "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}]}], "+", 
+     RowBox[{"2", " ", 
+      RowBox[{
+      "\[CapitalLambda]\[CapitalLambda]", ".", 
+       "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "dEE"}]}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "EE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}]}]}], ";"}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"expr", "=", 
+    RowBox[{
+     RowBox[{
+     "d\[CapitalLambda]\[CapitalLambda]", ".", 
+      "d\[CapitalLambda]\[CapitalLambda]"}], "+", 
+     RowBox[{"2", " ", 
+      RowBox[{
+      "\[CapitalLambda]\[CapitalLambda]", ".", 
+       "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "dEE"}]}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}], "+", 
+     RowBox[{
+     "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+      "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE"}]}]}], ";"}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"TensorExpand", "[", "expr", "]"}]}], "Input",
+ CellChangeTimes->{{3.644774302093215*^9, 3.644774386832658*^9}, {
+   3.644774417641178*^9, 3.6447744704953814`*^9}, {3.6447746151907578`*^9, 
+   3.644774689830473*^9}, 3.644774826797709*^9, {3.6447750504186473`*^9, 
+   3.6447752285372863`*^9}, {3.644775265873153*^9, 3.6447752685859613`*^9}, {
+   3.6447753225949364`*^9, 3.644775339111935*^9}, {3.644775395927779*^9, 
+   3.644775403128577*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+  "d\[CapitalLambda]\[CapitalLambda]", ".", 
+   "d\[CapitalLambda]\[CapitalLambda]"}], "+", 
+  RowBox[{"2", " ", 
+   RowBox[{
+   "\[CapitalLambda]\[CapitalLambda]", ".", 
+    "\[CapitalLambda]\[CapitalLambda]", ".", "dEEh", ".", "dEE"}]}], "+", 
+  RowBox[{"2", " ", 
+   RowBox[{
+   "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", "dEE", ".", 
+    "\[CapitalLambda]\[CapitalLambda]", ".", "EEh", ".", 
+    "dEE"}]}]}]], "Output",
+ CellChangeTimes->{{3.6447743481699047`*^9, 3.644774387768281*^9}, 
+   3.6447744192212305`*^9, 3.644774490366618*^9, 3.6447746274749413`*^9, 
+   3.644774694219396*^9, 3.644774828266681*^9, {3.6447750571221123`*^9, 
+   3.6447751300166655`*^9}, {3.6447752138715177`*^9, 
+   3.6447752294819155`*^9}, {3.6447752997186975`*^9, 3.644775339985517*^9}, 
+   3.644775405439114*^9}]
+}, Open  ]]
+},
+WindowSize->{1479, 945},
+WindowMargins->{{177, Automatic}, {147, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 5770, 136, 394, "Input"],
+Cell[6353, 160, 840, 19, 77, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

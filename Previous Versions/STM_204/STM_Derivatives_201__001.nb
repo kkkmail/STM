@@ -1,0 +1,747 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     30361,        738]
+NotebookOptionsPosition[     30078,        724]
+NotebookOutlinePosition[     30447,        740]
+CellTagsIndexPosition[     30404,        737]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Derivatives", " ", "calculations", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", 
+    RowBox[{"2013", " ", "-", " ", "2014"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"2.01", ".001"}]}]}]}], ",", 
+    RowBox[{"Date", ":", " ", 
+     RowBox[{
+      RowBox[{"2014", "/", "03"}], "/", "08"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Matrix", " ", "function", " ", "to", " ", "return", " ", 
+    RowBox[{"Dab", "[", 
+     RowBox[{"X", " ", "*", " ", "Y"}], "]"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabXXmYY", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "MatrixQ"}], ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "MatrixQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", "=", 
+         RowBox[{
+          RowBox[{"XX", "*", "DabYY"}], "+", 
+          RowBox[{"YY", "*", "DabXX"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Matrix", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"Dab", "[", 
+      RowBox[{"X", "^", "k"}], "]"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabXXpK", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "MatrixQ"}], ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"kk", "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", "DabXX"}], ";"}], "\[IndentingNewLine]", 
+           ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", 
+             RowBox[{"kk", "*", 
+              RowBox[{"XX", "^", 
+               RowBox[{"(", 
+                RowBox[{"kk", "-", "1"}], ")"}]}], "*", "DabXX"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Matrix", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"Dab", "[", 
+      RowBox[{
+       RowBox[{"X", "^", "k"}], " ", "*", " ", 
+       RowBox[{"Y", "^", "n"}]}], "]"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabXXpKmYYpN", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "MatrixQ"}], ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}], ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "MatrixQ"}], ",", 
+       RowBox[{"nn_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "XXpK", ",", "YYpN", ",", "dabXXpK", ",", "dabYYpN"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"XXpK", "=", 
+         RowBox[{"XX", "^", "kk"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"YYpN", "=", 
+         RowBox[{"YY", "^", "nn"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dabXXpK", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"XX", ",", "DabXX", ",", "kk"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dabYYpN", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"YY", ",", "DabYY", ",", "nn"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"DabXXmYY", "[", 
+          RowBox[{"XXpK", ",", "dabXXpK", ",", "YYpN", ",", "dabYYpN"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"4", "D", " ", "tensor", " ", "to", " ", "return", " ", 
+     RowBox[{"DabDcd", "[", 
+      RowBox[{"XX", " ", "*", " ", "YY"}], "]"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabDcdXXmYY", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "MatrixQ"}], ",", "DabDcdXX_", ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "MatrixQ"}], ",", "DabDcdYY_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "a", ",", "b", ",", "c", ",", "d", ",", "len"}], "}"}],
+        ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "DabXX", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{
+          RowBox[{"XX", "*", "DabDcdYY"}], "+", 
+          RowBox[{"YY", "*", "DabDcdXX"}], "+", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"DabXX", "[", 
+               RowBox[{"[", 
+                RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+              RowBox[{"DabYY", "[", 
+               RowBox[{"[", 
+                RowBox[{"c", ",", "d"}], "]"}], "]"}]}], "+", 
+             RowBox[{
+              RowBox[{"DabXX", "[", 
+               RowBox[{"[", 
+                RowBox[{"c", ",", "d"}], "]"}], "]"}], "*", 
+              RowBox[{"DabYY", "[", 
+               RowBox[{"[", 
+                RowBox[{"a", ",", "b"}], "]"}], "]"}]}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "len"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"b", ",", "1", ",", "len"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"c", ",", "1", ",", "len"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"d", ",", "1", ",", "len"}], "}"}]}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"4", "D", " ", "tensor", " ", "to", " ", "return", " ", 
+     RowBox[{"DabDcd", "[", 
+      RowBox[{"XX", "^", "k"}], "]"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabDcdXXpK", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "MatrixQ"}], ",", "DabDcdXX_", ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "a", ",", "b", ",", "c", ",", "d", ",", "len"}], "}"}],
+        ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "DabXX", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"kk", "\[Equal]", " ", "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", "DabDcdXX"}], ";"}], "\[IndentingNewLine]",
+            ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"kk", "\[Equal]", "2"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"(", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"retVal", "=", 
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{"kk", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"XX", "^", 
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}]}], "*", 
+                    RowBox[{"DabDcdXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b", ",", "c", ",", "d"}], "]"}], 
+                    "]"}]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"c", ",", "d"}], "]"}], "]"}]}]}], ")"}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"a", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"b", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"c", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"d", ",", "1", ",", "len"}], "}"}]}], "]"}]}], 
+              ";"}], "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"(", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"retVal", "=", 
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{"kk", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"XX", "^", 
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}]}], "*", 
+                    RowBox[{"DabDcdXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b", ",", "c", ",", "d"}], "]"}], 
+                    "]"}]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}], "*", 
+                    RowBox[{"XX", "^", 
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "2"}], ")"}]}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "b"}], "]"}], "]"}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"c", ",", "d"}], "]"}], "]"}]}]}], ")"}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"a", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"b", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"c", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"d", ",", "1", ",", "len"}], "}"}]}], "]"}]}], 
+              ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+           "]"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"4", "D", " ", "tensor", " ", "to", " ", "return", " ", 
+     RowBox[{"DabDcd", "[", 
+      RowBox[{
+       RowBox[{"XX", "^", "k"}], " ", "*", " ", 
+       RowBox[{"YY", "^", "n"}]}], "]"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabDcdXXpKmYYpN", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "MatrixQ"}], ",", "DabDcdXX_", ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}], ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "MatrixQ"}], ",", "DabDcdYY_", ",", 
+       RowBox[{"nn_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "a", ",", "b", ",", "c", ",", "d", ",", "len", ",", 
+         "XXpK", ",", "YYpN", ",", "dabXXpK", ",", "dabYYpN", ",", 
+         "dabdcdXXpK", ",", "dabdcdYYpN"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "DabXX", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"XXpK", "=", 
+         RowBox[{"XX", "^", "kk"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"YYpN", "=", 
+         RowBox[{"YY", "^", "nn"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dabXXpK", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"XX", ",", "DabXX", ",", "kk"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dabYYpN", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"YY", ",", "DabYY", ",", "nn"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dabdcdXXpK", "=", 
+         RowBox[{"DabDcdXXpK", "[", 
+          RowBox[{"XX", ",", "DabXX", ",", "DabDcdXX", ",", "kk"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"dabdcdYYpN", "=", 
+         RowBox[{"DabDcdXXpK", "[", 
+          RowBox[{"YY", ",", "DabYY", ",", "DabDcdYY", ",", "nn"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"DabDcdXXmYY", "[", 
+          RowBox[{
+          "XXpK", ",", "dabXXpK", ",", "dabdcdXXpK", ",", "YYpN", ",", 
+           "dabYYpN", ",", "dabdcdYYpN"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Vector", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"Dab", "[", 
+      RowBox[{"X", " ", "*", " ", "Y"}], "]"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabXXmYY", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "VectorQ"}], ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "VectorQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"retVal", "=", 
+         RowBox[{
+          RowBox[{"XX", "*", "DabYY"}], "+", 
+          RowBox[{"YY", "*", "DabXX"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Vector", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"Dab", "[", 
+      RowBox[{"X", "^", "k"}], "]"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabXXpK", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "VectorQ"}], ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "retVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"kk", "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", "DabXX"}], ";"}], "\[IndentingNewLine]", 
+           ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", 
+             RowBox[{"kk", "*", 
+              RowBox[{"XX", "^", 
+               RowBox[{"(", 
+                RowBox[{"kk", "-", "1"}], ")"}]}], "*", "DabXX"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Vector", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"Dab", "[", 
+      RowBox[{
+       RowBox[{"X", "^", "k"}], " ", "*", " ", 
+       RowBox[{"Y", "^", "n"}]}], "]"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabXXpKmYYpN", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "VectorQ"}], ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}], ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "VectorQ"}], ",", 
+       RowBox[{"nn_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "XXpK", ",", "YYpN", ",", "dabXXpK", ",", "dabYYpN"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"XXpK", "=", 
+         RowBox[{"XX", "^", "kk"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"YYpN", "=", 
+         RowBox[{"YY", "^", "nn"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dabXXpK", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"XX", ",", "DabXX", ",", "kk"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dabYYpN", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"YY", ",", "DabYY", ",", "nn"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"DabXXmYY", "[", 
+          RowBox[{"XXpK", ",", "dabXXpK", ",", "YYpN", ",", "dabYYpN"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Matrix", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"DabDcd", "[", 
+      RowBox[{"XX", " ", "*", " ", "YY"}], "]"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabDcdXXmYY", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "VectorQ"}], ",", "DabDcdXX_", ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "VectorQ"}], ",", "DabDcdYY_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"retVal", ",", "a", ",", "c", ",", "len"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "DabXX", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{
+          RowBox[{"XX", "*", "DabDcdYY"}], "+", 
+          RowBox[{"YY", "*", "DabDcdXX"}], "+", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"DabXX", "[", 
+               RowBox[{"[", "a", "]"}], "]"}], "*", 
+              RowBox[{"DabYY", "[", 
+               RowBox[{"[", "c", "]"}], "]"}]}], "+", 
+             RowBox[{
+              RowBox[{"DabXX", "[", 
+               RowBox[{"[", "c", "]"}], "]"}], "*", 
+              RowBox[{"DabYY", "[", 
+               RowBox[{"[", "a", "]"}], "]"}]}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"a", ",", "1", ",", "len"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"c", ",", "1", ",", "len"}], "}"}]}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Matrix", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"DabDcd", "[", 
+      RowBox[{"XX", "^", "k"}], "]"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabDcdXXpK", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "VectorQ"}], ",", "DabDcdXX_", ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"retVal", ",", "a", ",", "c", ",", "len"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "DabXX", "]"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"kk", "\[Equal]", " ", "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", "DabDcdXX"}], ";"}], "\[IndentingNewLine]",
+            ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"kk", "\[Equal]", "2"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"(", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"retVal", "=", 
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{"kk", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"XX", "^", 
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}]}], "*", 
+                    RowBox[{"DabDcdXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "c"}], "]"}], "]"}]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", "c", "]"}], "]"}]}]}], ")"}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"a", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"c", ",", "1", ",", "len"}], "}"}]}], "]"}]}], 
+              ";"}], "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"(", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"retVal", "=", 
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{"kk", "*", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"XX", "^", 
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}]}], "*", 
+                    RowBox[{"DabDcdXX", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"a", ",", "c"}], "]"}], "]"}]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "1"}], ")"}], "*", 
+                    RowBox[{"XX", "^", 
+                    RowBox[{"(", 
+                    RowBox[{"kk", "-", "2"}], ")"}]}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", "a", "]"}], "]"}], "*", 
+                    RowBox[{"DabXX", "[", 
+                    RowBox[{"[", "c", "]"}], "]"}]}]}], ")"}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"a", ",", "1", ",", "len"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"c", ",", "1", ",", "len"}], "}"}]}], "]"}]}], 
+              ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+           "]"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Matrix", " ", "function", " ", "to", " ", "return", " ", 
+     RowBox[{"DabDcd", "[", 
+      RowBox[{
+       RowBox[{"XX", "^", "k"}], " ", "*", " ", 
+       RowBox[{"YY", "^", "n"}]}], "]"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"DabDcdXXpKmYYpN", "[", 
+      RowBox[{"XX_", ",", 
+       RowBox[{"DabXX_", "?", "VectorQ"}], ",", "DabDcdXX_", ",", 
+       RowBox[{"kk_", "?", "IntegerQ"}], ",", "YY_", ",", 
+       RowBox[{"DabYY_", "?", "VectorQ"}], ",", "DabDcdYY_", ",", 
+       RowBox[{"nn_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "retVal", ",", "a", ",", "c", ",", "len", ",", "XXpK", ",", "YYpN", 
+         ",", "dabXXpK", ",", "dabYYpN", ",", "dabdcdXXpK", ",", 
+         "dabdcdYYpN"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "DabXX", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"XXpK", "=", 
+         RowBox[{"XX", "^", "kk"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"YYpN", "=", 
+         RowBox[{"YY", "^", "nn"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dabXXpK", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"XX", ",", "DabXX", ",", "kk"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dabYYpN", "=", 
+         RowBox[{"DabXXpK", "[", 
+          RowBox[{"YY", ",", "DabYY", ",", "nn"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dabdcdXXpK", "=", 
+         RowBox[{"DabDcdXXpK", "[", 
+          RowBox[{"XX", ",", "DabXX", ",", "DabDcdXX", ",", "kk"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"dabdcdYYpN", "=", 
+         RowBox[{"DabDcdXXpK", "[", 
+          RowBox[{"YY", ",", "DabYY", ",", "DabDcdYY", ",", "nn"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"DabDcdXXmYY", "[", 
+          RowBox[{
+          "XXpK", ",", "dabXXpK", ",", "dabdcdXXpK", ",", "YYpN", ",", 
+           "dabYYpN", ",", "dabdcdYYpN"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.6024370746566114`*^9, 3.602437076681957*^9}, {
+  3.6024372545209246`*^9, 3.602437271214999*^9}, {3.6032093644482546`*^9, 
+  3.603209536094778*^9}, {3.6032095805983133`*^9, 3.603209669894574*^9}, {
+  3.6032153088182917`*^9, 3.6032153331074114`*^9}, {3.6032166363566585`*^9, 
+  3.6032166392076826`*^9}}]
+},
+WindowSize->{1364, 1157},
+WindowMargins->{{Automatic, 516}, {Automatic, 111}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 29529, 702, 5039, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,270 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      9697,        261]
+NotebookOptionsPosition[      9417,        247]
+NotebookOutlinePosition[      9784,        263]
+CellTagsIndexPosition[      9741,        260]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", 
+     RowBox[{
+     "2", "nd", " ", "power", " ", "polynom", " ", "minimization", " ", 
+      "function", " ", "and", " ", "its", " ", "decomposition", " ", "into", 
+      " ", 
+      RowBox[{"invariants", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", 
+      RowBox[{"K", "^", "3"}]}]}], ",", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.10", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "14"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"InitializeF2Model", "[", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"noOfElements", ",", "f4Val"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Print", "[", "\"\<Initializing F2 model.\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"noOfElements", "=", "8"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Reset", "[", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Initialize", "[", "noOfElements", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"InitializeTermsF2", "[", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"f4Val", "=", 
+         RowBox[{"F4FuncMult", "[", "S", "]"}]}], ";"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"IsInitialized", "=", "True"}], ";"}], " ", "*)"}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP2All", "[", 
+      RowBox[{"sab_", "?", "MatrixQ"}], "]"}], ":=", 
+     RowBox[{"FP2All", "[", 
+      RowBox[{"sab", ",", "True"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP2All", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateCommonInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "funcValTbl", ",", "ii"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"Print", "[", "\"\<FP2All::Starting.\>\"", "]"}], ";"}], " ",
+         "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateCommonInvariants", ",", 
+          RowBox[{"CalculateF4Invariants", "[", 
+           RowBox[{"sab", ",", "calculateCommonInvariants"}], "]"}]}], "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"funcValTbl", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"FP2FuncList", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], ")"}], "[", 
+            RowBox[{"sab", ",", "False"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"CoeffF2", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "ii"}], "]"}], "]"}], "*", 
+            RowBox[{"funcValTbl", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "NoOfTermsF2"}], "}"}]}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"List", " ", "of", " ", "all", " ", "FP2", " ", 
+     RowBox[{"functions", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FP2FuncList", ":=", 
+     RowBox[{"{", 
+      RowBox[{"FP2T4Cabcd", ",", "FP2T2Cabbd", ",", "FP2T0Cabab"}], "}"}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP2T4Cabcd", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF2Norm", "[", 
+           RowBox[{"[", "idxD2T4Cabcd", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12", "^", "2"}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12p2"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumS12S13"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP2T2Cabbd", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF2Norm", "[", 
+           RowBox[{"[", "idxD2T2Cabbd", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"-", "SumS12p2"}], " ", "+", " ", "SumS12S13"}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP2T0Cabab", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF2Norm", "[", 
+           RowBox[{"[", "idxD2T0Cabab", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox["SumS12p2",
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.590360953960633*^9, 3.5903610147060013`*^9}, {
+   3.590361066082144*^9, 3.5903610685778017`*^9}, {3.5903611365529757`*^9, 
+   3.590361154568948*^9}, {3.590362603930129*^9, 3.5903626059624786`*^9}, {
+   3.590610041743314*^9, 3.5906100624640837`*^9}, {3.5906100931654863`*^9, 
+   3.5906101091671205`*^9}, {3.5906102184397383`*^9, 3.590610371120203*^9}, {
+   3.590610416407298*^9, 3.590610430130419*^9}, 3.590614217567378*^9, {
+   3.5907738078428993`*^9, 3.590773821107714*^9}}]
+},
+WindowSize->{851, 1290},
+WindowMargins->{{Automatic, 343}, {40, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 8868, 225, 1745, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

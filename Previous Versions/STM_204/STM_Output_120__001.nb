@@ -1,0 +1,681 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     27857,        672]
+NotebookOptionsPosition[     27575,        658]
+NotebookOutlinePosition[     27943,        674]
+CellTagsIndexPosition[     27900,        671]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Output", " ", "functions", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", 
+    RowBox[{"2013", " ", "-", " ", "2014"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.20", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", " ", 
+     RowBox[{
+      RowBox[{"2014", "/", "01"}], "/", "12"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "STMOutput", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"UseKeyTypeInXML", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{
+       "XMLKeyType", " ", "\[Rule]", " ", 
+        "\"\<\\\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, \
+PublicKeyToken=b77a5c561934e089\\\"\>\""}], ",", 
+       RowBox[{"UseValueTypeInXML", " ", "\[Rule]", " ", "True"}], ",", " ", 
+       RowBox[{
+       "XMLValueType", " ", "\[Rule]", " ", 
+        "\"\<\\\"System.String, mscorlib, Version=4.0.0.0, Culture=neutral, \
+PublicKeyToken=b77a5c561934e089\\\"\>\""}], ",", " ", 
+       RowBox[{
+       "XMLHeader", " ", "\[Rule]", " ", 
+        "\"\<<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\>\""}]}], 
+      "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"IMAGESIZE", "=", "500"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"defaultPltOpts", ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+       RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+       RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", 
+       RowBox[{"PlotStyle", "\[Rule]", "Thick"}], ",", 
+       RowBox[{"ImageSize", " ", "\[Rule]", "IMAGESIZE"}]}], " ", "}"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"defaultPltOpts2", ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+       RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", 
+       RowBox[{"PlotStyle", "\[Rule]", "Thick"}], ",", 
+       RowBox[{"ImageSize", " ", "\[Rule]", "IMAGESIZE"}]}], " ", "}"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"defaultPlt3DOpts", ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+       RowBox[{"ImageSize", " ", "\[Rule]", "IMAGESIZE"}]}], " ", "}"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"PlotUncorrelatedCoordinates", "[", 
+      RowBox[{
+       RowBox[{"nn_", "?", "IntegerQ"}], ",", 
+       RowBox[{"solCoord", ":", 
+        RowBox[{"{", "__", "}"}]}], ",", 
+       RowBox[{"runID_", "?", "IntegerQ"}], ",", "description_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pltOpts", ",", "str"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"pltOpts", "=", "defaultPltOpts"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"str", "=", 
+         RowBox[{"ToString", "[", "description", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+          RowBox[{
+          "\"\<Lambda (\>\"", " ", "<>", " ", "str", " ", "<>", " ", 
+           "\"\< for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"LambdaFunc", "[", 
+            RowBox[{"idx", ",", "solCoord"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{
+            RowBox[{
+            "\"\<x range (\>\"", " ", "<>", " ", "str", " ", "<>", " ", 
+             "\"\<) for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"Plot", "[", 
+            RowBox[{
+             RowBox[{"xRangeFunc", "[", 
+              RowBox[{"idx", ",", "solCoord"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+             RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{
+            RowBox[{
+            "\"\<x sigma range (\>\"", " ", "<>", " ", "str", " ", "<>", " ", 
+             "\"\<) for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"Plot", "[", 
+            RowBox[{
+             RowBox[{"xRangeSigmaFunc", "[", 
+              RowBox[{"idx", ",", "solCoord"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+             RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";"}],
+          "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+          RowBox[{
+          "\"\<x range and x sigma range (\>\"", " ", "<>", " ", "str", " ", "<>",
+            " ", "\"\<) for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"xRangeFunc", "[", 
+              RowBox[{"idx", ",", "solCoord"}], "]"}], ",", 
+             RowBox[{"xRangeSigmaFunc", "[", 
+              RowBox[{"idx", ",", "solCoord"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"PlotUncorrelatedCoordinatesDifference", "[", 
+      RowBox[{
+       RowBox[{"nn_", "?", "IntegerQ"}], ",", 
+       RowBox[{"solCoord1", ":", 
+        RowBox[{"{", "__", "}"}]}], ",", 
+       RowBox[{"solCoord2", ":", 
+        RowBox[{"{", "__", "}"}]}], ",", 
+       RowBox[{"runID_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"PlotUncorrelatedCoordinatesDifference", "[", 
+      RowBox[{
+      "nn", ",", "solCoord1", ",", "solCoord2", ",", "runID", ",", 
+       "\"\<\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"PlotUncorrelatedCoordinatesDifference", "[", 
+      RowBox[{
+       RowBox[{"nn_", "?", "IntegerQ"}], ",", 
+       RowBox[{"solCoord1", ":", 
+        RowBox[{"{", "__", "}"}]}], ",", 
+       RowBox[{"solCoord2", ":", 
+        RowBox[{"{", "__", "}"}]}], ",", 
+       RowBox[{"runID_", "?", "IntegerQ"}], ",", "description_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"pltOpts", ",", "str"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"pltOpts", "=", "defaultPltOpts"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"str", "=", 
+         RowBox[{"ToString", "[", "description", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"StringLength", "[", "str", "]"}], " ", ">", " ", "0"}], 
+          ",", " ", 
+          RowBox[{"str", " ", "=", " ", 
+           RowBox[{"\"\<, \>\"", " ", "<>", " ", "str"}]}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+          RowBox[{
+          "\"\<Lambda (difference\>\"", " ", "<>", " ", "str", " ", "<>", 
+           " ", "\"\< for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"LambdaFunc", "[", 
+             RowBox[{"idx", ",", "solCoord1"}], "]"}], "-", 
+            RowBox[{"LambdaFunc", "[", 
+             RowBox[{"idx", ",", "solCoord2"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+          RowBox[{
+          "\"\<x range (difference\>\"", " ", "<>", " ", "str", " ", "<>", 
+           " ", "\"\<) for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"xRangeFunc", "[", 
+             RowBox[{"idx", ",", "solCoord1"}], "]"}], "-", 
+            RowBox[{"xRangeFunc", "[", 
+             RowBox[{"idx", ",", "solCoord2"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{
+          RowBox[{
+          "\"\<x sigma range (difference\>\"", " ", "<>", " ", "str", " ", "<>",
+            " ", "\"\<) for runID = \>\""}], ",", " ", "runID"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"xRangeSigmaFunc", "[", 
+             RowBox[{"idx", ",", "solCoord1"}], "]"}], "-", 
+            RowBox[{"xRangeSigmaFunc", "[", 
+             RowBox[{"idx", ",", "solCoord2"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"PlotXXT", "[", 
+      RowBox[{"sab_", "?", "MatrixQ"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "nn", ",", "SumSab", ",", "TrXXT", ",", "XXTaa", ",", "XXT", ",", 
+         "aa", ",", "bb", ",", "XXTLinear", ",", "XXTDiagSorted", ",", 
+         "XXTLinearSorted", ",", "nna"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"nn", "=", 
+         RowBox[{"Length", "[", "sab", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"SumSab", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"Sum", "[", 
+            RowBox[{
+             RowBox[{"sab", "[", 
+              RowBox[{"[", 
+               RowBox[{"aa", ",", "bb"}], "]"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"bb", ",", "1", ",", "nn"}], "}"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"aa", ",", "1", ",", "nn"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"TrXXT", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "/", 
+            RowBox[{"(", 
+             RowBox[{"2", "*", "nn"}], ")"}]}], ")"}], "*", 
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{"SumSab", "[", 
+             RowBox[{"[", "aa", "]"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"aa", ",", "1", ",", "nn"}], "}"}]}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XXTaa", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "/", "nn"}], ")"}], "*", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"SumSab", "[", 
+              RowBox[{"[", "aa", "]"}], "]"}], "-", "TrXXT"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"aa", ",", "1", ",", "nn"}], "}"}]}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XXT", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"aa", "\[Equal]", "bb"}], ",", 
+             RowBox[{"XXTaa", "[", 
+              RowBox[{"[", "aa", "]"}], "]"}], ",", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"XXTaa", "[", 
+                 RowBox[{"[", "aa", "]"}], "]"}], "+", 
+                RowBox[{"XXTaa", "[", 
+                 RowBox[{"[", "bb", "]"}], "]"}], "-", 
+                RowBox[{"sab", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"aa", ",", "bb"}], "]"}], "]"}]}], ")"}], "/", 
+              "2"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"aa", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"bb", ",", "1", ",", "nn"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XXTLinear", "=", 
+         RowBox[{"ToLinear", "[", "XXT", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"nna", "=", 
+         RowBox[{"Length", "[", "XXTLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XXTLinearSorted", "=", 
+         RowBox[{"Sort", "[", "XXTLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XXTDiagSorted", "=", 
+         RowBox[{"Sort", "[", "XXTaa", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<XXT (off diagonal)\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"IndexedVariableFunc", "[", 
+            RowBox[{"idx", ",", "XXTLinearSorted"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nna"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<XXT (diagonal)\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"IndexedVariableFunc", "[", 
+            RowBox[{"idx", ",", "XXTDiagSorted"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"idx", ",", "1", ",", "nn"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToXMLItem", "[", 
+      RowBox[{"name_", ",", "object_", ",", "rawOpts___"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "s", ",", "sName", ",", "sObj", ",", "crlf", ",", "opts", ",", 
+         "useKeyTypeInXMLVal", ",", "XMLKeyTypeVal", ",", 
+         "useValueTypeInXMLVal", ",", "XMLValueTypeVal"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"opts", " ", "=", 
+         RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"useKeyTypeInXMLVal", "=", 
+         RowBox[{
+          RowBox[{"UseKeyTypeInXML", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XMLKeyTypeVal", "=", 
+         RowBox[{
+          RowBox[{"XMLKeyType", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"useValueTypeInXMLVal", "=", 
+         RowBox[{
+          RowBox[{"UseValueTypeInXML", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XMLValueTypeVal", "=", 
+         RowBox[{
+          RowBox[{"XMLValueType", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"sName", "=", 
+         RowBox[{"ToString", "[", "name", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"sObj", "=", 
+         RowBox[{"ToString", "[", 
+          RowBox[{"InputForm", "[", 
+           RowBox[{
+            RowBox[{"N", "[", "object", "]"}], ",", " ", 
+            RowBox[{"NumberMarks", " ", "\[Rule]", "  ", "False"}]}], "]"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"crlf", "=", 
+           RowBox[{
+            RowBox[{"FromCharacterCode", "[", "13", "]"}], "<>", 
+            RowBox[{"FromCharacterCode", "[", "10", "]"}]}]}], ";"}], " ", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"crlf", "=", 
+         RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"s", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", "\"\<  <item>\>\"", " ", "<>", " ", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"useKeyTypeInXMLVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", " ", "<>", "\"\<    <key type=\>\"", " ", "<>", " ", 
+              "XMLKeyTypeVal", " ", "<>", " ", "\"\<>\>\"", " ", "<>", " ", 
+              "crlf"}]}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", " ", "<>", "\"\<    <key>\>\"", " ", "<>", " ", "crlf"}]}], 
+            ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", "\"\<      <string>\>\"", " ", "<>", " ", "sName", 
+          " ", "<>", " ", "\"\<</string>\>\"", " ", "<>", " ", "crlf"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", "\"\<    </key>\>\"", " ", "<>", " ", "crlf"}]}], 
+        ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{"useValueTypeInXMLVal", ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", " ", "<>", "\"\<    <value type=\>\"", " ", "<>", " ", 
+              "XMLValueTypeVal", " ", "<>", " ", "\"\<>\>\"", " ", "<>", " ", 
+              "crlf"}]}], ";"}], "\[IndentingNewLine]", ")"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"s", "=", 
+             RowBox[{
+             "s", " ", "<>", "\"\<    <value>\>\"", " ", "<>", " ", 
+              "crlf"}]}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", "\"\<      <string>\>\"", " ", "<>", " ", "sObj", 
+          " ", "<>", " ", "\"\<</string>\>\"", " ", "<>", " ", "crlf"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", "\"\<    </value>\>\"", " ", "<>", " ", "crlf"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", "\"\<  </item>\>\"", " ", "<>", " ", "crlf"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "s", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToXMLStart", "[", "rawOpts___", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"s", ",", "opts", ",", "XMLHeaderVal", ",", "crlf"}], "}"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"opts", " ", "=", 
+         RowBox[{"ProcessOptions", "[", "rawOpts", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"XMLHeaderVal", "=", 
+         RowBox[{
+          RowBox[{"XMLHeader", "/.", "opts"}], " ", "/.", 
+          RowBox[{"Options", "[", "STMOutput", "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"crlf", "=", 
+         RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{"XMLHeaderVal", " ", "<>", " ", "crlf"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"s", "=", 
+         RowBox[{
+         "s", " ", "<>", " ", "\"\<<dictionary>\>\"", " ", "<>", " ", 
+          "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "s", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Attributes", "[", "ToXMLAddItem", "]"}], "=", 
+     RowBox[{"{", "HoldFirst", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToXMLAddItem", "[", 
+      RowBox[{"xmlString_", ",", "name_", ",", "object_", ",", "rawOpts___"}],
+       "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"s", ",", "sItem"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sItem", "=", 
+         RowBox[{"ToXML", "[", 
+          RowBox[{"name", ",", "object", ",", "rawOpts"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"xmlString", "=", 
+         RowBox[{"xmlString", " ", "<>", " ", "sItem"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "xmlString", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Attributes", "[", "ToXMLEnd", "]"}], "=", 
+     RowBox[{"{", "HoldFirst", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToXMLEnd", "[", 
+      RowBox[{"xmlString_", ",", "rawOpts___"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "crlf", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"crlf", "=", 
+         RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"xmlString", "=", 
+         RowBox[{
+         "xmlString", " ", "<>", " ", "\"\<</dictionary>\>\"", " ", "<>", " ",
+           "crlf"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "xmlString", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "==="}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5893172311406903`*^9, 3.589317231805133*^9}, {
+   3.589375573489846*^9, 3.589375574965831*^9}, {3.589375608781354*^9, 
+   3.589375709358344*^9}, {3.589375785949397*^9, 3.5893757893106346`*^9}, {
+   3.58937582620721*^9, 3.589376171836359*^9}, {3.589376210168271*^9, 
+   3.589376227916094*^9}, {3.589381146164217*^9, 3.5893812024707203`*^9}, {
+   3.58958119057582*^9, 3.5895811932495975`*^9}, {3.5895838051236987`*^9, 
+   3.5895838332774076`*^9}, {3.5895839332648563`*^9, 3.589583936112748*^9}, {
+   3.58958408704305*^9, 3.589584114335188*^9}, 3.5899148203871913`*^9, {
+   3.589942602860353*^9, 3.58994264372351*^9}, 3.590101315310274*^9, {
+   3.591190089021562*^9, 3.5911901240788565`*^9}, {3.5911901722978997`*^9, 
+   3.591190276096337*^9}, {3.591377062138531*^9, 3.5913770750771303`*^9}, 
+   3.5913772358378935`*^9, {3.5913810166129665`*^9, 3.591381024506212*^9}, {
+   3.5987146501905193`*^9, 3.5987147735861874`*^9}, {3.5987247768770075`*^9, 
+   3.5987248227033367`*^9}, {3.5987249995033503`*^9, 3.598725044216943*^9}, {
+   3.5987250885883102`*^9, 3.5987252405248675`*^9}, {3.5987252705737553`*^9, 
+   3.5987252822805023`*^9}, {3.598725341171479*^9, 3.5987253679592085`*^9}, {
+   3.5987255119695225`*^9, 3.598725583258704*^9}, {3.5987256467417183`*^9, 
+   3.5987256505612473`*^9}, {3.598725715234049*^9, 3.5987258496460104`*^9}, 
+   3.5987263735127263`*^9}]
+},
+WindowSize->{1294, 1011},
+WindowMargins->{{Automatic, 104}, {95, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 27026, 636, 4337, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

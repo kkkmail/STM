@@ -1,0 +1,771 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     32978,        762]
+NotebookOptionsPosition[     32696,        748]
+NotebookOutlinePosition[     33064,        764]
+CellTagsIndexPosition[     33021,        761]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", " ", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{"Various", " ", "test", " ", "gradients", " ", "for", " ", 
+      RowBox[{"STM", "."}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", " ", 
+      RowBox[{"K", "^", "3"}]}]}], ",", " ", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.03", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "04"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"7.0", " ", "-", " ", "9.0"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"TestCoeffCircle", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestCoeffDualCircle", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestCoeffSpMM", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestCoeffSpMMv2", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestMMMCircle", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestMMMDualCircle", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestMMMSpMM", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"TestMMMSpMMv2", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Linear", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "circular", " ", "term", 
+     " ", "with", " ", "all", " ", 
+     RowBox[{"included", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradCircleLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TestGradCircular", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "circular", " ", "term", 
+     " ", "with", " ", "all", " ", 
+     RowBox[{"included", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradCircle", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "SpM", ",", "mm"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"mm", "=", 
+         RowBox[{"Round", "[", "TestMMMCircle", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"mm", " ", ">", " ", "0"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"SpM", "=", 
+             RowBox[{"MatrixPower", "[", 
+              RowBox[{"sab", ",", 
+               RowBox[{"mm", "-", "1"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"gradVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"SpM", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "1"}], "]"}], "]"}], ",", 
+                   RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "2"}], "]"}], "]"}]}], "]"}], "]"}], 
+                ")"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"gradVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{"0", ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Linear", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "circular", " ", "term", 
+     " ", "with", " ", "all", " ", 
+     RowBox[{"included", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradDualCircleLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TestGradDualCircle", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", "circular", " ", "term", 
+     " ", "with", " ", "all", " ", 
+     RowBox[{"included", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradDualCircle", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "S2", ",", "S2pMd2", ",", "mm"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"mm", "=", 
+         RowBox[{"Round", "[", "TestMMMDualCircle", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Mod", "[", 
+             RowBox[{"mm", ",", "2"}], "]"}], "\[Equal]", " ", "0"}], " ", "&&",
+            " ", 
+           RowBox[{"mm", " ", ">", " ", "4"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"S2", "=", 
+             RowBox[{"sab", "^", "2"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"S2pMd2", "=", 
+             RowBox[{"MatrixPower", "[", 
+              RowBox[{"S2", ",", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"mm", "/", "2"}], ")"}], "-", "1"}]}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"gradVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"sab", "[", 
+                  RowBox[{"[", 
+                   RowBox[{
+                    RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "1"}], "]"}], "]"}], ",", 
+                    RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "2"}], "]"}], "]"}]}], "]"}], "]"}], 
+                 "*", 
+                 RowBox[{"S2pMd2", "[", 
+                  RowBox[{"[", 
+                   RowBox[{
+                    RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "1"}], "]"}], "]"}], ",", 
+                    RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "2"}], "]"}], "]"}]}], "]"}], "]"}]}], 
+                ")"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{"(*", " ", 
+            RowBox[{
+            "Cannot", " ", "have", " ", "dual", " ", "circle", " ", "for", 
+             " ", "odd", " ", 
+             RowBox[{
+              RowBox[{"mm", "!!"}], "!"}]}], " ", "*)"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"gradVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{"0", ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Linear", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", 
+     RowBox[{"Sab", "^", "mm"}], " ", 
+     RowBox[{"term", ".", " ", "Coefficient"}], " ", "is", " ", 
+     RowBox[{"ignored", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradSpMMLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TestGradSpMM", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", "gradient", " ", "for", " ", 
+     RowBox[{"Sab", "^", "mm"}], " ", 
+     RowBox[{"term", ".", " ", "Coefficient"}], " ", "is", " ", 
+     RowBox[{"ignored", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradSpMM", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"gradVal", ",", "mm"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"mm", "=", 
+         RowBox[{"Round", "[", "TestMMMSpMM", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TestGradSpMMvar", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient", ",", "mm"}], "]"}], 
+         "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradSpMMvar", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}], ",", 
+       RowBox[{"mm_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "gradVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"mm", " ", ">", " ", "0"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"gradVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"sab", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "1"}], "]"}], "]"}], ",", 
+                   RowBox[{"remapReverseTable", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"ii", ",", "2"}], "]"}], "]"}]}], "]"}], "]"}], 
+                "^", 
+                RowBox[{"(", 
+                 RowBox[{"mm", "-", "1"}], ")"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"gradVal", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{"0", ",", 
+               RowBox[{"{", 
+                RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Linear", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", 
+     RowBox[{"gradient", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradAllLinear", "[", 
+      RowBox[{
+       RowBox[{"sabLinear_", "?", "VectorQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "sab", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"sab", "=", 
+         RowBox[{"ToMatrix", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TestGradAll", "[", 
+          RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Matrix", " ", "version", " ", "of", " ", "analytical", " ", "expression",
+      " ", "for", " ", 
+     RowBox[{"gradient", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Uses", " ", "global", " ", "values", " ", "of", " ", 
+     RowBox[{"coefficients", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradAll", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"returnTangentialGradient_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "gradVal", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"gradVal", "=", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"TestCoeffCircle", "*", 
+            RowBox[{"TestGradCircle", "[", 
+             RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}]}], "+", 
+           RowBox[{"TestCoeffDualCircle", "*", 
+            RowBox[{"TestGradDualCircle", "[", 
+             RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}]}], "+", 
+           RowBox[{"TestCoeffSpMM", "*", 
+            RowBox[{"TestGradSpMM", "[", 
+             RowBox[{"sab", ",", "returnTangentialGradient"}], "]"}]}], "+", 
+           RowBox[{"TestCoeffSpMMv2", "*", 
+            RowBox[{"TestGradSpMMvar", "[", 
+             RowBox[{
+             "sab", ",", "returnTangentialGradient", ",", "TestMMMSpMMv2"}], 
+             "]"}]}]}], ")"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"TangentialGradient", "[", 
+          RowBox[{"gradVal", ",", "returnTangentialGradient"}], "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Test", " ", "of", " ", "RunNDSolve", " ", "and", " ", 
+     RowBox[{"related", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"TestGradRunNDSolve", "[", 
+      RowBox[{
+       RowBox[{"tMax_", "?", "NumericQ"}], ",", 
+       RowBox[{"noOfTsteps_", "?", "IntegerQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "sol", ",", "pltOpts", ",", "f", ",", "tPlotMultiplier", ",", "tPlot",
+          ",", "t", ",", "DeltaT", ",", "tIdx", ",", "tVal", ",", "stl", ",", 
+         "st", ",", "solValue", ",", "lambda", ",", "eXXT", ",", "gValLinear",
+          ",", "gValMatrix", ",", "deltaLambda", ",", "deltaLambdaSorted", 
+         ",", "idx", ",", "gradLinearFunc"}], "}"}], ",", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+        "Print", "[", "\"\<TestGradRunNDSolve::Testing RunNDSolve...\>\"", 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"gradLinearFunc", "=", "TestGradAllLinear"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"sol", "=", 
+         RowBox[{"RunNDSolve", "[", 
+          RowBox[{"tMax", ",", "gradLinearFunc", ",", "False"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<Plot\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"f", "=", 
+         RowBox[{"sEvolution", "/.", " ", 
+          RowBox[{"sol", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"tPlotMultiplier", "=", "0.99"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"tPlot", "=", 
+         RowBox[{"tPlotMultiplier", "*", 
+          RowBox[{
+           RowBox[{"f", "[", "\"\<Domain\>\"", "]"}], "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "2"}], "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<tPlot = \>\"", ",", " ", "tPlot"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"pltOpts", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PlotRange", " ", "\[Rule]", " ", "All"}], ",", " ", 
+           RowBox[{"Frame", " ", "\[Rule]", " ", "True"}], ",", " ", 
+           RowBox[{"PlotStyle", " ", "\[Rule]", " ", "Thick"}], ",", " ", 
+           RowBox[{"GridLines", " ", "\[Rule]", " ", "Automatic"}], ",", " ", 
+           RowBox[{"PlotPoints", " ", "\[Rule]", " ", "200"}], ",", " ", 
+           RowBox[{"Method", " ", "\[Rule]", " ", 
+            RowBox[{"{", 
+             RowBox[{"PlotDivision", " ", "\[Rule]", " ", "1"}], "}"}]}], ",",
+            " ", 
+           RowBox[{"ImageSize", " ", "\[Rule]", " ", "IMAGESIZE"}]}], "}"}]}],
+         ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<StdDevLinear[f[t]]\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"StdDevLinear", "[", 
+            RowBox[{"f", "[", "t", "]"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", "\"\<MeanLinear[f[t]]\>\"", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{"MeanLinear", "[", 
+            RowBox[{"f", "[", "t", "]"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+        "Print", "[", "\"\<MeanLinear[f[t]]/StdDevLinear[f[t]]\>\"", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"Plot", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"MeanLinear", "[", 
+             RowBox[{"f", "[", "t", "]"}], "]"}], "/", 
+            RowBox[{"StdDevLinear", "[", 
+             RowBox[{"f", "[", "t", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"t", ",", "0", ",", "tPlot"}], "}"}], ",", 
+           RowBox[{"Evaluate", "[", "pltOpts", "]"}]}], "]"}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"DeltaT", "=", 
+         RowBox[{"tPlot", "/", "noOfTsteps"}]}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"tIdx", "=", "0"}], ",", 
+          RowBox[{"tIdx", " ", "\[LessEqual]", " ", "noOfTsteps"}], ",", 
+          RowBox[{"tIdx", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", "strSeparatorSmall", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"tVal", "=", 
+             RowBox[{"DeltaT", "*", "tIdx"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{
+             "\"\<tIdx = \>\"", ",", " ", "tIdx", ",", " ", "\"\<, t = \>\"", 
+              ",", " ", "tVal"}], "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"stl", "=", 
+             RowBox[{"f", "[", "tVal", "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"st", "=", 
+             RowBox[{"ToMatrix", "[", "stl", "]"}]}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<Finding uncorrelated coordinates.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"solValue", "=", 
+             RowBox[{"FindUncorrelatedCoordinates", "[", "st", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"lambda", "=", 
+             RowBox[{"GetLambda", "[", "solValue", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"eXXT", "=", 
+             RowBox[{"GetE", "[", "solValue", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"PlotUncorrelatedCoordinates", "[", 
+             RowBox[{"NNN", ",", "solValue", ",", "0", ",", 
+              RowBox[{"\"\<values for t = \>\"", " ", "<>", " ", 
+               RowBox[{"ToString", "[", "tVal", "]"}]}]}], "]"}], ";", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", "\"\<DeltaLambdaFunc for ALL.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"gValLinear", "=", 
+             RowBox[{"GradientMultiplier", "*", 
+              RowBox[{"gradLinearFunc", "[", 
+               RowBox[{"stl", ",", "False"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"gValMatrix", "=", 
+             RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambda", "=", 
+             RowBox[{"CalculateDeltaLambda", "[", 
+              RowBox[{"gValMatrix", ",", "eXXT"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambdaSorted", "=", 
+             RowBox[{"SortByFirst", "[", 
+              RowBox[{"lambda", ",", "deltaLambda"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"Re", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}], 
+                 ",", 
+                 RowBox[{"Im", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}]}], 
+                "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<DeltaLambdaFunc for TestGradCircle.\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"gValLinear", "=", 
+             RowBox[{"GradientMultiplier", "*", 
+              RowBox[{"TestGradCircle", "[", 
+               RowBox[{"st", ",", "False"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"gValMatrix", "=", 
+             RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambda", "=", 
+             RowBox[{"CalculateDeltaLambda", "[", 
+              RowBox[{"gValMatrix", ",", "eXXT"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambdaSorted", "=", 
+             RowBox[{"SortByFirst", "[", 
+              RowBox[{"lambda", ",", "deltaLambda"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"Re", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}], 
+                 ",", 
+                 RowBox[{"Im", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}]}], 
+                "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<DeltaLambdaFunc for TestGradDualCircle.\>\"", 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"gValLinear", "=", 
+             RowBox[{"GradientMultiplier", "*", 
+              RowBox[{"TestGradDualCircle", "[", 
+               RowBox[{"st", ",", "False"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"gValMatrix", "=", 
+             RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambda", "=", 
+             RowBox[{"CalculateDeltaLambda", "[", 
+              RowBox[{"gValMatrix", ",", "eXXT"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambdaSorted", "=", 
+             RowBox[{"SortByFirst", "[", 
+              RowBox[{"lambda", ",", "deltaLambda"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"Re", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}], 
+                 ",", 
+                 RowBox[{"Im", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}]}], 
+                "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"PrintTimeUsed", "[", "]"}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+            "Print", "[", "\"\<DeltaLambdaFunc for TestGradSpMM.\>\"", "]"}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"gValLinear", "=", 
+             RowBox[{"GradientMultiplier", "*", 
+              RowBox[{"TestGradSpMM", "[", 
+               RowBox[{"st", ",", "False"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"gValMatrix", "=", 
+             RowBox[{"ToMatrix", "[", "gValLinear", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambda", "=", 
+             RowBox[{"CalculateDeltaLambda", "[", 
+              RowBox[{"gValMatrix", ",", "eXXT"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"deltaLambdaSorted", "=", 
+             RowBox[{"SortByFirst", "[", 
+              RowBox[{"lambda", ",", "deltaLambda"}], "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Print", "[", 
+             RowBox[{"Plot", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"Re", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}], 
+                 ",", 
+                 RowBox[{"Im", "[", 
+                  RowBox[{"DeltaLambdaFunc", "[", 
+                   RowBox[{"idx", ",", "deltaLambdaSorted"}], "]"}], "]"}]}], 
+                "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"idx", ",", "1", ",", "NNN"}], "}"}], ",", 
+               RowBox[{"Evaluate", "[", "defaultPltOpts", "]"}]}], "]"}], 
+             "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"PrintTimeUsed", "[", "]"}], ";"}], "\[IndentingNewLine]",
+            ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]",
+         "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "sol", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.589649721651901*^9, 3.5896497235071774`*^9}, {
+   3.589649787913977*^9, 3.5896498331235895`*^9}, {3.589649907993952*^9, 
+   3.589650130033554*^9}, {3.5896503280531473`*^9, 3.589650505976386*^9}, {
+   3.5896507389472103`*^9, 3.589650767929469*^9}, {3.5896508064971*^9, 
+   3.589650874945587*^9}, {3.5896509223991227`*^9, 3.5896512155242133`*^9}, {
+   3.589651267020434*^9, 3.589651384555543*^9}, {3.5896514234263754`*^9, 
+   3.589651543976487*^9}, {3.5896516549462323`*^9, 3.589651658749761*^9}, {
+   3.589651721987789*^9, 3.5896518651439204`*^9}, {3.5896532919927454`*^9, 
+   3.5896533959708433`*^9}, {3.589653767536772*^9, 3.5896537680220957`*^9}, 
+   3.589914973828969*^9}]
+},
+WindowSize->{1812, 1076},
+WindowMargins->{{22, Automatic}, {Automatic, 135}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 32147, 726, 5066, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

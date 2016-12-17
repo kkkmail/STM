@@ -1,0 +1,798 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     32813,        789]
+NotebookOptionsPosition[     31950,        758]
+NotebookOutlinePosition[     32318,        774]
+CellTagsIndexPosition[     32275,        771]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SIL", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", 
+     RowBox[{
+      RowBox[{"Sqrt", "[", "2", "]"}], "/", 
+      RowBox[{"10", "^", "20"}]}], ",", "3"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"mFuncY1", "[", 
+    RowBox[{"xxx_", ",", "ttt_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Sqrt", "[", "2", "]"}], "/", 
+    RowBox[{"10", "^", "20"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"TrSp3", "=", 
+    RowBox[{
+     RowBox[{"Sqrt", "[", "3", "]"}], "/", 
+     RowBox[{"10", "^", "20"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"BooleanQ", "[", "x_", "]"}], ":=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"Element", "[", 
+       RowBox[{"x", ",", "Booleans"}], "]"}], ",", "True", ",", "False", ",", 
+      "False"}], "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CSharpVarNameColl", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CSharpVarValueColl", "=", 
+    RowBox[{"{", "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CSharpExprNameColl", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CSharpExprColl", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CSharpExprValColl", "=", 
+    RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"InitializeCSharpGen", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"CSharpVarNameColl", "=", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"CSharpVarValueColl", "=", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"CSharpExprNameColl", "=", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"CSharpExprColl", "=", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"CSharpExprValColl", "=", 
+        RowBox[{"{", "}"}]}], ";"}]}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AddVar", "[", 
+    RowBox[{
+     RowBox[{"varNameStr_", "?", "StringQ"}], ",", 
+     RowBox[{"valueStr_", "?", "StringQ"}]}], "]"}], ":=", 
+   RowBox[{"AddVar", "[", 
+    RowBox[{"varNameStr", ",", "valueStr", ",", "True"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"AddVar", "[", 
+     RowBox[{
+      RowBox[{"varNameStr_", "?", "StringQ"}], ",", 
+      RowBox[{"valueStr_", "?", "StringQ"}], ",", 
+      RowBox[{"ignoreDuplicates_", "?", "BooleanQ"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"!", 
+          RowBox[{"MemberQ", "[", 
+           RowBox[{"CSharpVarNameColl", ",", "varNameStr"}], "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"CSharpVarNameColl", "=", 
+            RowBox[{"Join", "[", 
+             RowBox[{"CSharpVarNameColl", ",", 
+              RowBox[{"{", "varNameStr", "}"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"CSharpVarValueColl", "=", 
+            RowBox[{"Join", "[", 
+             RowBox[{"CSharpVarValueColl", ",", 
+              RowBox[{"{", "valueStr", "}"}]}], "]"}]}], ";"}], 
+          "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<AddVar::Variable \>\"", ",", " ", "varNameStr", " ", ",", 
+             " ", "\"\< is already in collection. Ignoring...\>\""}], "]"}], 
+           ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+        "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"AddTestResult", "[", 
+     RowBox[{
+      RowBox[{"nameStr_", "?", "StringQ"}], ",", 
+      RowBox[{"exprStr_", "?", "StringQ"}], ",", 
+      RowBox[{"valueStr_", "?", "StringQ"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"!", 
+          RowBox[{"MemberQ", "[", 
+           RowBox[{"CSharpExprNameColl", ",", "nameStr"}], "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"CSharpExprNameColl", "=", 
+            RowBox[{"Join", "[", 
+             RowBox[{"CSharpExprNameColl", ",", 
+              RowBox[{"{", "nameStr", "}"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"CSharpExprColl", "=", 
+            RowBox[{"Join", "[", 
+             RowBox[{"CSharpExprColl", ",", 
+              RowBox[{"{", "exprStr", "}"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"CSharpExprValColl", "=", 
+            RowBox[{"Join", "[", 
+             RowBox[{"CSharpExprValColl", ",", 
+              RowBox[{"{", "valueStr", "}"}]}], "]"}]}], ";"}], 
+          "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<AddTestResult::Expression with name \>\"", ",", " ", 
+             "nameStr", " ", ",", " ", 
+             "\"\< is already in collection. Ignoring...\>\""}], "]"}], ";"}],
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+       ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"OutputCSharpCode", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "sInit", ",", "sTest", ",", "lenInit", ",", "lenTest", ",", "ii", ",", 
+        "crlf"}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"lenInit", "=", 
+        RowBox[{"Length", "[", "CSharpVarNameColl", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"lenTest", "=", 
+        RowBox[{"Length", "[", "CSharpExprNameColl", "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"crlf", "=", 
+        RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"sInit", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+       RowBox[{"sTest", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"ii", "=", "1"}], ",", 
+         RowBox[{"ii", "\[LessEqual]", "  ", "lenInit"}], ",", 
+         RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"sInit", "=", 
+            RowBox[{
+            "sInit", "  ", "<>", " ", "\"\<InitVariable(\\\"\>\"", " ", "<>", 
+             " ", 
+             RowBox[{"CSharpVarNameColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], " ", "<>", " ", 
+             "\"\<\\\", \>\"", " ", "<>", " ", 
+             RowBox[{"CSharpVarNameColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], " ", "<>", " ", 
+             "\"\<, \\\"\>\"", " ", "<>", " ", 
+             RowBox[{"CSharpVarValueColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], " ", "<>", "\"\<\\\");\>\"", 
+             " ", "<>", " ", "crlf"}]}], " ", ";"}], "\[IndentingNewLine]", 
+          ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"ii", "=", "1"}], ",", 
+         RowBox[{"ii", "\[LessEqual]", "  ", "lenTest"}], ",", 
+         RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"sTest", "=", 
+            RowBox[{
+            "sTest", "  ", "<>", " ", "\"\<AddTestResult(\\\"\>\"", " ", "<>",
+              " ", 
+             RowBox[{"CSharpExprNameColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], " ", "<>", " ", 
+             "\"\<\\\", \\\"\>\"", "<>", 
+             RowBox[{"CSharpExprColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], "<>", " ", "\"\<\\\", \>\"", "<>",
+              " ", 
+             RowBox[{"CSharpExprColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], " ", "<>", " ", 
+             "\"\<, \\\"\>\"", " ", "<>", " ", 
+             RowBox[{"CSharpExprValColl", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], " ", "<>", "\"\<\\\");\>\"", 
+             " ", "<>", " ", "crlf"}]}], " ", ";"}], "\[IndentingNewLine]", 
+          ")"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"crlf", ",", "crlf"}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+        "\"\<C# initialization code:\>\"", ",", " ", "crlf", ",", "sInit"}], 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<C# test code:\>\"", ",", " ", "crlf", ",", "sTest"}], 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"crlf", ",", "crlf"}], "]"}], ";"}]}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ToCSharpString", "[", "expr_", "]"}], ":=", 
+   RowBox[{"ToString", "[", 
+    RowBox[{
+     RowBox[{"N", "[", "expr", "]"}], ",", "InputForm", ",", 
+     RowBox[{"NumberMarks", " ", "\[Rule]", " ", "False"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"SymbolNameFreeQ", "[", 
+     RowBox[{"s_", "?", "StringQ"}], "]"}], ":=", 
+    RowBox[{"StringFreeQ", "[", 
+     RowBox[{"s", ",", 
+      RowBox[{"\"\<SymbolName[\>\"", "~~", "___"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Attributes", "[", "ToCSharpCall", "]"}], "=", 
+   RowBox[{"{", "HoldAll", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ToCSharpCall", "[", 
+     RowBox[{"funcName_", ",", "varLst_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "retVal", ",", "csValStr", ",", "csStr", ",", "argList", ",", "len", 
+        ",", "ii", ",", "varName", ",", "s", ",", "sSymb", ",", "expr", ",", 
+        "exprStr", ",", "symbName", ",", "result", ",", "resStr", ",", "crlf",
+         ",", "exprValList", ",", "exprLst", ",", "exprLstSymbName"}], "}"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "varLst", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"crlf", "=", 
+        RowBox[{"FromCharacterCode", "[", "13", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"symbName", "=", 
+        RowBox[{"SymbolName", "[", "funcName", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"s", "=", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"Unevaluated", "[", "varLst", "]"}], ",", "InputForm"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"sSymb", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{"s", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\< \>\"", " ", "\[Rule]", " ", "\"\<\>\""}], ",", 
+            RowBox[{
+            "\"\<{\>\"", " ", "\[Rule]", " ", 
+             "\"\<{SymbolName[Unevaluated[\>\""}], ",", 
+            RowBox[{
+            "\"\<,\>\"", " ", "\[Rule]", " ", 
+             "\"\<]],SymbolName[Unevaluated[\>\""}], ",", 
+            RowBox[{"\"\<}\>\"", " ", "\[Rule]", " ", "\"\<]]}\>\""}]}], 
+           "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Off", "[", 
+        RowBox[{"SymbolName", "::", "\"\<sym\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"expr", "=", 
+        RowBox[{"ToExpression", "[", "sSymb", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"exprLst", "=", 
+        RowBox[{"Map", "[", 
+         RowBox[{"ToString", ",", "expr"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"exprLstSymbName", "=", 
+        RowBox[{"Map", "[", 
+         RowBox[{"SymbolNameFreeQ", ",", "exprLst"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"exprValList", "=", 
+        RowBox[{"Map", "[", 
+         RowBox[{"ToCSharpString", ",", "varLst"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"exprStr", "=", 
+        RowBox[{"symbName", " ", "<>", " ", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"s", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"\"\<{\>\"", " ", "\[Rule]", " ", "\"\<(\>\""}], ",", 
+             " ", 
+             RowBox[{"\"\<}\>\"", " ", "\[Rule]", " ", "\"\<)\>\""}], ",", 
+             " ", 
+             RowBox[{"\"\<True\>\"", " ", "\[Rule]", " ", "\"\<true\>\""}], 
+             ",", 
+             RowBox[{
+             "\"\<False\>\"", " ", "\[Rule]", " ", "\"\<false\>\""}]}], 
+            "}"}]}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"result", "=", 
+        RowBox[{"N", "[", 
+         RowBox[{"Apply", "[", 
+          RowBox[{"funcName", ",", "varLst"}], "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"resStr", "=", 
+        RowBox[{"ToString", "[", 
+         RowBox[{"result", ",", "InputForm", ",", 
+          RowBox[{"NumberMarks", " ", "\[Rule]", " ", "False"}]}], "]"}]}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<funcName = \>\"", ",", " ", "funcName"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<s = \>\"", ",", " ", "s"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<varLst = \>\"", ",", " ", "varLst"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<len = \>\"", ",", " ", "len"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<sSymb = \>\"", ",", " ", "sSymb"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<expr = \>\"", ",", " ", "expr"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<exprLst = \>\"", ",", " ", "exprLst"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<exprLstSymbName = \>\"", ",", " ", "exprLstSymbName"}], 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<exprValList = \>\"", ",", " ", "exprValList"}], "]"}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"csStr", "=", 
+          RowBox[{
+          "\"\<AddTestResult(\\\"\>\"", " ", "<>", " ", "symbName", " ", "<>",
+            " ", "\"\<\\\", \>\"", "<>", " ", "exprStr", " ", "<>", " ", 
+           "\"\<, \\\"\>\"", " ", "<>", " ", "resStr", " ", "<>", 
+           "\"\<\\\");\>\""}]}], " ", ";", "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<csStr = \>\"", ",", " ", "csStr"}], "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+         "csValStr", "=", "\"\<AddVariable(!!! To be completed !!!);\>\""}], 
+         " ", ";", "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<csValStr = \>\"", ",", " ", "csValStr"}], "]"}], ";"}],
+         "\[IndentingNewLine]", "\[IndentingNewLine]", "*)"}], 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"AddTestResult", "[", 
+        RowBox[{"symbName", ",", "exprStr", ",", "resStr"}], "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"ii", "=", "1"}], ",", 
+         RowBox[{"ii", " ", "\[LessEqual]", " ", "len"}], ",", 
+         RowBox[{"ii", "++"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Length", "[", 
+                 RowBox[{"Names", "[", 
+                  RowBox[{"\"\<System`\>\"", " ", "<>", " ", 
+                   RowBox[{"exprLst", "[", 
+                    RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], "]"}], " ", 
+                "\[Equal]", " ", "0"}], ")"}], " ", "&&", " ", 
+              RowBox[{"exprLstSymbName", "[", 
+               RowBox[{"[", "ii", "]"}], "]"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"(", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"AddVar", "[", 
+                RowBox[{
+                 RowBox[{"exprLst", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}], ",", 
+                 RowBox[{"exprValList", "[", 
+                  RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ";"}], 
+              "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], 
+           ";"}], "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", 
+        "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"retVal", "=", 
+        RowBox[{"{", 
+         RowBox[{"csStr", ",", "csValStr"}], "}"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Attributes", "[", "ToCSharpExpr", "]"}], "=", 
+   RowBox[{"{", "HoldAll", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ToCSharpExpr", "[", "expr_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"exprName", ",", "exprVal"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"exprName", "=", 
+        RowBox[{"SymbolName", "[", 
+         RowBox[{"Unevaluated", "[", "expr", "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"exprVal", "=", 
+        RowBox[{"ToCSharpString", "[", "expr", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AddTestResult", "[", 
+        RowBox[{"exprName", ",", "exprName", ",", "exprVal"}], "]"}], ";"}]}],
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"InitializeCSharpGen", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ToCSharpExpr", "[", "TrSp3", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ToCSharpCall", "[", 
+    RowBox[{"mFuncY1", ",", 
+     RowBox[{"{", 
+      RowBox[{"SIL", ",", "1"}], "}"}]}], "]"}], ";"}], "\[IndentingNewLine]",
+   "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"OutputCSharpCode", "[", "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "==="}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.598808921167672*^9, 3.598808990146323*^9}, {
+   3.598809021670323*^9, 3.5988090773101473`*^9}, {3.5988091610976157`*^9, 
+   3.5988092038549128`*^9}, {3.598809255204898*^9, 3.5988092617042017`*^9}, {
+   3.5988093008120813`*^9, 3.5988093662523932`*^9}, {3.5988094541315556`*^9, 
+   3.598809461864673*^9}, {3.5988095611465263`*^9, 3.5988097370779643`*^9}, {
+   3.598810132021991*^9, 3.5988101424709024`*^9}, {3.5988102078944674`*^9, 
+   3.598810212750679*^9}, {3.598812873424859*^9, 3.598812959544857*^9}, {
+   3.5988130978583956`*^9, 3.5988131046929216`*^9}, {3.598813179967739*^9, 
+   3.598813216819131*^9}, {3.598813262936651*^9, 3.598813423133678*^9}, {
+   3.5988134771344166`*^9, 3.5988136811894255`*^9}, {3.59881372827759*^9, 
+   3.5988138730063777`*^9}, {3.5988140417750745`*^9, 3.598814094955272*^9}, {
+   3.5988141700559764`*^9, 3.598814203132868*^9}, {3.598814249990884*^9, 
+   3.5988144174787307`*^9}, {3.598814477575507*^9, 3.598814535140606*^9}, {
+   3.5988149046931925`*^9, 3.598815017114594*^9}, {3.5988151068900113`*^9, 
+   3.598815328893941*^9}, {3.598815359152971*^9, 3.5988153954790125`*^9}, {
+   3.5988154282587056`*^9, 3.5988154593252683`*^9}, {3.5988155321782703`*^9, 
+   3.598815795021801*^9}, {3.5988159810939503`*^9, 3.5988159974347653`*^9}, {
+   3.598993918894987*^9, 3.5989939666986284`*^9}, {3.5989940078458595`*^9, 
+   3.598994035446128*^9}, {3.598994073162093*^9, 3.5989942123512096`*^9}, {
+   3.598994318944758*^9, 3.5989946748002777`*^9}, {3.5989947066003256`*^9, 
+   3.5989952219994345`*^9}, {3.5989952785058327`*^9, 3.598995297668516*^9}, {
+   3.5989953454221225`*^9, 3.5989955774767046`*^9}, {3.598995657754837*^9, 
+   3.598995659079713*^9}, {3.5989957083673344`*^9, 3.5989957182989073`*^9}, {
+   3.598995748878145*^9, 3.5989957933515825`*^9}, {3.5989958393450203`*^9, 
+   3.598995840564828*^9}, {3.598995877065985*^9, 3.5989960378413925`*^9}, {
+   3.5989962679525995`*^9, 3.598996714553178*^9}, {3.5989968070974255`*^9, 
+   3.598996830951215*^9}, {3.5989968695847836`*^9, 3.598996881474652*^9}, {
+   3.598996950373252*^9, 3.5989969850001698`*^9}, {3.598997057731307*^9, 
+   3.598997170173724*^9}, {3.5989972034177284`*^9, 3.598997292330574*^9}, {
+   3.5989973354481115`*^9, 3.5989973433123164`*^9}, {3.5990004874064703`*^9, 
+   3.599000522006369*^9}, {3.599000838441038*^9, 3.599000840894662*^9}, 
+   3.5990010999000816`*^9, {3.5990011958185654`*^9, 3.599001197145442*^9}, {
+   3.5990013706893015`*^9, 3.5990013736542645`*^9}, {3.5990019299474406`*^9, 
+   3.5990020540145526`*^9}, {3.599002089474021*^9, 3.599002122183671*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"funcName = \"\>", "\[InvisibleSpace]", "mFuncY1"}],
+  SequenceForm["funcName = ", $CellContext`mFuncY1],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260332174`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"s = \"\>", "\[InvisibleSpace]", "\<\"{SIL, 1}\"\>"}],
+  SequenceForm["s = ", "{SIL, 1}"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260432234`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"varLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", 
+       FractionBox["1", 
+        RowBox[{"50000000000000000000", " ", 
+         SqrtBox["2"]}]], ",", "3"}], "}"}], ",", "1"}], "}"}]}],
+  SequenceForm[
+  "varLst = ", {{1, Rational[1, 50000000000000000000] 2^Rational[-1, 2], 3}, 
+    1}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.599002126054232*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"len = \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["len = ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260582347`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"sSymb = \"\>", 
+   "\[InvisibleSpace]", \
+"\<\"{SymbolName[Unevaluated[SIL]],SymbolName[Unevaluated[1]]}\"\>"}],
+  SequenceForm[
+  "sSymb = ", "{SymbolName[Unevaluated[SIL]],SymbolName[Unevaluated[1]]}"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260612364`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"expr = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"\<\"SIL\"\>", ",", 
+     RowBox[{"SymbolName", "[", 
+      RowBox[{"Unevaluated", "[", "1", "]"}], "]"}]}], "}"}]}],
+  SequenceForm["expr = ", {"SIL", 
+    SymbolName[
+     Unevaluated[1]]}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.59900212606524*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exprLst = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"\<\"SIL\"\>", ",", "\<\"SymbolName[Unevaluated[1]]\"\>"}], 
+    "}"}]}],
+  SequenceForm["exprLst = ", {"SIL", "SymbolName[Unevaluated[1]]"}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260692425`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exprLstSymbName = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"True", ",", "False"}], "}"}]}],
+  SequenceForm["exprLstSymbName = ", {True, False}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.599002126073244*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"exprValList = \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"\<\"{1., 1.4142135623730947*^-20, 3.}\"\>", ",", "\<\"1.\"\>"}], 
+    "}"}]}],
+  SequenceForm["exprValList = ", {"{1., 1.4142135623730947*^-20, 3.}", "1."}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260762467`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"\\r\"\>", "\[InvisibleSpace]", "\<\"\\r\"\>"}],
+  SequenceForm["\n", "\n"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.599002126080248*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"C# initialization code:\"\>", 
+   "\[InvisibleSpace]", "\<\"\\r\"\>", 
+   "\[InvisibleSpace]", "\<\"InitVariable(\\\"SIL\\\", SIL, \\\"{1., \
+1.4142135623730947*^-20, 3.}\\\");\\r\"\>"}],
+  SequenceForm[
+  "C# initialization code:", "\n", 
+   "InitVariable(\"SIL\", SIL, \"{1., 1.4142135623730947*^-20, 3.}\");\n"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260842514`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"C# test code:\"\>", "\[InvisibleSpace]", "\<\"\\r\"\>", 
+   "\[InvisibleSpace]", "\<\"AddTestResult(\\\"TrSp3\\\", \\\"TrSp3\\\", \
+TrSp3, \\\"1.7320508075688772*^-20\\\");\\rAddTestResult(\\\"mFuncY1\\\", \
+\\\"mFuncY1(SIL, 1)\\\", mFuncY1(SIL, 1), \
+\\\"1.4142135623730947*^-20\\\");\\r\"\>"}],
+  SequenceForm[
+  "C# test code:", "\n", 
+   "AddTestResult(\"TrSp3\", \"TrSp3\", TrSp3, \"1.7320508075688772*^-20\");\n\
+AddTestResult(\"mFuncY1\", \"mFuncY1(SIL, 1)\", mFuncY1(SIL, 1), \
+\"1.4142135623730947*^-20\");\n"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.599002126088254*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"\\r\"\>", "\[InvisibleSpace]", "\<\"\\r\"\>"}],
+  SequenceForm["\n", "\n"],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.598997326424139*^9, 3.5989973436455355`*^9}, 
+   3.5990005235063653`*^9, 3.5990011095024376`*^9, 3.59900119821215*^9, 
+   3.5990013875264444`*^9, 3.599002056812405*^9, 3.5990021260942616`*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1229, 1273},
+WindowMargins->{{260, Automatic}, {Automatic, 54}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 24823, 574, 4823, "Input"],
+Cell[CellGroupData[{
+Cell[25415, 600, 398, 7, 32, "Print"],
+Cell[25816, 609, 383, 7, 32, "Print"],
+Cell[26202, 618, 643, 16, 58, "Print"],
+Cell[26848, 636, 363, 7, 32, "Print"],
+Cell[27214, 645, 498, 10, 32, "Print"],
+Cell[27715, 657, 548, 13, 32, "Print"],
+Cell[28266, 672, 504, 10, 32, "Print"],
+Cell[28773, 684, 453, 9, 32, "Print"],
+Cell[29229, 695, 524, 10, 32, "Print"],
+Cell[29756, 707, 367, 7, 83, "Print"],
+Cell[30126, 716, 609, 12, 83, "Print"],
+Cell[30738, 730, 812, 15, 108, "Print"],
+Cell[31553, 747, 369, 7, 83, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

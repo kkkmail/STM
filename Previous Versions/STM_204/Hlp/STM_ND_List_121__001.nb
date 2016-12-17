@@ -1,0 +1,542 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     20589,        533]
+NotebookOptionsPosition[     20306,        519]
+NotebookOutlinePosition[     20675,        535]
+CellTagsIndexPosition[     20632,        532]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<NumericalCalculus`\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NNN", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NA", "=", 
+    RowBox[{"NNN", "*", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"NNN", "-", "1"}], ")"}], "/", "2"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"varList", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"ToExpression", "[", 
+      RowBox[{"\"\<var\>\"", " ", "<>", " ", 
+       RowBox[{"ToString", "[", "ii", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<varList = \>\"", ",", " ", "varList"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Apply", "[", 
+   RowBox[{"Clear", ",", "varList"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SL", "=", "varList"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NA", "=", 
+    RowBox[{"Length", "[", "SL", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SIL", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{"0", ",", 
+      RowBox[{"{", 
+       RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Scalar", " ", "function"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"func", "[", 
+    RowBox[{"sabLinear_", "?", "VectorQ"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"len", ",", "ii", ",", "retVal", ",", "jj"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"len", "=", 
+       RowBox[{"Length", "[", "sabLinear", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"retVal", "=", 
+       RowBox[{
+        RowBox[{"Sum", "[", 
+         RowBox[{
+          RowBox[{"ii", "*", 
+           RowBox[{
+            RowBox[{"sabLinear", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}], "^", "2"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "/", "100"}], ")"}], "*", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{"ii", "*", "jj", "*", 
+            RowBox[{"sabLinear", "[", 
+             RowBox[{"[", "ii", "]"}], "]"}], "*", 
+            RowBox[{"sabLinear", "[", 
+             RowBox[{"[", "jj", "]"}], "]"}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "len"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"jj", ",", 
+             RowBox[{"ii", "+", "1"}], ",", "len"}], "}"}]}], "]"}]}]}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Scalar", " ", "function", " ", "with", " ", "numerical", " ", "values", 
+    " ", "of", " ", "variables"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"funcNumeric", "[", "sabLinear_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Return", "[", 
+         RowBox[{"func", "[", "sabLinear", "]"}], "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], "/;", " ", 
+     RowBox[{"VectorQ", "[", 
+      RowBox[{"sabLinear", ",", "NumericQ"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Derivative", " ", "of", " ", "a", " ", "scalar", " ", "function"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"DfuncLst", "[", 
+     RowBox[{"scalarFunc_", ",", "sabLinear_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"len", ",", "ii", ",", "retVal", ",", "rule"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "sabLinear", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"rule", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"SL", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], " ", "\[Rule]", " ", 
+           RowBox[{"sabLinear", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retVal", "=", 
+        RowBox[{
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"D", "[", 
+            RowBox[{
+             RowBox[{"scalarFunc", "[", "SL", "]"}], ",", 
+             RowBox[{"SL", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}], " ", "/.", 
+         " ", "rule"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Second", " ", "derivative", " ", "of", " ", "a", " ", "scalar", " ", 
+    "function"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"D2funcLst", "[", 
+     RowBox[{"scalarFunc_", ",", "sabLinear_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"len", ",", "ii", ",", "jj", ",", "retVal", ",", "rule"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "sabLinear", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"rule", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"SL", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}], " ", "\[Rule]", " ", 
+           RowBox[{"sabLinear", "[", 
+            RowBox[{"[", "ii", "]"}], "]"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retVal", "=", 
+        RowBox[{
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"D", "[", 
+            RowBox[{
+             RowBox[{"D", "[", 
+              RowBox[{
+               RowBox[{"scalarFunc", "[", "SL", "]"}], ",", 
+               RowBox[{"SL", "[", 
+                RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+             RowBox[{"SL", "[", 
+              RowBox[{"[", "jj", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "len"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"jj", ",", "1", ",", "len"}], "}"}]}], "]"}], " ", "/.", 
+         " ", "rule"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Derivative", " ", "of", " ", "a", " ", "scalar", " ", "function", " ", 
+    "with", " ", "numerical", " ", "values", " ", "of", " ", "variables"}], 
+   " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"DfuncLstNumeric", "[", 
+     RowBox[{"scalarFunc_", ",", "sabLinear_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Return", "[", 
+         RowBox[{"DfuncLst", "[", 
+          RowBox[{"scalarFunc", ",", "sabLinear"}], "]"}], "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], "/;", " ", 
+     RowBox[{"VectorQ", "[", 
+      RowBox[{"sabLinear", ",", "NumericQ"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Second", " ", "derivative", " ", "of", " ", "a", " ", "scalar", " ", 
+    "function", " ", "with", " ", "numerical", " ", "values", " ", "of", " ", 
+    "variables"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"D2funcLstNumeric", "[", 
+     RowBox[{"scalarFunc_", ",", "sabLinear_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Return", "[", 
+         RowBox[{"D2funcLst", "[", 
+          RowBox[{"scalarFunc", ",", "sabLinear"}], "]"}], "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], "/;", " ", 
+     RowBox[{"VectorQ", "[", 
+      RowBox[{"sabLinear", ",", "NumericQ"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Numerical", " ", "derivative", " ", "of", " ", "scalar", " ", 
+    "function"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"NDfuncIdx", "[", 
+     RowBox[{"scalarFunc_", ",", "sabLinear_", ",", 
+      RowBox[{"idx_", "?", "IntegerQ"}]}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"len", ",", "vars", ",", "ii", ",", "retVal"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Print", "[", "\"\<NDfuncIdx::Starting.\>\"", "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<NDfuncIdx::sabLinear = \>\"", ",", " ", "sabLinear"}], 
+          "]"}], ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"vars", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ii", "\[NotEqual]", " ", "idx"}], ",", 
+             RowBox[{"sabLinear", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], ",", 
+             RowBox[{"SL", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<NDfuncIdx::vars = \>\"", ",", " ", "vars"}], "]"}], 
+          ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"retVal", "=", 
+         RowBox[{"ND", "[", 
+          RowBox[{
+           RowBox[{"scalarFunc", "[", "vars", "]"}], ",", 
+           RowBox[{"SL", "[", 
+            RowBox[{"[", "idx", "]"}], "]"}], ",", 
+           RowBox[{"sabLinear", "[", 
+            RowBox[{"[", "idx", "]"}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<NDfuncIdx::retVal = \>\"", ",", " ", "retVal"}], 
+           "]"}], ";"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], "/;", " ", 
+     RowBox[{"VectorQ", "[", 
+      RowBox[{"sabLinear", ",", "NumericQ"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Numerical", " ", "second", " ", "derivative", " ", "of", " ", "scalar", 
+    " ", "function"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ND2funcIdx", "[", 
+     RowBox[{"scalarFunc_", ",", "sabLinear_", ",", 
+      RowBox[{"idx1_", "?", "IntegerQ"}], ",", 
+      RowBox[{"idx2_", "?", "IntegerQ"}]}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"len", ",", "vars1", ",", "vars2", ",", "ii", ",", "retVal"}],
+         "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"(*", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Print", "[", "\"\<ND2funcIdx::Starting.\>\"", "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<ND2funcIdx::sabLinear = \>\"", ",", " ", "sabLinear"}],
+           "]"}], ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"len", "=", 
+         RowBox[{"Length", "[", "sabLinear", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"vars1", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ii", "\[NotEqual]", " ", "idx1"}], ",", 
+             RowBox[{"sabLinear", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], ",", 
+             RowBox[{"SL", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"vars2", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ii", "\[NotEqual]", " ", "idx2"}], ",", 
+             RowBox[{"sabLinear", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}], ",", 
+             RowBox[{"SL", "[", 
+              RowBox[{"[", "ii", "]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"ii", ",", "1", ",", "len"}], "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<ND2funcIdx::vars1 = \>\"", ",", " ", "vars1"}], "]"}],
+           ";", "\[IndentingNewLine]", 
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<ND2funcIdx::vars2 = \>\"", ",", " ", "vars2"}], "]"}],
+           ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"idx1", "\[Equal]", "idx2"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", 
+             RowBox[{"ND", "[", 
+              RowBox[{
+               RowBox[{"scalarFunc", "[", "vars1", "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"SL", "[", 
+                  RowBox[{"[", "idx1", "]"}], "]"}], ",", "2"}], "}"}], ",", 
+               RowBox[{"sabLinear", "[", 
+                RowBox[{"[", "idx1", "]"}], "]"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"retVal", "=", 
+             RowBox[{"ND", "[", 
+              RowBox[{
+               RowBox[{"NDfuncIdx", "[", 
+                RowBox[{"scalarFunc", ",", "vars2", ",", "idx1"}], "]"}], ",", 
+               RowBox[{"SL", "[", 
+                RowBox[{"[", "idx2", "]"}], "]"}], ",", 
+               RowBox[{"sabLinear", "[", 
+                RowBox[{"[", "idx2", "]"}], "]"}]}], "]"}]}], ";"}], 
+           "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<ND2funcIdx::retVal = \>\"", ",", " ", "retVal"}], 
+           "]"}], ";"}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]",
+         "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "retVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], "/;", " ", 
+     RowBox[{"VectorQ", "[", 
+      RowBox[{"sabLinear", ",", "NumericQ"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fVal", "=", 
+     RowBox[{"func", "[", "SL", "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<fVal = \>\"", ",", " ", "fVal"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"d1", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"NDfuncIdx", "[", 
+      RowBox[{"funcNumeric", ",", "SIL", ",", "ii"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"d1Cmp", "=", 
+   RowBox[{"DfuncLst", "[", 
+    RowBox[{"func", ",", "SIL"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<d1 = \>\"", ",", " ", "d1"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<d1Cmp = \>\"", ",", " ", "d1Cmp"}], "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"d2", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"ND2funcIdx", "[", 
+      RowBox[{"funcNumeric", ",", "SIL", ",", "ii", ",", "jj"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"ii", ",", "1", ",", "NA"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"jj", ",", "1", ",", "NA"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"d2Cmp", "=", 
+    RowBox[{"D2funcLst", "[", 
+     RowBox[{"func", ",", "SIL"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<d2 = \>\"", ",", " ", 
+    RowBox[{"d2", " ", "//", " ", "MatrixForm"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<d2Cmp = \>\"", ",", " ", 
+     RowBox[{
+      RowBox[{"N", "[", "d2Cmp", "]"}], " ", "//", " ", "MatrixForm"}]}], 
+    "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{
+  3.5998573963504133`*^9, {3.599857431781958*^9, 3.599857473416628*^9}, {
+   3.5998576058936644`*^9, 3.599857665904785*^9}, {3.5998724735534034`*^9, 
+   3.599872596216922*^9}, {3.599872649858569*^9, 3.59987274020761*^9}, {
+   3.599872785057416*^9, 3.5998727974856777`*^9}, {3.5998728388301535`*^9, 
+   3.599872851708712*^9}, {3.599872917896693*^9, 3.599872956250184*^9}, {
+   3.5998730615851817`*^9, 3.599873089885991*^9}, {3.599873135758477*^9, 
+   3.5998732195751796`*^9}, 3.599873280100398*^9, {3.5998733104325557`*^9, 
+   3.5998735046366153`*^9}, {3.5998735543221855`*^9, 
+   3.5998736065268793`*^9}, {3.5998736586437893`*^9, 
+   3.5998737170721765`*^9}, {3.5998737561957073`*^9, 3.599873756333801*^9}, {
+   3.5998738583493752`*^9, 3.5998738876718616`*^9}, {3.5998739201204243`*^9, 
+   3.5998739463678665`*^9}, {3.599874133160001*^9, 3.5998741610745516`*^9}, {
+   3.59987430433776*^9, 3.599874308100258*^9}, {3.5998743598136244`*^9, 
+   3.599874380488366*^9}, {3.5998744270282927`*^9, 3.599874443155011*^9}, {
+   3.5998744911048756`*^9, 3.599874615623625*^9}, {3.5998748038691998`*^9, 
+   3.599875012273696*^9}, {3.5998750622018766`*^9, 3.5998751079492793`*^9}, {
+   3.5998751579775248`*^9, 3.5998752234061656`*^9}, 3.599875383214862*^9, {
+   3.5998755466054444`*^9, 3.599875681361997*^9}, {3.5999255959036818`*^9, 
+   3.599925629945304*^9}, {3.5999256657350883`*^9, 3.5999257015288754`*^9}, {
+   3.5999257339694324`*^9, 3.599925737592842*^9}, {3.59992577793365*^9, 
+   3.5999259021411934`*^9}, {3.599925977348172*^9, 3.5999259834432244`*^9}, {
+   3.599926193333707*^9, 3.5999263108387966`*^9}, {3.5999263448824177`*^9, 
+   3.599926594563348*^9}, 3.5999266345999513`*^9, {3.5999273382160654`*^9, 
+   3.5999274364129744`*^9}, {3.599927472631196*^9, 3.5999274890134087`*^9}}]
+},
+WindowSize->{1560, 1127},
+WindowMargins->{{250, Automatic}, {105, Automatic}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 19757, 497, 3122, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

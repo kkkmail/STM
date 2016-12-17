@@ -1,0 +1,940 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     38268,        931]
+NotebookOptionsPosition[     37987,        917]
+NotebookOutlinePosition[     38354,        933]
+CellTagsIndexPosition[     38311,        930]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Author", ":", 
+     RowBox[{"Konstantin", " ", 
+      RowBox[{"K", ".", "Konstantinov"}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Summary", ":", " ", 
+     RowBox[{
+      RowBox[{"Implementation", " ", "of", " ", "4"}], "-", 
+      RowBox[{"th", " ", "power", " ", "polynom", " ", "minimization", " ", 
+       RowBox[{"function", "."}]}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Copyright", ":", 
+      RowBox[{"K", "^", "3"}]}]}], ",", "2013"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", 
+     RowBox[{"Version", ":", " ", 
+      RowBox[{"Revision", ":", " ", 
+       RowBox[{"1.06", ".001"}]}]}]}], ",", " ", 
+    RowBox[{"Date", ":", 
+     RowBox[{
+      RowBox[{"2013", "/", "10"}], "/", "07"}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", 
+     RowBox[{"Version", ":", 
+      RowBox[{"7.0", "-", "9.0"}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "="}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T8Cabcdefgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T8Cabcdefgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12", "^", "4"}], " ", "+", " ", 
+             RowBox[{"12", "*", 
+              RowBox[{"SumS12", "^", "2"}], "*", 
+              RowBox[{"(", 
+               RowBox[{"SumS12p2", " ", "-", " ", 
+                RowBox[{"2", "*", "SumS12S13"}]}], ")"}]}], " ", "-", " ", 
+             RowBox[{"32", "*", "SumS12", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"6", "*", "SumS12p2S13"}], " ", "-", " ", 
+                RowBox[{"2", "*", "SumS12p3"}], " ", "-", " ", 
+                RowBox[{"2", "*", "SumS12S13S14"}], " ", "+", " ", 
+                "SumS12S13S23", " ", "-", " ", 
+                RowBox[{"3", "*", "SumS12S13S24"}]}], ")"}]}], " ", "+", " ", 
+             RowBox[{"12", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{"SumS12p2", " ", "-", " ", 
+                   RowBox[{"2", "*", "SumS12S13"}]}], ")"}], "^", "2"}], " ", 
+                "+", " ", 
+                RowBox[{"4", "*", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"12", "*", "SumS12p2S13S14"}], " ", "-", " ", 
+                   RowBox[{"8", "*", "SumS12p2S13S23"}], " ", "+", " ", 
+                   RowBox[{"8", "*", "SumS12p2S13S24"}], " ", "+", " ", 
+                   RowBox[{"8", "*", "SumS12p2S23S34"}], " ", "+", " ", 
+                   RowBox[{"6", "*", "SumS12p4"}], " ", "-", " ", 
+                   RowBox[{"2", "*", "SumS12S13S14S15"}], " ", "+", " ", 
+                   RowBox[{"8", "*", "SumS12S13S14S23"}], " ", "-", " ", 
+                   RowBox[{"8", "*", "SumS12S13S14S25"}], " ", "+", " ", 
+                   "SumS12S13S24S34", " ", "-", " ", 
+                   RowBox[{"6", "*", "SumS2mS2"}], " ", "-", " ", 
+                   RowBox[{"16", "*", "SumS3mS"}], " ", "-", " ", 
+                   RowBox[{"4", "*", "SumSp4"}]}], ")"}]}]}], ")"}]}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T6Cabbdefgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T6Cabbdefgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           InterpretationBox[
+            StyleBox[
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"SumS12p2", " ", "-", " ", 
+                 RowBox[{"2", "*", "SumS12S13"}]}], ")"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"SumS12p2", " ", "-", " ", "SumS12S13"}], ")"}]}], 
+              " ", "+", " ", 
+              RowBox[{
+               RowBox[{"SumS12", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "SumS12p2"}], " ", "+", " ", "SumS12S13"}], 
+                ")"}]}], " ", "+", " ", 
+              RowBox[{"4", "*", "SumS12", "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"5", "*", "SumS12p2S13"}], " ", "-", " ", 
+                 RowBox[{"2", "*", "SumS12p3"}], " ", "-", " ", 
+                 "SumS12S13S14", " ", "+", " ", "SumS12S13S23", " ", "-", " ", 
+                 RowBox[{"2", "*", "SumS12S13S24"}]}], ")"}]}], " ", "-", " ", 
+              RowBox[{"8", "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"9", "*", "SumS12p2S13S14"}], " ", "-", " ", 
+                 RowBox[{"8", "*", "SumS12p2S13S23"}], " ", "+", " ", 
+                 RowBox[{"6", "*", "SumS12p2S13S24"}], " ", "+", " ", 
+                 RowBox[{"7", "*", "SumS12p2S23S34"}], " ", "+", " ", 
+                 RowBox[{"6", "*", "SumS12p4"}], " ", "-", " ", 
+                 "SumS12S13S14S15", " ", "+", " ", 
+                 RowBox[{"7", "*", "SumS12S13S14S23"}], " ", "-", " ", 
+                 RowBox[{"5", "*", "SumS12S13S14S25"}], " ", "+", " ", 
+                 "SumS12S13S24S34", " ", "-", " ", 
+                 RowBox[{"6", "*", "SumS2mS2"}], " ", "-", " ", 
+                 RowBox[{"14", "*", "SumS3mS"}], " ", "-", " ", 
+                 RowBox[{"3", "*", "SumSp4"}]}], ")"}]}]}],
+             ShowStringCharacters->True,
+             NumberMarks->True],
+            
+            InputForm[((-2) ($CellContext`SumS12p2 - 
+                2 $CellContext`SumS12S13)) ($CellContext`SumS12p2 - \
+$CellContext`SumS12S13) + $CellContext`SumS12^2 (-$CellContext`SumS12p2 + \
+$CellContext`SumS12S13) + (4 $CellContext`SumS12) (5 $CellContext`SumS12p2S13 - 
+               2 $CellContext`SumS12p3 - $CellContext`SumS12S13S14 + \
+$CellContext`SumS12S13S23 - 2 $CellContext`SumS12S13S24) - 
+             8 (9 $CellContext`SumS12p2S13S14 - 8 $CellContext`SumS12p2S13S23 + 
+              6 $CellContext`SumS12p2S13S24 + 7 $CellContext`SumS12p2S23S34 + 
+              6 $CellContext`SumS12p4 - $CellContext`SumS12S13S14S15 + 
+              7 $CellContext`SumS12S13S14S23 - 
+              5 $CellContext`SumS12S13S14S25 + $CellContext`SumS12S13S24S34 - 
+              6 $CellContext`SumS2mS2 - 14 $CellContext`SumS3mS - 
+              3 $CellContext`SumSp4)],
+            AutoDelete->True,
+            Editable->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T5Cabbdbfgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T5Cabbdbfgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"-", "3"}], "*", "SumS12p2S13"}], " ", "+", " ", 
+                RowBox[{"2", "*", "SumS12p3"}], " ", "+", " ", 
+                "SumS12S13S14"}], ")"}]}], " ", "+", " ", 
+             RowBox[{"2", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"6", "*", "SumS12p2S13S14"}], " ", "-", " ", 
+                RowBox[{"6", "*", "SumS12p2S13S23"}], " ", "+", " ", 
+                RowBox[{"6", "*", "SumS12p2S13S24"}], " ", "+", " ", 
+                RowBox[{"3", "*", "SumS12p2S23S34"}], " ", "+", " ", 
+                RowBox[{"6", "*", "SumS12p4"}], " ", "-", " ", 
+                "SumS12S13S14S15", " ", "+", " ", 
+                RowBox[{"3", "*", "SumS12S13S14S23"}], " ", "-", " ", 
+                RowBox[{"3", "*", 
+                 RowBox[{"(", 
+                  RowBox[{"SumS12S13S14S25", " ", "+", " ", "SumS2mS2"}], 
+                  ")"}]}], " ", "-", " ", 
+                RowBox[{"14", "*", "SumS3mS"}]}], ")"}]}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T4Cabbdbfbh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T4Cabbdbfbh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "6"}], "*", "SumS12p2S13S14"}], " ", "-", " ", 
+             RowBox[{"6", "*", "SumS12p4"}], " ", "+", " ", "SumS12S13S14S15",
+              " ", "+", " ", 
+             RowBox[{"3", "*", "SumS2mS2"}], " ", "+", " ", 
+             RowBox[{"8", "*", "SumS3mS"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T4Cababefgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T4Cababefgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"SumS12", "^", "2"}], "*", "SumS12p2"}], " ", "+", " ", 
+             RowBox[{"4", "*", "SumS12", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"-", "2"}], "*", "SumS12p2S13"}], " ", "+", " ", 
+                "SumS12p3"}], ")"}]}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12p2", "*", 
+              RowBox[{"(", 
+               RowBox[{"SumS12p2", " ", "-", " ", 
+                RowBox[{"2", "*", "SumS12S13"}]}], ")"}]}], " ", "+", " ", 
+             RowBox[{"8", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"2", "*", "SumS12p2S13S14"}], " ", "-", " ", 
+                "SumS12p2S13S23", " ", "+", " ", "SumS12p2S13S24", " ", "+", 
+                " ", 
+                RowBox[{"2", "*", 
+                 RowBox[{"(", 
+                  RowBox[{
+                  "SumS12p2S23S34", " ", "+", " ", "SumS12p4", " ", "-", " ", 
+                   "SumS2mS2", " ", "-", " ", 
+                   RowBox[{"2", "*", "SumS3mS"}]}], ")"}]}]}], ")"}]}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T4Cabbddfgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T4Cabbddfgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"-", "2"}], "*", "SumS12p2S13"}], " ", "+", " ", 
+                "SumS12p3", " ", "-", " ", "SumS12S13S23", " ", "+", " ", 
+                "SumS12S13S24"}], ")"}]}], " ", "+", " ", 
+             RowBox[{"2", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"4", "*", "SumS12p2S13S14"}], " ", "-", " ", 
+                RowBox[{"7", "*", "SumS12p2S13S23"}], " ", "+", " ", 
+                RowBox[{"3", "*", "SumS12p2S13S24"}], " ", "+", " ", 
+                RowBox[{"4", "*", "SumS12p2S23S34"}], " ", "+", " ", 
+                RowBox[{"4", "*", "SumS12p4"}], " ", "+", " ", 
+                RowBox[{"6", "*", "SumS12S13S14S23"}], " ", "-", " ", 
+                RowBox[{"2", "*", "SumS12S13S14S25"}], " ", "+", " ", 
+                "SumS12S13S24S34", " ", "-", " ", 
+                RowBox[{"2", "*", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"2", "*", "SumS2mS2"}], " ", "+", " ", 
+                   RowBox[{"4", "*", "SumS3mS"}], " ", "+", " ", "SumSp4"}], 
+                  ")"}]}]}], ")"}]}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T4Cabbdeffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T4Cabbdeffh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"10", "*", "SumS12p2S13S14"}], " ", "-", " ", 
+             RowBox[{"12", "*", "SumS12p2S13S23"}], " ", "+", " ", 
+             RowBox[{"4", "*", "SumS12p2S13S24"}], " ", "+", " ", 
+             RowBox[{"12", "*", "SumS12p2S23S34"}], " ", "+", " ", 
+             RowBox[{"10", "*", "SumS12p4"}], " ", "+", " ", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"SumS12p2", " ", "-", " ", "SumS12S13"}], ")"}], "^", 
+              "2"}], " ", "-", " ", "SumS12S13S14S15", " ", "+", " ", 
+             RowBox[{"8", "*", "SumS12S13S14S23"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumS12S13S14S25"}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12S13S24S34"}], " ", "-", " ", 
+             RowBox[{"13", "*", "SumS2mS2"}], " ", "-", " ", 
+             RowBox[{"16", "*", "SumS3mS"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumSp4"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T3Cababbfgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T3Cababbfgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12", "*", 
+              RowBox[{"(", 
+               RowBox[{"SumS12p2S13", " ", "-", " ", "SumS12p3"}], ")"}]}], 
+             " ", "-", " ", 
+             RowBox[{"2", "*", 
+              RowBox[{"(", 
+               RowBox[{
+               "SumS12p2S13S14", " ", "-", " ", "SumS12p2S13S23", " ", "+", 
+                " ", "SumS12p2S13S24", " ", "+", " ", "SumS12p2S23S34", " ", 
+                "+", " ", 
+                RowBox[{"2", "*", "SumS12p4"}], " ", "-", " ", "SumS2mS2", 
+                " ", "-", " ", 
+                RowBox[{"4", "*", "SumS3mS"}]}], ")"}]}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T3Cabbddfdh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T3Cabbddfdh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"-", "SumS12p2S13S14"}], " ", "+", " ", 
+             RowBox[{"4", "*", "SumS12p2S13S23"}], " ", "-", " ", 
+             RowBox[{"2", "*", "SumS12p2S13S24"}], " ", "-", " ", 
+             "SumS12p2S23S34", " ", "-", " ", 
+             RowBox[{"2", "*", "SumS12p4"}], " ", "-", " ", 
+             RowBox[{"2", "*", "SumS12S13S14S23"}], " ", "+", " ", 
+             "SumS12S13S14S25", " ", "+", " ", "SumS2mS2", " ", "+", " ", 
+             RowBox[{"4", "*", "SumS3mS"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T2Cababbfbh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T2Cababbfbh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{"SumS12p2S13S14", " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12p4"}], " ", "-", " ", "SumS2mS2", " ", 
+             "-", " ", 
+             RowBox[{"2", "*", "SumS3mS"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T2Cababeffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T2Cababeffh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "2"}], "*", "SumS12p2S13S14"}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12p2S13S23"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumS12p2S23S34"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumS12p4"}], " ", "+", " ", 
+             RowBox[{"SumS12p2", "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "SumS12p2"}], " ", "+", " ", "SumS12S13"}], 
+               ")"}]}], " ", "+", " ", 
+             RowBox[{"6", "*", "SumS2mS2"}], " ", "+", " ", 
+             RowBox[{"4", "*", "SumS3mS"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T2Cabbddffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T2Cabbddffh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"-", "SumS12p2S13S14"}], " ", "+", " ", 
+             RowBox[{"3", "*", "SumS12p2S13S23"}], " ", "-", " ", 
+             RowBox[{"2", "*", "SumS12p2S23S34"}], " ", "-", " ", 
+             RowBox[{"2", "*", "SumS12p4"}], " ", "-", " ", 
+             RowBox[{"2", "*", "SumS12S13S14S23"}], " ", "-", " ", 
+             "SumS12S13S24S34", " ", "+", " ", 
+             RowBox[{"3", "*", "SumS2mS2"}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS3mS"}], " ", "+", " ", "SumSp4"}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T2Cabbdbddh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T2Cabbdbddh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"-", "SumS12p2S13S23"}], " ", "+", " ", "SumS12p2S13S24",
+              " ", "+", " ", "SumS12p4", " ", "-", " ", 
+             RowBox[{"2", "*", "SumS3mS"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T2Cabababgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T2Cabababgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12", "*", "SumS12p3"}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12p4"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumS3mS"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T2Cabbdadgh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T2Cabbdadgh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"6", "*", "SumS12p2S13S23"}], " ", "-", " ", 
+             RowBox[{"6", "*", "SumS12S13S14S23"}], " ", "+", " ", 
+             RowBox[{"SumS12", "*", "SumS12S13S23"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T1Cababbffh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T1Cababbffh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "SumS12p2S13S23"}], " ", "+", " ", "SumS12p2S23S34", 
+            " ", "+", " ", "SumS12p4", " ", "-", " ", "SumS2mS2", " ", "-", 
+            " ", "SumS3mS"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T1Cabbdaddh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T1Cabbdaddh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "2"}], "*", "SumS12p2S13S23"}], " ", "+", " ", 
+             "SumS12S13S14S23"}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T1Cabababbh", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T1Cabababbh", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"-", "SumS12p4"}], " ", "+", " ", "SumS3mS"}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T0Cababbfbf", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T0Cababbfbf", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"-", "SumS12p4"}], " ", "+", " ", "SumS2mS2"}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T0Cababefef", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T0Cababefef", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+             RowBox[{"SumS12p2", "^", "2"}], " ", "+", " ", 
+             RowBox[{"2", "*", "SumS12p4"}], " ", "-", " ", 
+             RowBox[{"4", "*", "SumS2mS2"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T0Cabbddfaf", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T0Cabbddfaf", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox[
+            RowBox[{
+            "SumS12p4", " ", "+", " ", "SumS12S13S24S34", " ", "-", " ", 
+             RowBox[{"2", "*", "SumS2mS2"}]}],
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T0Cabbdbdad", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T0Cabbdbdad", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox["SumS12p2S13S23",
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FP4T0Cabababab", "[", 
+      RowBox[{
+       RowBox[{"sab_", "?", "MatrixQ"}], ",", 
+       RowBox[{"calculateInvariants_", "?", "BooleanQ"}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"funcVal", ",", "a", ",", "b"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{"calculateInvariants", ",", 
+          RowBox[{"CalculateP4Invariants", "[", "sab", "]"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"funcVal", "=", 
+         RowBox[{
+          RowBox[{"CoeffF4Norm", "[", 
+           RowBox[{"[", "idxD4T0Cabababab", "]"}], "]"}], "*", 
+          RowBox[{"(", 
+           StyleBox["SumS12p4",
+            ShowStringCharacters->True,
+            NumberMarks->True], ")"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "funcVal", "]"}], ";"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n"}]}]], "Input",
+ CellChangeTimes->{{3.590257456091647*^9, 3.590257457363494*^9}, {
+   3.590258034276445*^9, 3.59025810578897*^9}, 3.590258137549075*^9, 
+   3.590258273088149*^9, {3.5902583880885725`*^9, 3.5902586037801547`*^9}, {
+   3.59025867416393*^9, 3.590258810551565*^9}}]
+},
+WindowSize->{1142, 1285},
+WindowMargins->{{13, Automatic}, {Automatic, 13}},
+Magnification->1.5,
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (February 18, 2009)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 37438, 895, 4796, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
